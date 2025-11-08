@@ -28,6 +28,3 @@ func remove_color(color: PaintColor) -> bool:
 ## Remove all items from inventory
 func clear() -> void:
 	_contents.clear()
-
-
-
