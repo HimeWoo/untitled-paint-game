@@ -4,4 +4,4 @@ extends Resource
 
 
 func _init(p_name: String = "") -> void:
-  display_name = p_name
+	display_name = p_name

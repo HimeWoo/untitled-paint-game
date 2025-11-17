@@ -1,6 +1,6 @@
 class_name PaintColor
 
-enum {
+enum Colors {
 	RED,
 	BLUE,
 	YELLOW,
