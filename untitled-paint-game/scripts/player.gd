@@ -11,11 +11,13 @@ var is_dashing = false
 var dash_timer = 0.0
 var dash_cooldown_timer = 0.0
 var dash_direction = 0
+var inventory: Inventory = Inventory.new()
 
 func _ready() -> void:
 	jumps_left = 1
 
 func _physics_process(delta: float) -> void:
+	print(PaintColor.Colors.find_key(inventory._contents.get(0)))
 	# Apply gravity unless dashing
 	if not is_on_floor() and not is_dashing:
 		velocity += get_gravity() * delta
