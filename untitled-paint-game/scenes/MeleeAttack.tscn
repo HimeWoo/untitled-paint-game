@@ -6,9 +6,11 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_om11h"]
 
 [node name="MeleeAttack" type="Area2D"]
+scale = Vector2(21.663681, 8.604274)
 script = ExtResource("1_xyme3")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(1.581332, 1.0675112)
 shape = SubResource("RectangleShape2D_om11h")
 
 [node name="Sprite2D" type="Sprite2D" parent="CollisionShape2D"]
