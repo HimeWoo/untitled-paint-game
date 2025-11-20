@@ -1,12 +1,33 @@
 class_name Inventory
 
-const STARTING_CAPACITY: int = 3
+const STARTING_CAPACITY: int = 4
 
 var _contents: Array[PaintColor.Colors]
 var _capacity: int = STARTING_CAPACITY
+var _selected_index: int = 0 # Default to 0 so we start selected
 
+# CHANGED: Return type is now Variant to allow returning 'null' safely
+func current_color() -> Variant:
+	if _selected_index >= 0 and _selected_index < _contents.size():
+		return _contents[_selected_index]
+	return null
 
-## Returns true if item is successfully added to inventory, false otherwise
+func select_index(idx: int) -> bool:
+	# Only allow selection if the index actually exists in contents
+	if idx >= 0 and idx < _contents.size():
+		_selected_index = idx
+		print("Selected Slot: ", _selected_index) # Debug print
+		return true
+	return false
+
+func select_next(dir: int) -> void:
+	if _contents.is_empty():
+		_selected_index = -1
+		return
+	_selected_index = wrapi(_selected_index + dir, 0, _contents.size())
+
+# ... (Keep add_color, remove_color, has_color, is_full, clear as they were) ...
+# (Just make sure add_color works as written in your snippet)
 func add_color(color: PaintColor.Colors) -> bool:
 	if _contents.size() < _capacity:
 		_contents.append(color)
