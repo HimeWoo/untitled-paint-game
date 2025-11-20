@@ -15,6 +15,10 @@ run/main_scene="uid://5j7165prjd2j"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://assets/icon.svg"
 
+[autoload]
+
+UISignals="*res://scripts/ui/ui_signals.gd"
+
 [input]
 
 dash={
@@ -35,5 +39,6 @@ melee_attack={
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"

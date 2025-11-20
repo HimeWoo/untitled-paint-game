@@ -1,36 +1,44 @@
-[gd_scene load_steps=6 format=3 uid="uid://5j7165prjd2j"]
+[gd_scene load_steps=7 format=3 uid="uid://5j7165prjd2j"]
 
+[ext_resource type="PackedScene" uid="uid://bq5kxtjqomv3i" path="res://interface.tscn" id="1_qchoo"]
 [ext_resource type="PackedScene" uid="uid://b3rae3dafdwir" path="res://scenes/player.tscn" id="1_sh6w4"]
-[ext_resource type="PackedScene" uid="uid://cbkvm45fiakp5" path="res://scenes/paint_item.tscn" id="2_qchoo"]
+[ext_resource type="PackedScene" uid="uid://cbkvm45fiakp5" path="res://scenes/paint_item.tscn" id="3_3cr4k"]
 
 [sub_resource type="Gradient" id="Gradient_a8v3n"]
 offsets = PackedFloat32Array(0.3611111, 0.6111111, 0.85493827)
 colors = PackedColorArray(0, 0, 0, 1, 0.5833333, 0.5833333, 0.5833333, 1, 1, 1, 1, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_fdpfy"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_qchoo"]
 gradient = SubResource("Gradient_a8v3n")
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_6p80c"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3cr4k"]
 size = Vector2(256, 1)
 
-[node name="PlayerTest" type="Node2D"]
+[node name="Main" type="Node"]
 
 [node name="Player" parent="." instance=ExtResource("1_sh6w4")]
-position = Vector2(-21, -72)
+position = Vector2(523, 337)
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
+[node name="Interface" parent="." instance=ExtResource("1_qchoo")]
 
 [node name="Floor" type="Node2D" parent="."]
+position = Vector2(534, 471)
 
 [node name="Sprite2D" type="Sprite2D" parent="Floor"]
 scale = Vector2(2.036976, 2.8963282)
-texture = SubResource("GradientTexture1D_fdpfy")
+texture = SubResource("GradientTexture1D_qchoo")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Floor/Sprite2D"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/Sprite2D/StaticBody2D"]
 scale = Vector2(1.0000298, 0.9619551)
-shape = SubResource("RectangleShape2D_6p80c")
+shape = SubResource("RectangleShape2D_3cr4k")
 
-[node name="WorldItem" parent="." instance=ExtResource("2_qchoo")]
-position = Vector2(167, -156)
+[node name="PaintItem" parent="." instance=ExtResource("3_3cr4k")]
+position = Vector2(773, 311)
+
+[node name="PaintItem2" parent="." instance=ExtResource("3_3cr4k")]
+position = Vector2(670, 311)
+
+[node name="PaintItem3" parent="." instance=ExtResource("3_3cr4k")]
+position = Vector2(304, 325)

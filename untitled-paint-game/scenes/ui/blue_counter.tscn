@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://6mku3vrr131o"]
+
+[ext_resource type="PackedScene" uid="uid://ce1cpnhamaoqf" path="res://scenes/ui/paint_counter.tscn" id="1_bwpmj"]
+[ext_resource type="Texture2D" uid="uid://cm66b8mn5r63i" path="res://assets/paint_blue.png" id="2_v3jub"]
+
+[node name="BlueCounter" instance=ExtResource("1_bwpmj")]
+texture = ExtResource("2_v3jub")
+color = 1
+
+[node name="Label" parent="LabelArea" index="0"]
+text = "B"
