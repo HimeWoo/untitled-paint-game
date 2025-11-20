@@ -10,7 +10,6 @@ size = Vector2(54, 96)
 [node name="PaintItem" type="Area2D"]
 script = ExtResource("1_jk0r4")
 item = ExtResource("2_yg51s")
-metadata/_custom_type_script = "uid://bas2wnbutvire"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_6muww")

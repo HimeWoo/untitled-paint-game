@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://do0m1juie12mt"]
+
+[ext_resource type="Script" uid="uid://cgy4nsy2me816" path="res://scripts/melee_attack.gd" id="1_xyme3"]
+[ext_resource type="Texture2D" uid="uid://c4whbs6h1eb3t" path="res://assets/Sword_Pixel_art_-_Radin.png" id="2_om11h"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_om11h"]
+
+[node name="MeleeAttack" type="Area2D"]
+script = ExtResource("1_xyme3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_om11h")
+
+[node name="Sprite2D" type="Sprite2D" parent="CollisionShape2D"]
+position = Vector2(2.9802322e-08, -0.12498224)
+scale = Vector2(0.024449877, 0.024144296)
+texture = ExtResource("2_om11h")
+
+[node name="Timer" type="Timer" parent="."]
