@@ -1,0 +1,11 @@
+[gd_scene load_steps=4 format=3 uid="uid://bco8vv41h18bo"]
+
+[ext_resource type="PackedScene" uid="uid://bdrn8lv13uyte" path="res://scenes/items/world_item.tscn" id="1_ud10g"]
+[ext_resource type="Resource" uid="uid://ca3r6vvyhon5k" path="res://resources/paint_blue.tres" id="2_83ww2"]
+[ext_resource type="Texture2D" uid="uid://cm66b8mn5r63i" path="res://assets/paint_blue.png" id="3_orgxn"]
+
+[node name="BluePaint" instance=ExtResource("1_ud10g")]
+data = ExtResource("2_83ww2")
+
+[node name="Sprite2D" parent="." index="1"]
+texture = ExtResource("3_orgxn")
