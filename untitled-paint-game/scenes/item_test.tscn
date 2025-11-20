@@ -1,8 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://5j7165prjd2j"]
+[gd_scene load_steps=13 format=3 uid="uid://5j7165prjd2j"]
 
 [ext_resource type="PackedScene" uid="uid://bq5kxtjqomv3i" path="res://interface.tscn" id="1_qchoo"]
 [ext_resource type="PackedScene" uid="uid://b3rae3dafdwir" path="res://scenes/player.tscn" id="1_sh6w4"]
-[ext_resource type="PackedScene" uid="uid://cbkvm45fiakp5" path="res://scenes/paint_item.tscn" id="3_3cr4k"]
+[ext_resource type="PackedScene" uid="uid://dhah2xlx861hv" path="res://scenes/items/red_paint.tscn" id="3_3jfeh"]
+[ext_resource type="PackedScene" uid="uid://bco8vv41h18bo" path="res://scenes/items/blue_paint.tscn" id="4_f3voe"]
+[ext_resource type="PackedScene" uid="uid://iydhjgar5iis" path="res://scenes/items/yellow_paint.tscn" id="5_sp2it"]
+[ext_resource type="Script" uid="uid://d2ullu6tafuic" path="res://scripts/item_data.gd" id="6_bvmv3"]
+[ext_resource type="Texture2D" uid="uid://bjsj7hx0ac6yf" path="res://assets/paint_yellow.png" id="7_5v2uq"]
 
 [sub_resource type="Gradient" id="Gradient_a8v3n"]
 offsets = PackedFloat32Array(0.3611111, 0.6111111, 0.85493827)
@@ -14,10 +18,26 @@ gradient = SubResource("Gradient_a8v3n")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3cr4k"]
 size = Vector2(256, 1)
 
+[sub_resource type="Resource" id="Resource_jf2wv"]
+resource_local_to_scene = true
+script = ExtResource("6_bvmv3")
+display_name = "Yellow"
+texture = ExtResource("7_5v2uq")
+color = 2
+metadata/_custom_type_script = "uid://d2ullu6tafuic"
+
+[sub_resource type="Resource" id="Resource_auxfu"]
+resource_local_to_scene = true
+script = ExtResource("6_bvmv3")
+display_name = "Yellow"
+texture = ExtResource("7_5v2uq")
+color = 2
+metadata/_custom_type_script = "uid://d2ullu6tafuic"
+
 [node name="Main" type="Node"]
 
 [node name="Player" parent="." instance=ExtResource("1_sh6w4")]
-position = Vector2(523, 337)
+position = Vector2(525, 403)
 
 [node name="Interface" parent="." instance=ExtResource("1_qchoo")]
 
@@ -34,11 +54,22 @@ texture = SubResource("GradientTexture1D_qchoo")
 scale = Vector2(1.0000298, 0.9619551)
 shape = SubResource("RectangleShape2D_3cr4k")
 
-[node name="PaintItem" parent="." instance=ExtResource("3_3cr4k")]
-position = Vector2(773, 311)
+[node name="RedPaint" parent="." instance=ExtResource("3_3jfeh")]
+position = Vector2(298, 402)
 
-[node name="PaintItem2" parent="." instance=ExtResource("3_3cr4k")]
-position = Vector2(670, 311)
+[node name="RedPaint2" parent="." instance=ExtResource("3_3jfeh")]
+position = Vector2(332, 289)
 
-[node name="PaintItem3" parent="." instance=ExtResource("3_3cr4k")]
-position = Vector2(304, 325)
+[node name="BluePaint" parent="." instance=ExtResource("4_f3voe")]
+position = Vector2(461, 234)
+
+[node name="BluePaint2" parent="." instance=ExtResource("4_f3voe")]
+position = Vector2(598, 234)
+
+[node name="YellowPaint" parent="." instance=ExtResource("5_sp2it")]
+position = Vector2(710, 315)
+data = SubResource("Resource_jf2wv")
+
+[node name="YellowPaint2" parent="." instance=ExtResource("5_sp2it")]
+position = Vector2(763, 402)
+data = SubResource("Resource_auxfu")
