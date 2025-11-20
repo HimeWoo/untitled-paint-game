@@ -20,6 +20,8 @@ var can_attack = true
 var inventory: Inventory = Inventory.new()
 var last_paint_color = null 
 
+var facing_dir := 1
+
 @export var attack_scene: PackedScene = preload("res://scenes/MeleeAttack.tscn")
 
 func _ready() -> void:
@@ -43,16 +45,17 @@ func _unhandled_input(event: InputEvent) -> void:
 		var key_event := event as InputEventKey
 		var num := key_event.keycode - KEY_1 
 		
-		# Keys 1-9 passed to inventory
-		# The inventory.select_index() method handles the bounds check!
+
 		if num >= 0: 
 			inventory.select_index(num)
 
 func _physics_process(delta: float) -> void:
-	# --- FIXED THIS SECTION ---
-	# OLD: var current_paint_color = PaintColor.Colors.find_key(inventory._contents.get(0))
-	
-	# NEW: Get the ACTUAL selected color or null
+	var facing_left := Input.is_action_pressed("ui_left") or Input.is_key_pressed(KEY_A)
+	var facing_right := Input.is_action_pressed("ui_right") or Input.is_key_pressed(KEY_D)
+	var dir := int(facing_right) - int(facing_left)
+	if dir != 0:
+		facing_dir = dir
+
 	var selected_item = inventory.current_color()
 	
 	# Check if we actually have a color selected (not null)
@@ -64,7 +67,6 @@ func _physics_process(delta: float) -> void:
 			last_paint_color = current_paint_color
 	# --------------------------
 
-	# ... (Rest of your movement code remains exactly the same) ...
 	if not is_on_floor() and not is_dashing:
 		velocity += get_gravity() * delta
 	elif is_on_floor():
@@ -117,22 +119,20 @@ func end_dash() -> void:
 	is_dashing = false
 
 func perform_slash() -> void:
+	if not can_attack:
+		return
+
 	is_attacking = true
 	can_attack = false
 	
-	# Instantiate the attack scene
 	var attack_instance = attack_scene.instantiate()
 	
-	# Add it as a child of the player (so it moves with you)
-	# OR add it to the main scene (get_parent().add_child) if you want the slash 
-	# to stay in place while you move away.
+	attack_instance.position = Vector2(50 * facing_dir, 0) 
+	
 	add_child(attack_instance)
 	
-	# Initialize it
-	# 'facing_direction' should be 1 or -1 from your movement logic
-	attack_instance.start_attack(self, 1)
+	attack_instance.start_attack(self, facing_dir)
 	
-	# Wait for cooldown
 	await get_tree().create_timer(ATTACK_COOLDOWN).timeout
 	is_attacking = false
 	can_attack = true
