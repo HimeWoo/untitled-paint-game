@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://sdad863vae5e"]
+
+[ext_resource type="PackedScene" uid="uid://ce1cpnhamaoqf" path="res://scenes/ui/paint_counter.tscn" id="1_wm0h3"]
+[ext_resource type="Texture2D" uid="uid://bjsj7hx0ac6yf" path="res://assets/paint_yellow.png" id="2_i1whs"]
+
+[node name="YellowCounter" instance=ExtResource("1_wm0h3")]
+texture = ExtResource("2_i1whs")
+color = 2
+
+[node name="Label" parent="LabelArea" index="0"]
+text = "Y"

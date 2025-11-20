@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://cakpr3adjairv"]
+
+[ext_resource type="PackedScene" uid="uid://ce1cpnhamaoqf" path="res://scenes/ui/paint_counter.tscn" id="1_dmleh"]
+[ext_resource type="Texture2D" uid="uid://b4b66xg8fewd8" path="res://assets/paint_grey.png" id="2_6o570"]
+
+[node name="EmptySlotsCounter" instance=ExtResource("1_dmleh")]
+paint_texture = ExtResource("2_6o570")

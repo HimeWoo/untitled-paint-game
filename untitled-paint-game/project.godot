@@ -11,9 +11,13 @@ config_version=5
 [application]
 
 config/name="untitled-paint-game"
-run/main_scene="uid://bq5kxtjqomv3i"
+run/main_scene="uid://5j7165prjd2j"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://assets/icon.svg"
+
+[autoload]
+
+UISignals="*res://scripts/ui/ui_signals.gd"
 
 [input]
 

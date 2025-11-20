@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://cgwqao8miwc7e"]
+
+[ext_resource type="PackedScene" uid="uid://ce1cpnhamaoqf" path="res://scenes/ui/paint_counter.tscn" id="1_pxh5f"]
+[ext_resource type="Texture2D" uid="uid://fbh3rjtaopxf" path="res://assets/paint_red.png" id="2_wuwqp"]
+
+[node name="RedCounter" instance=ExtResource("1_pxh5f")]
+texture = ExtResource("2_wuwqp")
+
+[node name="Label" parent="LabelArea" index="0"]
+text = "R"

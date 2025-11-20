@@ -30,9 +30,9 @@ func _ready() -> void:
 	# --- ADDED FOR TESTING ---
 	# We need items in the inventory to test keys 1, 2, and 3!
 	# Assuming PaintColor.Colors has RED, BLUE, GREEN
-	inventory.add_color(PaintColor.Colors.RED)   # Key 1
-	inventory.add_color(PaintColor.Colors.BLUE)  # Key 2
-	inventory.add_color(PaintColor.Colors.GREEN) # Key 3
+	#inventory.add_color(PaintColor.Colors.RED)   # Key 1
+	#inventory.add_color(PaintColor.Colors.BLUE)  # Key 2
+	#inventory.add_color(PaintColor.Colors.GREEN) # Key 3
 	
 	inventory.select_index(0)
 
