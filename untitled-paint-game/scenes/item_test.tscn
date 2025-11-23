@@ -1,11 +1,12 @@
-[gd_scene load_steps=12 format=3 uid="uid://5j7165prjd2j"]
+[gd_scene load_steps=13 format=3 uid="uid://5j7165prjd2j"]
 
-[ext_resource type="PackedScene" uid="uid://bq5kxtjqomv3i" path="res://scenes/ui/interface.tscn" id="1_qchoo"]
+[ext_resource type="PackedScene" uid="uid://bq5kxtjqomv3i" path="res://interface.tscn" id="1_qchoo"]
 [ext_resource type="PackedScene" uid="uid://b3rae3dafdwir" path="res://scenes/player.tscn" id="1_sh6w4"]
 [ext_resource type="PackedScene" uid="uid://dhah2xlx861hv" path="res://scenes/items/red_paint.tscn" id="3_3jfeh"]
 [ext_resource type="PackedScene" uid="uid://bco8vv41h18bo" path="res://scenes/items/blue_paint.tscn" id="4_f3voe"]
 [ext_resource type="PackedScene" uid="uid://iydhjgar5iis" path="res://scenes/items/yellow_paint.tscn" id="5_sp2it"]
-[ext_resource type="Script" path="res://scripts/item.gd" id="6_bvmv3"]
+[ext_resource type="Script" uid="uid://d2ullu6tafuic" path="res://scripts/item_data.gd" id="6_bvmv3"]
+[ext_resource type="Texture2D" uid="uid://bjsj7hx0ac6yf" path="res://assets/paint_yellow.png" id="7_5v2uq"]
 
 [sub_resource type="Gradient" id="Gradient_a8v3n"]
 offsets = PackedFloat32Array(0.3611111, 0.6111111, 0.85493827)
@@ -21,12 +22,16 @@ size = Vector2(256, 1)
 resource_local_to_scene = true
 script = ExtResource("6_bvmv3")
 display_name = "Yellow"
+texture = ExtResource("7_5v2uq")
+color = 2
 metadata/_custom_type_script = "uid://d2ullu6tafuic"
 
 [sub_resource type="Resource" id="Resource_auxfu"]
 resource_local_to_scene = true
 script = ExtResource("6_bvmv3")
 display_name = "Yellow"
+texture = ExtResource("7_5v2uq")
+color = 2
 metadata/_custom_type_script = "uid://d2ullu6tafuic"
 
 [node name="Main" type="Node"]
