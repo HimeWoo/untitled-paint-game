@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bq5kxtjqomv3i"]
+[gd_scene load_steps=8 format=3 uid="uid://bq5kxtjqomv3i"]
 
 [ext_resource type="PackedScene" uid="uid://cakpr3adjairv" path="res://scenes/ui/empty_slots_counter.tscn" id="1_veyun"]
 [ext_resource type="Script" uid="uid://t88b2t44vc5x" path="res://scripts/ui/empty_slot_counter.gd" id="2_uidac"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://b4b66xg8fewd8" path="res://assets/paint_grey.png" id="3_mfcci"]
 [ext_resource type="PackedScene" uid="uid://6mku3vrr131o" path="res://scenes/ui/blue_counter.tscn" id="3_qn6p3"]
 [ext_resource type="PackedScene" uid="uid://sdad863vae5e" path="res://scenes/ui/yellow_counter.tscn" id="4_8pw40"]
+[ext_resource type="Texture2D" uid="uid://w7o0ua6qg4vk" path="res://assets/item_slot.png" id="7_pxv5b"]
 
 [node name="Interface" type="MarginContainer"]
 anchors_preset = 15
@@ -18,27 +19,58 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="Inventory" type="HBoxContainer" parent="."]
+[node name="TopLeft" type="HBoxContainer" parent="."]
 layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
 
-[node name="EmptySlotsCounter" parent="Inventory" instance=ExtResource("1_veyun")]
+[node name="Inventory" type="HBoxContainer" parent="TopLeft"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="EmptySlotsCounter" parent="TopLeft/Inventory" instance=ExtResource("1_veyun")]
 layout_mode = 2
 script = ExtResource("2_uidac")
 texture = ExtResource("3_mfcci")
 count = 4
 
-[node name="Buffer" type="Control" parent="Inventory"]
+[node name="Buffer" type="Control" parent="TopLeft/Inventory"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 
-[node name="ColorsCollected" type="HBoxContainer" parent="Inventory"]
+[node name="ColorsCollected" type="HBoxContainer" parent="TopLeft/Inventory"]
 layout_mode = 2
 
-[node name="RedCounter" parent="Inventory/ColorsCollected" instance=ExtResource("2_veyun")]
+[node name="RedCounter" parent="TopLeft/Inventory/ColorsCollected" instance=ExtResource("2_veyun")]
 layout_mode = 2
 
-[node name="BlueCounter" parent="Inventory/ColorsCollected" instance=ExtResource("3_qn6p3")]
+[node name="BlueCounter" parent="TopLeft/Inventory/ColorsCollected" instance=ExtResource("3_qn6p3")]
 layout_mode = 2
 
-[node name="YellowCounter" parent="Inventory/ColorsCollected" instance=ExtResource("4_8pw40")]
+[node name="YellowCounter" parent="TopLeft/Inventory/ColorsCollected" instance=ExtResource("4_8pw40")]
 layout_mode = 2
+
+[node name="Buffer2" type="Control" parent="TopLeft"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="Selector" type="VBoxContainer" parent="TopLeft"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Slot1" type="TextureRect" parent="TopLeft/Selector"]
+layout_mode = 2
+texture = ExtResource("7_pxv5b")
+expand_mode = 5
+
+[node name="Slot2" type="TextureRect" parent="TopLeft/Selector"]
+layout_mode = 2
+texture = ExtResource("7_pxv5b")
+expand_mode = 5
+
+[node name="Slot3" type="TextureRect" parent="TopLeft/Selector"]
+layout_mode = 2
+texture = ExtResource("7_pxv5b")
+expand_mode = 5
