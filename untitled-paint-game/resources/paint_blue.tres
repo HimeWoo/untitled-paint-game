@@ -1,11 +1,8 @@
-[gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3 uid="uid://ca3r6vvyhon5k"]
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://ca3r6vvyhon5k"]
 
-[ext_resource type="Script" uid="uid://d2ullu6tafuic" path="res://scripts/item_data.gd" id="1_3dkah"]
-[ext_resource type="Texture2D" uid="uid://cm66b8mn5r63i" path="res://assets/paint_blue.png" id="2_v0q1j"]
+[ext_resource type="Script" path="res://scripts/item.gd" id="1_3dkah"]
 
 [resource]
 script = ExtResource("1_3dkah")
 display_name = "Blue"
-texture = ExtResource("2_v0q1j")
-color = 1
 metadata/_custom_type_script = "uid://d2ullu6tafuic"
