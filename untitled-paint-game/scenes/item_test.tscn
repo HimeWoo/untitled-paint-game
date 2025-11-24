@@ -118,7 +118,7 @@ gradient = SubResource("Gradient_a8v3n")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bvmv3"]
 size = Vector2(617, 14)
 
-[sub_resource type="Resource" id="Resource_5v2uq"]
+[sub_resource type="Resource" id="Resource_bvmv3"]
 resource_local_to_scene = true
 script = ExtResource("6_bvmv3")
 display_name = "Yellow"
@@ -126,7 +126,7 @@ texture = ExtResource("7_5v2uq")
 color = 2
 metadata/_custom_type_script = "uid://d2ullu6tafuic"
 
-[sub_resource type="Resource" id="Resource_jf2wv"]
+[sub_resource type="Resource" id="Resource_5v2uq"]
 resource_local_to_scene = true
 script = ExtResource("6_bvmv3")
 display_name = "Yellow"
@@ -186,11 +186,11 @@ position = Vector2(599, 234)
 
 [node name="YellowPaint" parent="." instance=ExtResource("5_sp2it")]
 position = Vector2(711, 315)
-data = SubResource("Resource_5v2uq")
+data = SubResource("Resource_bvmv3")
 
 [node name="YellowPaint2" parent="." instance=ExtResource("5_sp2it")]
 position = Vector2(764, 402)
-data = SubResource("Resource_jf2wv")
+data = SubResource("Resource_5v2uq")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

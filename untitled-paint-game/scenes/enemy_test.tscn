@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://b1vgr7173bgoq"]
+
+[ext_resource type="PackedScene" uid="uid://b3rae3dafdwir" path="res://scenes/player.tscn" id="1_gep6m"]
+[ext_resource type="PackedScene" uid="uid://b8txfoox5y1qr" path="res://scenes/FloatingEnemy.tscn" id="2_ainam"]
+
+[sub_resource type="Gradient" id="Gradient_a8v3n"]
+offsets = PackedFloat32Array(0.3611111, 0.6111111, 0.85493827)
+colors = PackedColorArray(0, 0, 0, 1, 0.5833333, 0.5833333, 0.5833333, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_gep6m"]
+gradient = SubResource("Gradient_a8v3n")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ainam"]
+size = Vector2(617, 14)
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(442.99997, 486)
+scale = Vector2(5.9099555, -5.2295876)
+zoom = Vector2(2, 2)
+process_callback = 0
+position_smoothing_enabled = true
+position_smoothing_speed = 6.0
+
+[node name="Player" parent="." instance=ExtResource("1_gep6m")]
+position = Vector2(323, 570)
+
+[node name="FloatingEnemy" parent="." instance=ExtResource("2_ainam")]
+position = Vector2(600, 560)
+
+[node name="Floor" type="Node2D" parent="."]
+position = Vector2(535, 591)
+
+[node name="Sprite2D" type="Sprite2D" parent="Floor"]
+position = Vector2(-78.63352, 0)
+scale = Vector2(2.6513007, 2.8963282)
+texture = SubResource("GradientTexture1D_gep6m")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Floor/Sprite2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/Sprite2D/StaticBody2D"]
+position = Vector2(3.1909485, 1.0357971)
+scale = Vector2(0.49092376, 0.34526473)
+shape = SubResource("RectangleShape2D_ainam")

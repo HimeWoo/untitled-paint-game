@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://b8txfoox5y1qr"]
+
+[ext_resource type="Texture2D" uid="uid://bs5elx113sajt" path="res://assets/icon.svg" id="1_fmri8"]
+[ext_resource type="Script" uid="uid://d20xq3rlb12ml" path="res://scripts/floating_enemy.gd" id="1_y5xqv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y5xqv"]
+size = Vector2(120, 121)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fmri8"]
+radius = 979.9999
+
+[node name="FloatingEnemy" type="CharacterBody2D"]
+scale = Vector2(0.2, 0.2)
+collision_layer = 5
+script = ExtResource("1_y5xqv")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_fmri8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_y5xqv")
+
+[node name="DetectionArea" type="Area2D" parent="."]
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+shape = SubResource("CircleShape2D_fmri8")
+
+[node name="FireTimer" type="Timer" parent="."]

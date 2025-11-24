@@ -1,5 +1,9 @@
 extends CharacterBody2D
 
+@export var projectile_scene: PackedScene = preload("res://scenes/PlayerProjectile.tscn")
+@export var shoot_cooldown: float = 0.25
+var can_shoot := true
+
 # ---------- MOVEMENT VARIABLES ----------
 const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
@@ -48,6 +52,34 @@ func _unhandled_input(event: InputEvent) -> void:
 
 		if num >= 0: 
 			inventory.select_index(num)
+			
+func _get_aim_dir() -> Vector2:
+	var dir := Vector2.ZERO
+	if Input.is_action_pressed("aim_left"): dir.x -= 1
+	if Input.is_action_pressed("aim_right"): dir.x += 1
+	if Input.is_action_pressed("aim_up"): dir.y -= 1
+	if Input.is_action_pressed("aim_down"): dir.y += 1
+
+	# fallback to facing direction if no aim held
+	if dir == Vector2.ZERO:
+		dir = Vector2(facing_dir, 0)  # assuming you already track facing_dir
+	return dir.normalized()
+
+func _shoot_projectile() -> void:
+	can_shoot = false
+
+	var proj := projectile_scene.instantiate()
+	get_parent().add_child(proj)
+
+	var spawn_pos := global_position
+	if has_node("ProjectileSpawn"):
+		spawn_pos = $ProjectileSpawn.global_position
+
+	proj.global_position = spawn_pos
+	proj.setup(_get_aim_dir(), 5)
+
+	await get_tree().create_timer(shoot_cooldown).timeout
+	can_shoot = true
 
 func _physics_process(delta: float) -> void:
 	var facing_left := Input.is_action_pressed("ui_left") or Input.is_key_pressed(KEY_A)
@@ -57,6 +89,9 @@ func _physics_process(delta: float) -> void:
 		facing_dir = dir
 
 	var selected_item = inventory.current_color()
+	
+	if Input.is_action_just_pressed("shoot") and can_shoot:
+		_shoot_projectile()
 	
 	# Check if we actually have a color selected (not null)
 	if selected_item != null:
