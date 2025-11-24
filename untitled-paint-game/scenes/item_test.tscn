@@ -191,12 +191,6 @@ data = SubResource("Resource_jf2wv")
 [node name="YellowPaint2" parent="." instance=ExtResource("5_sp2it")]
 position = Vector2(764, 402)
 data = SubResource("Resource_auxfu")
-position = Vector2(710, 315)
-data = SubResource("Resource_3jfeh")
-
-[node name="YellowPaint2" parent="." instance=ExtResource("5_sp2it")]
-position = Vector2(763, 402)
-data = SubResource("Resource_f3voe")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -206,5 +200,3 @@ scale = Vector2(-0.98336923, -0.70938873)
 size_flags_horizontal = 3
 size_flags_vertical = 2
 focus_neighbor_left = NodePath(".")
-offset_right = 252.0
-offset_bottom = 108.0
