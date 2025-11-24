@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://cfd6xwd43bic2"]
+
+[ext_resource type="Script" uid="uid://gv6nyjmp4ovt" path="res://scripts/paintable.gd" id="1_3xvrs"]
+[ext_resource type="Texture2D" uid="uid://b7l1vy3gvilhw" path="res://assets/tiles/tiles-concrete.png" id="2_6ntnq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6ntnq"]
+
+[node name="TilePaintable" type="Area2D"]
+script = ExtResource("1_3xvrs")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.9551658, 1.2296698)
+texture = ExtResource("2_6ntnq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(2.2792583, 2.91646)
+shape = SubResource("RectangleShape2D_6ntnq")

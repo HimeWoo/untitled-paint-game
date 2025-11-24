@@ -8,11 +8,9 @@
 [ext_resource type="PackedScene" uid="uid://sdad863vae5e" path="res://scenes/ui/yellow_counter.tscn" id="4_8pw40"]
 
 [node name="Interface" type="MarginContainer"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+offset_right = 216.0
+offset_bottom = 108.0
+scale = Vector2(0.23940478, 0.23480777)
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20

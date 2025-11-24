@@ -6,6 +6,7 @@ const STARTING_CAPACITY: int = 4
 var _contents: Array[PaintColor.Colors]
 var _capacity: int = STARTING_CAPACITY
 var _selected_index: int = 0 # Default to 0 so we start selected
+var _selected_color: int = 0
 
 
 # CHANGED: Return type is now Variant to allow returning 'null' safely

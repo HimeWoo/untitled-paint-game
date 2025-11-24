@@ -8,4 +8,5 @@ texture = ExtResource("2_i1whs")
 color = 2
 
 [node name="Label" parent="LabelArea" index="0"]
+scale = Vector2(1.0889281, 1.0086377)
 text = "Y"
