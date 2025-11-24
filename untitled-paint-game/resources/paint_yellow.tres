@@ -4,7 +4,6 @@
 [ext_resource type="Texture2D" uid="uid://bjsj7hx0ac6yf" path="res://assets/paint_yellow.png" id="2_7q1x2"]
 
 [resource]
-resource_local_to_scene = true
 script = ExtResource("1_wvrow")
 display_name = "Yellow"
 texture = ExtResource("2_7q1x2")
