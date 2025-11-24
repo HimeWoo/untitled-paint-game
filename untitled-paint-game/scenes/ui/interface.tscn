@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://b4b66xg8fewd8" path="res://assets/paint_grey.png" id="3_mfcci"]
 [ext_resource type="PackedScene" uid="uid://6mku3vrr131o" path="res://scenes/ui/blue_counter.tscn" id="3_qn6p3"]
 [ext_resource type="PackedScene" uid="uid://sdad863vae5e" path="res://scenes/ui/yellow_counter.tscn" id="4_8pw40"]
-[ext_resource type="Script" uid="uid://b06qasux5vfhk" path="res://scripts/ui/selector.gd" id="7_7q06a"]
+[ext_resource type="Script" uid="uid://b06qasux5vfhk" path="res://scripts/ui/paint_queue_ui.gd" id="7_7q06a"]
 [ext_resource type="Texture2D" uid="uid://w7o0ua6qg4vk" path="res://assets/item_slot.png" id="7_erumi"]
 [ext_resource type="Texture2D" uid="uid://bs5elx113sajt" path="res://assets/icon.svg" id="8_gt0ke"]
 

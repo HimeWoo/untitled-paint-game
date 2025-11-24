@@ -1,35 +1,40 @@
 class_name PaintQueue
-extends RefCounted
+
+const STARTING_CAPACITY: int = 3
 
 var _contents: Array[PaintColor.Colors]
-var _selected_index: int = 0 # Default to 0 so we start selected
+var _capacity: int = STARTING_CAPACITY
+
+var _selected_index: int = 0: # Default to 0 so we start selected
+	set(value):
+		if _selected_index != value:
+			_selected_index = value
+			UISignals.selection_changed.emit(value)
+
+func add_color(color: PaintColor.Colors) -> void:	
+	var selected = get_selected_color()
+	if null == selected:
+		_contents.push_front(color)
+		UISignals.paint_queue_changed.emit(self)
+	elif color != selected:
+		_contents.pop_front()
+		_contents.push_front(_mix_colors(color, selected))
+		UISignals.paint_queue_changed.emit(self)
 
 
-# CHANGED: Return type is now Variant to allow returning 'null' safely
-func current_color() -> Variant:
-	if _selected_index >= 0 and _selected_index < _contents.size():
-		return _contents[_selected_index]
-	return null
+func get_selected_color() -> Variant:
+	if 0 > _selected_index or _selected_index >= _contents.size():
+		return null
+	else:
+		return _contents.get(_selected_index)
 
 
-func select_index(idx: int) -> bool:
-	# Only allow selection if the index actually exists in contents
-	if idx == _selected_index:
-		return true
-	elif idx >= 0 and idx < _contents.size():
-		_selected_index = idx
-		UISignals.selection_changed.emit(_selected_index)
-		print("Selected Slot: ", _selected_index) # Debug print
-		return true
-	return false
+func get_capacity() -> int:
+	return _capacity
 
 
-func select_next(dir: int) -> void:
-	if _contents.is_empty():
-		_selected_index = -1
-		return
-	var new_index: int = wrapi(_selected_index + dir, 0, _contents.size())
-	if new_index == _selected_index:
-		return
-	UISignals.selection_changed.emit(new_index)
-	_selected_index = new_index
+## Implement this somewhere idk
+func _mix_colors(color1: PaintColor.Colors, color2: PaintColor.Colors) -> PaintColor.Colors:
+	if color1 == PaintColor.Colors.RED and color2 == PaintColor.Colors.YELLOW:
+		return PaintColor.Colors.ORANGE
+	return PaintColor.Colors.BLACK

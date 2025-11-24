@@ -18,7 +18,7 @@ const ATTACK_COOLDOWN = 0.4
 var is_attacking = false 
 var can_attack = true
 var inventory: Inventory = Inventory.new()
-var queue: PaintQueue = PaintQueue.new()
+var paint_queue: PaintQueue = PaintQueue.new()
 var last_paint_color = null 
 
 var facing_dir := 1
@@ -29,28 +29,19 @@ var facing_dir := 1
 
 func _ready() -> void:
 	jumps_left = 1
-	
-	# --- ADDED FOR TESTING ---
-	# We need items in the inventory to test keys 1, 2, and 3!
-	# Assuming PaintColor.Colors has RED, BLUE, GREEN
-	#inventory.add_color(PaintColor.Colors.RED)   # Key 1
-	#inventory.add_color(PaintColor.Colors.BLUE)  # Key 2
-	#inventory.add_color(PaintColor.Colors.GREEN) # Key 3
-	
-	queue.select_index(0)
 
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("inv_next"):
-		queue.select_next(1)
-	elif event.is_action_pressed("inv_prev"):
-		queue.select_next(-1)
-	elif event is InputEventKey and event.pressed:
-		var key_event := event as InputEventKey
-		var num := key_event.keycode - KEY_1 
+# func _unhandled_input(event: InputEvent) -> void:
+# 	if event.is_action_pressed("inv_next"):
+# 		queue.select_next(1)
+# 	elif event.is_action_pressed("inv_prev"):
+# 		queue.select_next(-1)
+# 	elif event is InputEventKey and event.pressed:
+# 		var key_event := event as InputEventKey
+# 		var num := key_event.keycode - KEY_1 
 		
 
-		if num >= 0: 
-			queue.select_index(num)
+# 		if num >= 0: 
+# 			queue.select_index(num)
 
 func _physics_process(delta: float) -> void:
 	var facing_left := Input.is_action_pressed("move_left")
@@ -111,6 +102,15 @@ func _physics_process(delta: float) -> void:
 
 	if dash_cooldown_timer > 0:
 		dash_cooldown_timer -= delta
+	
+	# ---------------- Paint Queue ----------------
+	if Input.is_action_pressed("select_red"):
+		_action_select_red()
+	if Input.is_action_pressed("select_blue"):
+		_action_select_blue()
+	if Input.is_action_pressed("select_yellow"):
+		_action_select_yellow()
+	# ---------------------------------------------
 
 	move_and_slide()
 
@@ -140,7 +140,8 @@ func perform_slash() -> void:
 	await get_tree().create_timer(ATTACK_COOLDOWN).timeout
 	is_attacking = false
 	can_attack = true
-	
+
+
 func _update_animation() -> void:
 	if sprite == null:
 		return
@@ -158,7 +159,16 @@ func _update_animation() -> void:
 		sprite.play(target_anim)
 
 
-## If player has the color, adds it to the queue
-func _queue_color(color: PaintColor.Colors):
-	if inventory.has_color(color):
-		queue._contents.append(color)
+func _action_select_red():
+	if inventory.has_color(PaintColor.Colors.RED):
+		paint_queue.add_color(PaintColor.Colors.RED)
+
+
+func _action_select_blue():
+	if inventory.has_color(PaintColor.Colors.BLUE):
+		paint_queue.add_color(PaintColor.Colors.BLUE)
+
+
+func _action_select_yellow():
+	if inventory.has_color(PaintColor.Colors.YELLOW):
+		paint_queue.add_color(PaintColor.Colors.YELLOW)

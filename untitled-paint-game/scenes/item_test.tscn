@@ -195,8 +195,3 @@ data = SubResource("Resource_5v2uq")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Interface" parent="CanvasLayer" instance=ExtResource("1_qchoo")]
-rotation = 3.147753
-scale = Vector2(-0.98336923, -0.70938873)
-size_flags_horizontal = 3
-size_flags_vertical = 2
-focus_neighbor_left = NodePath(".")

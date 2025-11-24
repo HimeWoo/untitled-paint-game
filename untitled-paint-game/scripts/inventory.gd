@@ -1,5 +1,4 @@
 class_name Inventory
-extends RefCounted
 
 const STARTING_CAPACITY: int = 4
 
@@ -10,7 +9,7 @@ var _capacity: int = STARTING_CAPACITY
 ## Returns true if the color is successfully added to inventory, false otherwise
 func add_color(color: PaintColor.Colors) -> bool:
 	if _contents.size() < _capacity:
-		_contents.append(color)
+		_contents.push_back(color)
 		UISignals.inventory_changed.emit(self)
 		return true
 	else:
@@ -26,6 +25,11 @@ func remove_color(color: PaintColor.Colors) -> bool:
 		return true
 	else:
 		return false
+
+
+## 
+func at(idx: int) -> Variant:
+	return _contents.get(idx)
 
 
 ## Returns true if the inventory contains the specified color

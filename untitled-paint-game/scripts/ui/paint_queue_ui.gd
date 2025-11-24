@@ -1,16 +1,18 @@
-class_name Selector
+class_name PaintQueueUI
 extends VBoxContainer
 
 @export var selected_texture: Texture2D
 @export var deselected_texture: Texture2D
 @export var selection: int = 0:
 	set(value):
-		selection = value
-		_update_ui()
+		if selection != value:
+			selection = value
+			_update_ui()
 
 
 func _ready() -> void:
-	UISignals.selection_changed.connect(_update_ui)
+	UISignals.selection_changed.connect(_on_selection_changed)
+	UISignals.paint_queue_changed.connect(_on_paint_queue_changed)
 	_update_ui()
 
 
@@ -36,5 +38,10 @@ func _deselect(idx: int) -> void:
 	slot.texture = deselected_texture
 
 
+func _on_selection_changed(idx: int):
+	selection = idx
 
-	
+
+func _on_paint_queue_changed(inv: PaintQueue):
+	pass
+
