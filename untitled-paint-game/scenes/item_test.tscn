@@ -1,6 +1,6 @@
 [gd_scene load_steps=20 format=4 uid="uid://5j7165prjd2j"]
 
-[ext_resource type="PackedScene" uid="uid://bq5kxtjqomv3i" path="res://interface.tscn" id="1_qchoo"]
+[ext_resource type="PackedScene" uid="uid://bq5kxtjqomv3i" path="res://scenes/ui/interface.tscn" id="1_qchoo"]
 [ext_resource type="PackedScene" uid="uid://b3rae3dafdwir" path="res://scenes/player.tscn" id="1_sh6w4"]
 [ext_resource type="PackedScene" uid="uid://dhah2xlx861hv" path="res://scenes/items/red_paint.tscn" id="3_3jfeh"]
 [ext_resource type="Script" uid="uid://gv6nyjmp4ovt" path="res://scripts/paintable.gd" id="3_bvmv3"]
