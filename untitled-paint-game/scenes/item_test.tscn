@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=3 uid="uid://5j7165prjd2j"]
 
-[ext_resource type="PackedScene" uid="uid://bq5kxtjqomv3i" path="res://interface.tscn" id="1_qchoo"]
+[ext_resource type="PackedScene" uid="uid://bq5kxtjqomv3i" path="res://scenes/ui/interface.tscn" id="1_qchoo"]
 [ext_resource type="PackedScene" uid="uid://b3rae3dafdwir" path="res://scenes/player.tscn" id="1_sh6w4"]
 [ext_resource type="PackedScene" uid="uid://dhah2xlx861hv" path="res://scenes/items/red_paint.tscn" id="3_3jfeh"]
 [ext_resource type="PackedScene" uid="uid://bco8vv41h18bo" path="res://scenes/items/blue_paint.tscn" id="4_f3voe"]
@@ -18,7 +18,7 @@ gradient = SubResource("Gradient_a8v3n")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3cr4k"]
 size = Vector2(256, 1)
 
-[sub_resource type="Resource" id="Resource_jf2wv"]
+[sub_resource type="Resource" id="Resource_3jfeh"]
 resource_local_to_scene = true
 script = ExtResource("6_bvmv3")
 display_name = "Yellow"
@@ -26,7 +26,7 @@ texture = ExtResource("7_5v2uq")
 color = 2
 metadata/_custom_type_script = "uid://d2ullu6tafuic"
 
-[sub_resource type="Resource" id="Resource_auxfu"]
+[sub_resource type="Resource" id="Resource_f3voe"]
 resource_local_to_scene = true
 script = ExtResource("6_bvmv3")
 display_name = "Yellow"
@@ -39,7 +39,7 @@ metadata/_custom_type_script = "uid://d2ullu6tafuic"
 [node name="Player" parent="." instance=ExtResource("1_sh6w4")]
 position = Vector2(525, 403)
 
-[node name="Interface" parent="." instance=ExtResource("1_qchoo")]
+[node name="Camera2D" type="Camera2D" parent="Player"]
 
 [node name="Floor" type="Node2D" parent="."]
 position = Vector2(534, 471)
@@ -68,8 +68,14 @@ position = Vector2(598, 234)
 
 [node name="YellowPaint" parent="." instance=ExtResource("5_sp2it")]
 position = Vector2(710, 315)
-data = SubResource("Resource_jf2wv")
+data = SubResource("Resource_3jfeh")
 
 [node name="YellowPaint2" parent="." instance=ExtResource("5_sp2it")]
 position = Vector2(763, 402)
-data = SubResource("Resource_auxfu")
+data = SubResource("Resource_f3voe")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Interface" parent="CanvasLayer" instance=ExtResource("1_qchoo")]
+offset_right = 252.0
+offset_bottom = 108.0
