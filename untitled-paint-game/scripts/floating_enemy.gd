@@ -4,7 +4,7 @@ extends CharacterBody2D
 
 @export var patrol_speed: float = 20.0
 @export var chase_speed: float = 120.0
-@export var bob_amplitude: float = 10.0
+@export var bob_amplitude: float = 12.0
 @export var bob_frequency: float = 3.0
 
 @export var fire_cooldown: float = 1.6

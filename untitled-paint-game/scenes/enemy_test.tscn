@@ -24,10 +24,10 @@ position_smoothing_enabled = true
 position_smoothing_speed = 6.0
 
 [node name="Player" parent="." instance=ExtResource("1_gep6m")]
-position = Vector2(323, 570)
+position = Vector2(210, 570)
 
 [node name="FloatingEnemy" parent="." instance=ExtResource("2_ainam")]
-position = Vector2(600, 560)
+position = Vector2(600, 554)
 
 [node name="Floor" type="Node2D" parent="."]
 position = Vector2(535, 591)
