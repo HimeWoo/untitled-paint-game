@@ -72,15 +72,24 @@ func _shoot_projectile() -> void:
 	var proj := projectile_scene.instantiate()
 	get_parent().add_child(proj)
 
-	var spawn_pos := global_position
-	if has_node("ProjectileSpawn"):
-		spawn_pos = $ProjectileSpawn.global_position
-
+	var spawn_pos := _get_projectile_spawn_pos()
 	proj.global_position = spawn_pos
 	proj.setup(_get_aim_dir(), 5)
 
 	await get_tree().create_timer(shoot_cooldown).timeout
 	can_shoot = true
+	
+func _get_projectile_spawn_pos() -> Vector2:
+	if not has_node("ProjectileSpawn"):
+		return global_position
+
+	var spawn: Marker2D = $ProjectileSpawn
+	var local = spawn.position
+
+	# Mirror X based on facing
+	local.x = abs(local.x) * facing_dir
+
+	return global_position + local
 
 func _physics_process(delta: float) -> void:
 	var facing_left := Input.is_action_pressed("ui_left") or Input.is_key_pressed(KEY_A)
