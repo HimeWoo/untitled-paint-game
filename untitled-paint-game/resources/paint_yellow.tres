@@ -1,9 +1,11 @@
-[gd_resource type="Resource" load_steps=2 format=3 uid="uid://c8kgjgfya5h34"]
+[gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3 uid="uid://c8kgjgfya5h34"]
 
-[ext_resource type="Script" path="res://scripts/item.gd" id="1_wvrow"]
+[ext_resource type="Script" uid="uid://d2ullu6tafuic" path="res://scripts/item_data.gd" id="1_wvrow"]
+[ext_resource type="Texture2D" uid="uid://bjsj7hx0ac6yf" path="res://assets/paint_yellow.png" id="2_7q1x2"]
 
 [resource]
-resource_local_to_scene = true
 script = ExtResource("1_wvrow")
 display_name = "Yellow"
+texture = ExtResource("2_7q1x2")
+color = 2
 metadata/_custom_type_script = "uid://d2ullu6tafuic"
