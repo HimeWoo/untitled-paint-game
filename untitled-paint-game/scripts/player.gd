@@ -50,15 +50,15 @@ func _physics_process(delta: float) -> void:
 	if dir != 0:
 		facing_dir = dir
 
-	var selected_item = queue.current_color()
+	#var selected_item = queue.current_color()
 	
 	# Check if we actually have a color selected (not null)
-	if selected_item != null:
-		var current_paint_color = PaintColor.Colors.find_key(selected_item)
-		
-		if current_paint_color != last_paint_color:
-			print("Switched to: ", current_paint_color)
-			last_paint_color = current_paint_color
+	#if selected_item != null:
+	#	var current_paint_color = PaintColor.Colors.find_key(selected_item)
+	#	
+	#	if current_paint_color != last_paint_color:
+	#		print("Switched to: ", current_paint_color)
+	#		last_paint_color = current_paint_color
 	# --------------------------
 	_update_animation()
 
