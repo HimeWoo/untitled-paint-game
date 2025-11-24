@@ -1,5 +1,6 @@
 extends CharacterBody2D
 
+@onready var sprite: Sprite2D = $Sprite2D
 @export var projectile_scene: PackedScene = preload("res://scenes/PlayerProjectile.tscn")
 @export var shoot_cooldown: float = 0.25
 var can_shoot := true
@@ -87,6 +88,7 @@ func _physics_process(delta: float) -> void:
 	var dir := int(facing_right) - int(facing_left)
 	if dir != 0:
 		facing_dir = dir
+		sprite.flip_h = (facing_dir == -1)
 
 	var selected_item = inventory.current_color()
 	
