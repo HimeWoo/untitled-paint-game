@@ -27,7 +27,7 @@ func remove_color(color: PaintColor.Colors) -> bool:
 		return false
 
 
-## 
+## Returns the color at the specified index
 func at(idx: int) -> Variant:
 	return _contents.get(idx)
 

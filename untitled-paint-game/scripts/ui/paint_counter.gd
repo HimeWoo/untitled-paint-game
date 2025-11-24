@@ -1,8 +1,7 @@
 class_name PaintCounter
 extends VBoxContainer
 
-@export var texture: Texture2D
-@export var color: PaintColor.Colors
+@export var item: ItemData
 @export var count: int = 0:
 	set(value):
 		count = value
@@ -30,11 +29,11 @@ func _update_ui() -> void:
 func _init_icon_node() -> TextureRect:
 	var ret: TextureRect = TextureRect.new()
 	ret.expand_mode = TextureRect.EXPAND_FIT_HEIGHT_PROPORTIONAL
-	ret.texture = texture
+	ret.texture = item.texture
 	return ret
 
 
 func _on_inventory_changed(inv: Inventory) -> void:
-	var new_count: int = inv.count(color)
+	var new_count: int = inv.count(item.color)
 	if new_count != count:
 		count = new_count

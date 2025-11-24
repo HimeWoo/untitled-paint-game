@@ -3,6 +3,7 @@ extends VBoxContainer
 
 @export var selected_texture: Texture2D
 @export var deselected_texture: Texture2D
+@export var paint_textures: Dictionary[PaintColor.Colors, Texture2D]
 @export var selection: int = 0:
 	set(value):
 		if selection != value:
@@ -20,7 +21,6 @@ func _update_ui() -> void:
 	for idx in range(get_child_count()):
 		_deselect(idx)
 	_select(selection)
-	pass
 
 
 func _select(idx: int) -> void:
@@ -43,5 +43,9 @@ func _on_selection_changed(idx: int):
 
 
 func _on_paint_queue_changed(inv: PaintQueue):
-	pass
-
+	for i in range(get_child_count()):
+		var color = inv.at(i)
+		if null == i:
+			(get_child(i).get_node("Item") as TextureRect).texture = null
+		else:
+			(get_child(i).get_node("Item") as TextureRect).texture = paint_textures.get(color)

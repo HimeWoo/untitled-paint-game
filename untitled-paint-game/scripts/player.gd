@@ -104,12 +104,22 @@ func _physics_process(delta: float) -> void:
 		dash_cooldown_timer -= delta
 	
 	# ---------------- Paint Queue ----------------
-	if Input.is_action_pressed("select_red"):
-		_action_select_red()
-	if Input.is_action_pressed("select_blue"):
-		_action_select_blue()
-	if Input.is_action_pressed("select_yellow"):
-		_action_select_yellow()
+	if Input.is_action_just_pressed("queue_next"):
+		paint_queue.selected_index = wrapi(paint_queue.selected_index + 1, 0, paint_queue.get_capacity())
+	elif Input.is_action_just_pressed("queue_prev"):
+		paint_queue.selected_index = wrapi(paint_queue.selected_index - 1, 0, paint_queue.get_capacity())
+	
+	if Input.is_action_just_pressed("queue_red"):
+		if inventory.has_color(PaintColor.Colors.RED):
+			paint_queue.add_color(PaintColor.Colors.RED)
+	if Input.is_action_just_pressed("queue_blue"):
+		if inventory.has_color(PaintColor.Colors.BLUE):
+			paint_queue.add_color(PaintColor.Colors.BLUE)
+	if Input.is_action_just_pressed("queue_yellow"):
+		if inventory.has_color(PaintColor.Colors.YELLOW):
+			paint_queue.add_color(PaintColor.Colors.YELLOW)
+	if Input.is_action_just_pressed("queue_clear"):
+		paint_queue.clear()
 	# ---------------------------------------------
 
 	move_and_slide()
