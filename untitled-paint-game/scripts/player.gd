@@ -18,6 +18,7 @@ const ATTACK_COOLDOWN = 0.4
 var is_attacking = false 
 var can_attack = true
 var inventory: Inventory = Inventory.new()
+var queue: PaintQueue = PaintQueue.new()
 var last_paint_color = null 
 
 var facing_dir := 1
@@ -36,29 +37,29 @@ func _ready() -> void:
 	#inventory.add_color(PaintColor.Colors.BLUE)  # Key 2
 	#inventory.add_color(PaintColor.Colors.GREEN) # Key 3
 	
-	inventory.select_index(0)
+	queue.select_index(0)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("inv_next"):
-		inventory.select_next(1)
+		queue.select_next(1)
 	elif event.is_action_pressed("inv_prev"):
-		inventory.select_next(-1)
+		queue.select_next(-1)
 	elif event is InputEventKey and event.pressed:
 		var key_event := event as InputEventKey
 		var num := key_event.keycode - KEY_1 
 		
 
 		if num >= 0: 
-			inventory.select_index(num)
+			queue.select_index(num)
 
 func _physics_process(delta: float) -> void:
-	var facing_left := Input.is_action_pressed("ui_left") or Input.is_key_pressed(KEY_A)
-	var facing_right := Input.is_action_pressed("ui_right") or Input.is_key_pressed(KEY_D)
+	var facing_left := Input.is_action_pressed("move_left")
+	var facing_right := Input.is_action_pressed("move_right")
 	var dir := int(facing_right) - int(facing_left)
 	if dir != 0:
 		facing_dir = dir
 
-	var selected_item = inventory.current_color()
+	var selected_item = queue.current_color()
 	
 	# Check if we actually have a color selected (not null)
 	if selected_item != null:
@@ -75,7 +76,7 @@ func _physics_process(delta: float) -> void:
 	elif is_on_floor():
 		jumps_left = 1 
 
-	if Input.is_action_just_pressed("ui_accept") or Input.is_action_just_pressed("jump"):
+	if Input.is_action_just_pressed("jump"):
 		if is_on_floor():
 			velocity.y = JUMP_VELOCITY
 		elif jumps_left > 0:
@@ -83,8 +84,8 @@ func _physics_process(delta: float) -> void:
 			jumps_left -= 1
 
 	if Input.is_action_just_pressed("dash") and dash_cooldown_timer <= 0.0 and not is_dashing:
-		var left := Input.is_action_pressed("ui_left") or Input.is_key_pressed(KEY_A)
-		var right := Input.is_action_pressed("ui_right") or Input.is_key_pressed(KEY_D)
+		var left := Input.is_action_pressed("move_left")
+		var right := Input.is_action_pressed("move_right")
 		dash_direction = int(right) - int(left)
 		if dash_direction == 0:
 			dash_direction = sign(velocity.x) if velocity.x != 0 else 1
@@ -99,8 +100,8 @@ func _physics_process(delta: float) -> void:
 		if dash_timer <= 0:
 			end_dash()
 	else:
-		var left := Input.is_action_pressed("ui_left") or Input.is_key_pressed(KEY_A)
-		var right := Input.is_action_pressed("ui_right") or Input.is_key_pressed(KEY_D)
+		var left := Input.is_action_pressed("move_left")
+		var right := Input.is_action_pressed("move_right")
 		var direction := int(right) - int(left)
 
 		if direction != 0:
@@ -155,3 +156,9 @@ func _update_animation() -> void:
 	if sprite.animation != target_anim:
 		print("Switching animation to: ", target_anim) 
 		sprite.play(target_anim)
+
+
+## If player has the color, adds it to the queue
+func _queue_color(color: PaintColor.Colors):
+	if inventory.has_color(color):
+		queue._contents.append(color)
