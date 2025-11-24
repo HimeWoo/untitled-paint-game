@@ -6,12 +6,21 @@ const JUMP_VELOCITY = -400.0
 const DASH_SPEED = 700.0
 const DASH_TIME = 0.15
 const DASH_COOLDOWN = 0.5
+const GROUND_ACCEL = 2000.0
+const GROUND_DECEL = 3000.0
+const AIR_ACCEL = 1200.0
+const AIR_DECEL = 300.0
+const DASH_DECEL = 2000.0
+const DASH_DECEL_DURATION = 0.25
+
 
 var jumps_left = 1
 var is_dashing = false
 var dash_timer = 0.0
 var dash_cooldown_timer = 0.0
 var dash_direction = 0
+var horizontal_momentum = 0.0
+var dash_decel_timer = 0.0
 
 # ---------- MELEE ATTACK VARIABLES ---------
 const ATTACK_COOLDOWN = 0.4
@@ -81,21 +90,21 @@ func _physics_process(delta: float) -> void:
 		elif jumps_left > 0:
 			velocity.y = JUMP_VELOCITY
 			jumps_left -= 1
+		else:
+			print("No jumps left/not on floor")
+			pass
 
-	if Input.is_action_just_pressed("dash") and dash_cooldown_timer <= 0.0 and not is_dashing:
-		var left := Input.is_action_pressed("ui_left") or Input.is_key_pressed(KEY_A)
-		var right := Input.is_action_pressed("ui_right") or Input.is_key_pressed(KEY_D)
-		dash_direction = int(right) - int(left)
-		if dash_direction == 0:
-			dash_direction = sign(velocity.x) if velocity.x != 0 else 1
+	if Input.is_action_just_pressed("dash") and dash_cooldown_timer <= 0.0 and not is_dashing and is_on_floor():
+		dash_direction = facing_dir if facing_dir != 0 else 1
 		start_dash()
 	if Input.is_action_just_pressed("melee_attack"):
 		perform_slash()
 
 	if is_dashing:
 		dash_timer -= delta
-		velocity.y = 0 
-		velocity.x = dash_direction * DASH_SPEED
+		# removed to allow jumping during dash
+		# velocity.y = 0
+		horizontal_momentum = dash_direction * DASH_SPEED
 		if dash_timer <= 0:
 			end_dash()
 	else:
@@ -103,13 +112,27 @@ func _physics_process(delta: float) -> void:
 		var right := Input.is_action_pressed("ui_right") or Input.is_key_pressed(KEY_D)
 		var direction := int(right) - int(left)
 
-		if direction != 0:
-			velocity.x = direction * SPEED
+		var accel := 0.0
+		var decel := 0.0
+		if is_on_floor():
+			accel = GROUND_ACCEL
+			decel = GROUND_DECEL
 		else:
-			velocity.x = move_toward(velocity.x, 0, SPEED)
+			accel = AIR_ACCEL
+			decel = AIR_DECEL
+		if dash_decel_timer > 0.0:
+			decel = DASH_DECEL
 
+		if direction != 0:
+			horizontal_momentum = move_toward(horizontal_momentum, direction * SPEED, accel * delta)
+		else:
+			horizontal_momentum = move_toward(horizontal_momentum, 0.0, decel * delta)
+
+	velocity.x = horizontal_momentum
 	if dash_cooldown_timer > 0:
 		dash_cooldown_timer -= delta
+	if dash_decel_timer > 0.0:
+		dash_decel_timer -= delta
 
 	move_and_slide()
 
@@ -120,6 +143,7 @@ func start_dash() -> void:
 
 func end_dash() -> void:
 	is_dashing = false
+	dash_decel_timer = DASH_DECEL_DURATION
 
 func perform_slash() -> void:
 	if not can_attack:
