@@ -115,10 +115,10 @@ colors = PackedColorArray(0, 0, 0, 1, 0.5833333, 0.5833333, 0.5833333, 1, 1, 1, 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_qchoo"]
 gradient = SubResource("Gradient_a8v3n")
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_3cr4k"]
-size = Vector2(300.92737, 4.665965)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bvmv3"]
+size = Vector2(617, 14)
 
-[sub_resource type="Resource" id="Resource_3jfeh"]
+[sub_resource type="Resource" id="Resource_5v2uq"]
 resource_local_to_scene = true
 script = ExtResource("6_bvmv3")
 display_name = "Yellow"
@@ -126,7 +126,7 @@ texture = ExtResource("7_5v2uq")
 color = 2
 metadata/_custom_type_script = "uid://d2ullu6tafuic"
 
-[sub_resource type="Resource" id="Resource_f3voe"]
+[sub_resource type="Resource" id="Resource_jf2wv"]
 resource_local_to_scene = true
 script = ExtResource("6_bvmv3")
 display_name = "Yellow"
@@ -168,9 +168,9 @@ texture = SubResource("GradientTexture1D_qchoo")
 [node name="StaticBody2D" type="StaticBody2D" parent="Floor/Sprite2D"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/Sprite2D/StaticBody2D"]
-position = Vector2(3.190857, 0.8631592)
-scale = Vector2(1.0000298, 0.9619551)
-shape = SubResource("RectangleShape2D_3cr4k")
+position = Vector2(3.190979, 1.0357971)
+scale = Vector2(0.49092376, 0.34526473)
+shape = SubResource("RectangleShape2D_bvmv3")
 
 [node name="RedPaint" parent="." instance=ExtResource("3_3jfeh")]
 position = Vector2(299, 402)
@@ -186,11 +186,11 @@ position = Vector2(599, 234)
 
 [node name="YellowPaint" parent="." instance=ExtResource("5_sp2it")]
 position = Vector2(711, 315)
-data = SubResource("Resource_jf2wv")
+data = SubResource("Resource_5v2uq")
 
 [node name="YellowPaint2" parent="." instance=ExtResource("5_sp2it")]
 position = Vector2(764, 402)
-data = SubResource("Resource_auxfu")
+data = SubResource("Resource_jf2wv")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
