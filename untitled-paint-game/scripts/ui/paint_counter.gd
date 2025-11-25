@@ -37,3 +37,4 @@ func _on_inventory_changed(inv: Inventory) -> void:
 	var new_count: int = inv.count(item.color)
 	if new_count != count:
 		count = new_count
+		print("Inventory: %s: %d" % [PaintColor.Colors.find_key(item.color), count])

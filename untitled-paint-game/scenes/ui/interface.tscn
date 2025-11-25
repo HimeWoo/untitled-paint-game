@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bq5kxtjqomv3i"]
+[gd_scene load_steps=15 format=3 uid="uid://bq5kxtjqomv3i"]
 
 [ext_resource type="PackedScene" uid="uid://cakpr3adjairv" path="res://scenes/ui/empty_slots_counter.tscn" id="1_veyun"]
 [ext_resource type="Script" uid="uid://t88b2t44vc5x" path="res://scripts/ui/empty_slot_counter.gd" id="2_uidac"]
@@ -6,9 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://b4b66xg8fewd8" path="res://assets/paint_grey.png" id="3_mfcci"]
 [ext_resource type="PackedScene" uid="uid://6mku3vrr131o" path="res://scenes/ui/blue_counter.tscn" id="3_qn6p3"]
 [ext_resource type="PackedScene" uid="uid://sdad863vae5e" path="res://scenes/ui/yellow_counter.tscn" id="4_8pw40"]
-[ext_resource type="Script" uid="uid://b06qasux5vfhk" path="res://scripts/ui/paint_queue_ui.gd" id="7_7q06a"]
-[ext_resource type="Texture2D" uid="uid://w7o0ua6qg4vk" path="res://assets/item_slot.png" id="7_erumi"]
-[ext_resource type="Texture2D" uid="uid://bbc2v8mxcfqm8" path="res://assets/item_slot_select.png" id="8_8srw3"]
+[ext_resource type="PackedScene" uid="uid://biy0r0j02jfbt" path="res://scenes/ui/paint_queue.tscn" id="7_erumi"]
 [ext_resource type="Texture2D" uid="uid://fbh3rjtaopxf" path="res://assets/paint_red.png" id="10_8srw3"]
 [ext_resource type="Texture2D" uid="uid://cm66b8mn5r63i" path="res://assets/paint_blue.png" id="11_isiwi"]
 [ext_resource type="Texture2D" uid="uid://bjsj7hx0ac6yf" path="res://assets/paint_yellow.png" id="12_ifsx0"]
@@ -32,43 +30,28 @@ theme_override_constants/margin_bottom = 20
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
+theme_override_constants/separation = 32
 
-[node name="Inventory" type="HBoxContainer" parent="TopLeft"]
-layout_mode = 2
-size_flags_vertical = 0
-
-[node name="EmptySlotsCounter" parent="TopLeft/Inventory" instance=ExtResource("1_veyun")]
+[node name="EmptySlotsCounter" parent="TopLeft" instance=ExtResource("1_veyun")]
 layout_mode = 2
 script = ExtResource("2_uidac")
 texture = ExtResource("3_mfcci")
 count = 4
 
-[node name="Buffer" type="Control" parent="TopLeft/Inventory"]
-custom_minimum_size = Vector2(32, 32)
+[node name="ColorsCollected" type="HBoxContainer" parent="TopLeft"]
 layout_mode = 2
 
-[node name="ColorsCollected" type="HBoxContainer" parent="TopLeft/Inventory"]
+[node name="RedCounter" parent="TopLeft/ColorsCollected" instance=ExtResource("2_veyun")]
 layout_mode = 2
 
-[node name="RedCounter" parent="TopLeft/Inventory/ColorsCollected" instance=ExtResource("2_veyun")]
+[node name="BlueCounter" parent="TopLeft/ColorsCollected" instance=ExtResource("3_qn6p3")]
 layout_mode = 2
 
-[node name="BlueCounter" parent="TopLeft/Inventory/ColorsCollected" instance=ExtResource("3_qn6p3")]
+[node name="YellowCounter" parent="TopLeft/ColorsCollected" instance=ExtResource("4_8pw40")]
 layout_mode = 2
 
-[node name="YellowCounter" parent="TopLeft/Inventory/ColorsCollected" instance=ExtResource("4_8pw40")]
+[node name="PaintSelector" parent="TopLeft" instance=ExtResource("7_erumi")]
 layout_mode = 2
-
-[node name="Buffer2" type="Control" parent="TopLeft"]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-
-[node name="Selector" type="VBoxContainer" parent="TopLeft"]
-custom_minimum_size = Vector2(48, 48)
-layout_mode = 2
-script = ExtResource("7_7q06a")
-selected_texture = ExtResource("8_8srw3")
-deselected_texture = ExtResource("7_erumi")
 paint_textures = Dictionary[int, Texture2D]({
 1: ExtResource("10_8srw3"),
 2: ExtResource("11_isiwi"),
@@ -76,41 +59,5 @@ paint_textures = Dictionary[int, Texture2D]({
 4: ExtResource("13_w8rl8"),
 5: ExtResource("14_iykce"),
 6: ExtResource("15_1oo0c"),
-8: ExtResource("16_7c7gm")
+7: ExtResource("16_7c7gm")
 })
-
-[node name="Slot1" type="TextureRect" parent="TopLeft/Selector"]
-layout_mode = 2
-texture = ExtResource("7_erumi")
-expand_mode = 5
-
-[node name="Item" type="TextureRect" parent="TopLeft/Selector/Slot1"]
-layout_mode = 0
-offset_left = 4.0
-offset_top = 4.0
-offset_right = 44.0
-offset_bottom = 44.0
-
-[node name="Slot2" type="TextureRect" parent="TopLeft/Selector"]
-layout_mode = 2
-texture = ExtResource("7_erumi")
-expand_mode = 5
-
-[node name="Item" type="TextureRect" parent="TopLeft/Selector/Slot2"]
-layout_mode = 0
-offset_left = 4.0
-offset_top = 4.0
-offset_right = 44.0
-offset_bottom = 44.0
-
-[node name="Slot3" type="TextureRect" parent="TopLeft/Selector"]
-layout_mode = 2
-texture = ExtResource("7_erumi")
-expand_mode = 5
-
-[node name="Item" type="TextureRect" parent="TopLeft/Selector/Slot3"]
-layout_mode = 0
-offset_left = 4.0
-offset_top = 4.0
-offset_right = 44.0
-offset_bottom = 44.0

@@ -18,7 +18,7 @@ const ATTACK_COOLDOWN = 0.4
 var is_attacking = false 
 var can_attack = true
 var inventory: Inventory = Inventory.new()
-var paint_queue: PaintQueue = PaintQueue.new()
+var selector: PaintSelector = PaintSelector.new()
 var last_paint_color = null 
 
 var facing_dir := 1
@@ -105,21 +105,20 @@ func _physics_process(delta: float) -> void:
 	
 	# ---------------- Paint Queue ----------------
 	if Input.is_action_just_pressed("queue_next"):
-		paint_queue.selected_index = wrapi(paint_queue.selected_index + 1, 0, paint_queue.get_capacity())
+		_action_queue_next()
 	elif Input.is_action_just_pressed("queue_prev"):
-		paint_queue.selected_index = wrapi(paint_queue.selected_index - 1, 0, paint_queue.get_capacity())
+		_action_queue_prev()
 	
 	if Input.is_action_just_pressed("queue_red"):
-		if inventory.has_color(PaintColor.Colors.RED):
-			paint_queue.add_color(PaintColor.Colors.RED)
+		_action_queue_color(PaintColor.Colors.RED)
 	if Input.is_action_just_pressed("queue_blue"):
-		if inventory.has_color(PaintColor.Colors.BLUE):
-			paint_queue.add_color(PaintColor.Colors.BLUE)
+		_action_queue_color(PaintColor.Colors.BLUE)
 	if Input.is_action_just_pressed("queue_yellow"):
-		if inventory.has_color(PaintColor.Colors.YELLOW):
-			paint_queue.add_color(PaintColor.Colors.YELLOW)
+		_action_queue_color(PaintColor.Colors.YELLOW)
+	if Input.is_action_just_pressed("queue_confirm"):
+		_action_queue_confirm()
 	if Input.is_action_just_pressed("queue_clear"):
-		paint_queue.clear()
+		_action_queue_clear()
 	# ---------------------------------------------
 
 	move_and_slide()
@@ -169,16 +168,34 @@ func _update_animation() -> void:
 		sprite.play(target_anim)
 
 
-func _action_select_red():
-	if inventory.has_color(PaintColor.Colors.RED):
-		paint_queue.add_color(PaintColor.Colors.RED)
+func _action_queue_next() -> void:
+	selector.load_to_palette(0)
 
 
-func _action_select_blue():
-	if inventory.has_color(PaintColor.Colors.BLUE):
-		paint_queue.add_color(PaintColor.Colors.BLUE)
+func _action_queue_prev() -> void:
+	selector.load_to_palette(selector.queue_size() - 1)
 
 
-func _action_select_yellow():
-	if inventory.has_color(PaintColor.Colors.YELLOW):
-		paint_queue.add_color(PaintColor.Colors.YELLOW)
+func _action_queue_color(color: PaintColor.Colors) -> void:
+	# Amount of the color in inventory
+	var total_amt: int = inventory.count(color)
+	# Amount of the color used but not confirmed
+	var used_amt: int = selector.get_colors_used().count(color)
+	if used_amt < total_amt:
+		selector.add_color_to_palette(color)
+
+
+func _action_queue_confirm() -> void:
+	if PaintColor.is_primary(selector.get_palette_color()):
+		return
+	else:
+		var palette: Array[PaintColor.Colors] = selector.get_colors_used()
+		if palette.is_empty():
+			return
+		for color in palette:
+			inventory.remove_color(color)
+		selector.mix_palette()
+
+
+func _action_queue_clear() -> void:
+	selector.clear_selected()

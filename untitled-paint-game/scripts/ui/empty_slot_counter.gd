@@ -34,6 +34,6 @@ func _init_icon_node() -> TextureRect:
 
 
 func _on_inventory_changed(inv: Inventory) -> void:
-	var new_count: int = inv.get_capacity() - inv.size()
+	var new_count: int = inv.capacity() - inv.size()
 	if new_count != count:
 		count = new_count

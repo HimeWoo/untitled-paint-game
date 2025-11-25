@@ -1,0 +1,66 @@
+[gd_scene load_steps=11 format=3 uid="uid://biy0r0j02jfbt"]
+
+[ext_resource type="Script" uid="uid://b06qasux5vfhk" path="res://scripts/ui/paint_selector_ui.gd" id="1_83hnm"]
+[ext_resource type="Texture2D" uid="uid://bbc2v8mxcfqm8" path="res://assets/item_slot_select.png" id="2_qjs1p"]
+[ext_resource type="Texture2D" uid="uid://w7o0ua6qg4vk" path="res://assets/item_slot.png" id="3_5yk2h"]
+[ext_resource type="Texture2D" uid="uid://fbh3rjtaopxf" path="res://assets/paint_red.png" id="4_tb11y"]
+[ext_resource type="Texture2D" uid="uid://cm66b8mn5r63i" path="res://assets/paint_blue.png" id="5_4m1s4"]
+[ext_resource type="Texture2D" uid="uid://bjsj7hx0ac6yf" path="res://assets/paint_yellow.png" id="6_1m3wm"]
+[ext_resource type="Texture2D" uid="uid://gf1nn4cepe6p" path="res://assets/paint_green.png" id="7_0t64k"]
+[ext_resource type="Texture2D" uid="uid://bbiepd7ie6c3g" path="res://assets/paint_purple.png" id="8_qxlgx"]
+[ext_resource type="Texture2D" uid="uid://cj1c7a06kf5yi" path="res://assets/paint_orange.png" id="9_xntjn"]
+[ext_resource type="Texture2D" uid="uid://ctspdyu5tyxci" path="res://assets/paint_black.png" id="10_qori5"]
+
+[node name="PaintSelector" type="VBoxContainer"]
+custom_minimum_size = Vector2(48, 48)
+script = ExtResource("1_83hnm")
+paint_textures = Dictionary[int, Texture2D]({
+1: ExtResource("4_tb11y"),
+2: ExtResource("5_4m1s4"),
+3: ExtResource("6_1m3wm"),
+4: ExtResource("7_0t64k"),
+5: ExtResource("8_qxlgx"),
+6: ExtResource("9_xntjn"),
+8: ExtResource("10_qori5")
+})
+
+[node name="Selection" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("2_qjs1p")
+expand_mode = 5
+
+[node name="Item" type="TextureRect" parent="Selection"]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 44.0
+offset_bottom = 44.0
+
+[node name="Queue" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Slot1" type="TextureRect" parent="Queue"]
+layout_mode = 2
+texture = ExtResource("3_5yk2h")
+expand_mode = 5
+
+[node name="Item" type="TextureRect" parent="Queue/Slot1"]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 44.0
+offset_bottom = 44.0
+
+[node name="Slot2" type="TextureRect" parent="Queue"]
+layout_mode = 2
+texture = ExtResource("3_5yk2h")
+expand_mode = 5
+
+[node name="Item" type="TextureRect" parent="Queue/Slot2"]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 44.0
+offset_bottom = 44.0
