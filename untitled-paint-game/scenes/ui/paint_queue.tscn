@@ -21,44 +21,41 @@ paint_textures = Dictionary[int, Texture2D]({
 4: ExtResource("7_0t64k"),
 5: ExtResource("8_qxlgx"),
 6: ExtResource("9_xntjn"),
-8: ExtResource("10_qori5")
+7: ExtResource("10_qori5")
 })
+selected_slot = ExtResource("2_qjs1p")
+deselected_slot = ExtResource("3_5yk2h")
 
-[node name="Selection" type="TextureRect" parent="."]
-unique_name_in_owner = true
+[node name="Slot1" type="TextureRect" parent="."]
 layout_mode = 2
 texture = ExtResource("2_qjs1p")
 expand_mode = 5
 
-[node name="Item" type="TextureRect" parent="Selection"]
+[node name="Item" type="TextureRect" parent="Slot1"]
 layout_mode = 0
 offset_left = 4.0
 offset_top = 4.0
 offset_right = 44.0
 offset_bottom = 44.0
 
-[node name="Queue" type="VBoxContainer" parent="."]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="Slot1" type="TextureRect" parent="Queue"]
+[node name="Slot2" type="TextureRect" parent="."]
 layout_mode = 2
 texture = ExtResource("3_5yk2h")
 expand_mode = 5
 
-[node name="Item" type="TextureRect" parent="Queue/Slot1"]
+[node name="Item" type="TextureRect" parent="Slot2"]
 layout_mode = 0
 offset_left = 4.0
 offset_top = 4.0
 offset_right = 44.0
 offset_bottom = 44.0
 
-[node name="Slot2" type="TextureRect" parent="Queue"]
+[node name="Slot3" type="TextureRect" parent="."]
 layout_mode = 2
 texture = ExtResource("3_5yk2h")
 expand_mode = 5
 
-[node name="Item" type="TextureRect" parent="Queue/Slot2"]
+[node name="Item" type="TextureRect" parent="Slot3"]
 layout_mode = 0
 offset_left = 4.0
 offset_top = 4.0

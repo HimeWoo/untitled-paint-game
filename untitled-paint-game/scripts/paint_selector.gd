@@ -1,45 +1,64 @@
 class_name PaintSelector
 
-const STARTING_QUEUE_CAPACITY: int = 2 # Slots beyond the first given by default
+const STARTING_CAPACITY: int = 3
 
-var _palette: QueueElement = QueueElement.new(PaintColor.Colors.NONE, false)
+var selected_index: int = 0
 var _colors_used: Array[PaintColor.Colors]
 var _queue: Array[QueueElement]
-var _capacity: int = STARTING_QUEUE_CAPACITY
+var _capacity: int = STARTING_CAPACITY
+var _last_saved_color: PaintColor.Colors = PaintColor.Colors.NONE:
+	set(value):
+		_last_saved_color = value
+		print("LSC: %s" % PaintColor.Colors.find_key(value))
 
 
-## Adds the color to the palette or preview mix if a different color already exists
-func add_color_to_palette(color: PaintColor.Colors) -> void:
-	if _palette.color == PaintColor.Colors.NONE:
-		_palette.color = color
+
+func _init() -> void:
+	_queue.clear()
+	for i in range(_capacity):
+		_queue.push_back(QueueElement.new(PaintColor.Colors.NONE, false))
+
+
+## Adds the color to selected slot or mixes if different color already exists
+func add_color(color: PaintColor.Colors) -> void:
+	var selected: QueueElement = get_selection()
+	if selected.is_blank():
+		selected.color = color
 		_colors_used.push_back(color)
 		UISignals.selector_changed.emit(self)
-	elif _palette.color != color:
-		var new_color: PaintColor.Colors = PaintColor.mix_colors(color, _palette.color)
-		_palette.color = new_color
+	elif selected.color != color:
+		var new_color: PaintColor.Colors = PaintColor.mix_colors(color, selected.color)
+		selected.color = new_color
 		_colors_used.push_back(color)
 		UISignals.selector_changed.emit(self)
 
 
-## Returns the color in the palette
-func get_palette_color() -> PaintColor.Colors:
-	return _palette.color
+## Returns the element in the selected slot
+func get_selection() -> QueueElement:
+	return at(selected_index)
 
 
-## Returns the color at the specified index in the queue
-func get_queue_color_at(idx: int) -> PaintColor.Colors:
-	if idx < 0 or idx >= queue_size():
-		return PaintColor.Colors.NONE
+## Returns the element at the specified index
+func at(idx: int) -> QueueElement:
+	if idx < 0 or idx >= capacity():
+		return null
 	else:
-		return _queue.get(idx).color
+		return _queue.get(idx)
 
 
 ## Confirms the mixture on palette and moves it to the next queue slot if able
-func mix_palette() -> void:
+func mix_selected() -> void:
 	if not is_queue_full():
-		_queue.push_front(QueueElement.new(_palette.color, true))
-		_palette.color = PaintColor.Colors.NONE
-		_palette.is_mixed = false
+		var selected: QueueElement = get_selection()
+		var index: int
+		for i in range(capacity() - 1):
+			index = wrapi(selected_index + i + 1, 0, capacity())
+			if at(index).is_blank():
+				break
+		at(index).color = selected.color
+		at(index).is_mixed = true
+		selected.color = PaintColor.Colors.NONE
+		selected.is_mixed = false
 		_colors_used.clear()
 		UISignals.selector_changed.emit(self)
 
@@ -50,40 +69,50 @@ func get_colors_used() -> Array[PaintColor.Colors]:
 
 
 ## Returns the number of elements in the paint queue
-func queue_size() -> int:
-	return _queue.size()
+func size() -> int:
+	var total: int = 0
+	for elem: QueueElement in _queue:
+		if not elem.is_blank():
+			total += 1
+	return total
 
 
 ## Returns the maximum capacity of the paint queue
-func queue_capacity() -> int:
+func capacity() -> int:
 	return _capacity
 
 
 ## Returns true if queue is full
 func is_queue_full() -> bool:
-	return queue_size() >= queue_capacity()
+	return size() >= capacity()
 
 
-## Clear selected queue slot
-func clear_selected() -> void:
-	_palette.color = PaintColor.Colors.NONE
-	_palette.is_mixed = false
+## Undo operations on the selected queue slot
+func undo_select_slot() -> void:
+	var selected = get_selection()
+	if selected.is_mixed:
+		selected.color = _last_saved_color
+	else:
+		selected.color = PaintColor.Colors.NONE
+		selected.is_mixed = false
 	_colors_used.clear()
 	UISignals.selector_changed.emit(self)
 
 
-## Load paint from the specified index onto the palette
-func load_to_palette(idx: int):
-	if queue_size() > 0:
-		var swap_out: QueueElement = _queue.pop_at(idx)
-		if _palette.is_mixed:
-			_queue.insert(idx, QueueElement.new(_palette.color, true))
-		else:
-			_colors_used.clear()
-		_palette.color = swap_out.color
-		_palette.is_mixed = swap_out.is_mixed
-		print("Palette swap in: {%s, is_mixed = %s}" % [PaintColor.Colors.find_key(swap_out.color), swap_out.is_mixed])
-		UISignals.selector_changed.emit(self)
+func select_next() -> void:
+	selected_index = wrapi(selected_index + 1, 0, capacity())
+	var new_selection = get_selection()
+	if new_selection.is_mixed:
+		_last_saved_color = new_selection.color
+	UISignals.selector_changed.emit(self)
+
+
+func select_prev() -> void:
+	selected_index = wrapi(selected_index - 1, 0, capacity())
+	var new_selection = get_selection()
+	if new_selection.is_mixed:
+		_last_saved_color = new_selection.color
+	UISignals.selector_changed.emit(self)
 
 
 class QueueElement:
@@ -94,4 +123,9 @@ class QueueElement:
 	func _init(p_color: PaintColor.Colors, p_mixed: bool) -> void:
 		color = p_color
 		is_mixed = p_mixed
+	
+
+	## Returns true this element should be treated as null
+	func is_blank() -> bool:
+		return color == PaintColor.Colors.NONE
 	

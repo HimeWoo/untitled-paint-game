@@ -117,8 +117,8 @@ func _physics_process(delta: float) -> void:
 		_action_queue_color(PaintColor.Colors.YELLOW)
 	if Input.is_action_just_pressed("queue_confirm"):
 		_action_queue_confirm()
-	if Input.is_action_just_pressed("queue_clear"):
-		_action_queue_clear()
+	if Input.is_action_just_pressed("queue_undo"):
+		_action_queue_undo()
 	# ---------------------------------------------
 
 	move_and_slide()
@@ -169,11 +169,11 @@ func _update_animation() -> void:
 
 
 func _action_queue_next() -> void:
-	selector.load_to_palette(0)
+	selector.select_next()
 
 
 func _action_queue_prev() -> void:
-	selector.load_to_palette(selector.queue_size() - 1)
+	selector.select_prev()
 
 
 func _action_queue_color(color: PaintColor.Colors) -> void:
@@ -182,11 +182,11 @@ func _action_queue_color(color: PaintColor.Colors) -> void:
 	# Amount of the color used but not confirmed
 	var used_amt: int = selector.get_colors_used().count(color)
 	if used_amt < total_amt:
-		selector.add_color_to_palette(color)
+		selector.add_color(color)
 
 
 func _action_queue_confirm() -> void:
-	if PaintColor.is_primary(selector.get_palette_color()):
+	if PaintColor.is_primary(selector.get_selection().color):
 		return
 	else:
 		var palette: Array[PaintColor.Colors] = selector.get_colors_used()
@@ -194,8 +194,8 @@ func _action_queue_confirm() -> void:
 			return
 		for color in palette:
 			inventory.remove_color(color)
-		selector.mix_palette()
+		selector.mix_selected()
 
 
-func _action_queue_clear() -> void:
-	selector.clear_selected()
+func _action_queue_undo() -> void:
+	selector.undo_select_slot()
