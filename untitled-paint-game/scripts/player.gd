@@ -30,6 +30,8 @@ var facing_dir := 1
 func _ready() -> void:
 	jumps_left = 1
 
+# need to update this for new the paint queue controls
+#
 # func _unhandled_input(event: InputEvent) -> void:
 # 	if event.is_action_pressed("inv_next"):
 # 		queue.select_next(1)
@@ -50,15 +52,17 @@ func _physics_process(delta: float) -> void:
 	if dir != 0:
 		facing_dir = dir
 
-	#var selected_item = queue.current_color()
+	# i think this section i commented out isn't necessary anymore
+
+	# var selected_item = queue.current_color()
 	
 	# Check if we actually have a color selected (not null)
-	#if selected_item != null:
-	#	var current_paint_color = PaintColor.Colors.find_key(selected_item)
-	#	
-	#	if current_paint_color != last_paint_color:
-	#		print("Switched to: ", current_paint_color)
-	#		last_paint_color = current_paint_color
+	# if selected_item != null:
+	# 	var current_paint_color = PaintColor.Colors.find_key(selected_item)
+		
+	# 	if current_paint_color != last_paint_color:
+	# 		print("Switched to: ", current_paint_color)
+	# 		last_paint_color = current_paint_color
 	# --------------------------
 	_update_animation()
 
@@ -117,8 +121,8 @@ func _physics_process(delta: float) -> void:
 		_action_queue_color(PaintColor.Colors.YELLOW)
 	if Input.is_action_just_pressed("queue_confirm"):
 		_action_queue_confirm()
-	if Input.is_action_just_pressed("queue_undo"):
-		_action_queue_undo()
+	if Input.is_action_just_pressed("queue_clear"):
+		_action_queue_clear()
 	# ---------------------------------------------
 
 	move_and_slide()
@@ -197,5 +201,5 @@ func _action_queue_confirm() -> void:
 		selector.mix_selected()
 
 
-func _action_queue_undo() -> void:
-	selector.undo_select_slot()
+func _action_queue_clear() -> void:
+	selector.clear_selection()

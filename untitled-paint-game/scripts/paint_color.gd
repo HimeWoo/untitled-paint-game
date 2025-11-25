@@ -8,7 +8,6 @@ enum Colors {
 	GREEN,
 	PURPLE,
 	ORANGE,
-	BLACK,
 }
 
 
@@ -35,7 +34,7 @@ static func mix_colors(color1: Colors, color2: Colors) -> Colors:
 					return Colors.ORANGE
 				Colors.BLUE:
 					return Colors.GREEN
-	return Colors.BLACK
+	return PaintColor.Colors.NONE
 
 
 ## Returns true if red, blue, or yellow

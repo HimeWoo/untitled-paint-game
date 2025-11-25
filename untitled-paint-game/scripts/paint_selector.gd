@@ -2,14 +2,17 @@ class_name PaintSelector
 
 const STARTING_CAPACITY: int = 3
 
-var selected_index: int = 0
+var selected_index: int = 0:
+	set(value):
+		selected_index = value
+		UISignals.selection_changed.emit(selected_index)
+		print("Selected: {%s, is_mixed = %s}" % [PaintColor.Colors.find_key(get_selection().color), get_selection().is_mixed])
 var _colors_used: Array[PaintColor.Colors]
 var _queue: Array[QueueElement]
-var _capacity: int = STARTING_CAPACITY
-var _last_saved_color: PaintColor.Colors = PaintColor.Colors.NONE:
+var _capacity: int = STARTING_CAPACITY:
 	set(value):
-		_last_saved_color = value
-		print("LSC: %s" % PaintColor.Colors.find_key(value))
+		UISignals.queue_capacity_changed.emit(_capacity, value)
+		_capacity = value
 
 
 
@@ -25,12 +28,12 @@ func add_color(color: PaintColor.Colors) -> void:
 	if selected.is_blank():
 		selected.color = color
 		_colors_used.push_back(color)
-		UISignals.selector_changed.emit(self)
-	elif selected.color != color:
+		UISignals.queue_changed.emit(self)
+	elif PaintColor.is_primary(selected.color) and selected.color != color:
 		var new_color: PaintColor.Colors = PaintColor.mix_colors(color, selected.color)
 		selected.color = new_color
 		_colors_used.push_back(color)
-		UISignals.selector_changed.emit(self)
+		UISignals.queue_changed.emit(self)
 
 
 ## Returns the element in the selected slot
@@ -60,7 +63,7 @@ func mix_selected() -> void:
 		selected.color = PaintColor.Colors.NONE
 		selected.is_mixed = false
 		_colors_used.clear()
-		UISignals.selector_changed.emit(self)
+		UISignals.queue_changed.emit(self)
 
 
 ## Returns the current mix of colors
@@ -87,32 +90,27 @@ func is_queue_full() -> bool:
 	return size() >= capacity()
 
 
-## Undo operations on the selected queue slot
-func undo_select_slot() -> void:
+## Clear selected slot
+func clear_selection() -> void:
 	var selected = get_selection()
-	if selected.is_mixed:
-		selected.color = _last_saved_color
-	else:
-		selected.color = PaintColor.Colors.NONE
-		selected.is_mixed = false
+	selected.color = PaintColor.Colors.NONE
+	selected.is_mixed = false
 	_colors_used.clear()
-	UISignals.selector_changed.emit(self)
+	UISignals.queue_changed.emit(self)
 
 
+## Change selection to the next slot
 func select_next() -> void:
+	if not get_selection().is_mixed:
+		clear_selection()
 	selected_index = wrapi(selected_index + 1, 0, capacity())
-	var new_selection = get_selection()
-	if new_selection.is_mixed:
-		_last_saved_color = new_selection.color
-	UISignals.selector_changed.emit(self)
 
 
+## Change selection to the previous slot
 func select_prev() -> void:
+	if not get_selection().is_mixed:
+		clear_selection()
 	selected_index = wrapi(selected_index - 1, 0, capacity())
-	var new_selection = get_selection()
-	if new_selection.is_mixed:
-		_last_saved_color = new_selection.color
-	UISignals.selector_changed.emit(self)
 
 
 class QueueElement:
