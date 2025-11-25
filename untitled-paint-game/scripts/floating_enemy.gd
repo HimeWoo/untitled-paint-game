@@ -83,10 +83,14 @@ func _on_detect_enter(body: Node2D) -> void:
 
 func _on_detect_exit(body: Node2D) -> void:
 	if body == player:
+		# figure out which side the player exited on
+		var side = sign(body.global_position.x - global_position.x)
+		if side != 0:
+			patrol_dir = int(side)  # +1 right, -1 left
+
 		player = null
 
-# Matches melee_attack.gd convention
-func apply_damage(amount: int, knockback: Vector2) -> void:
-	hp -= amount
-	if hp <= 0:
-		queue_free()
+#func apply_damage(amount: int, knockback: Vector2) -> void:
+	#hp -= amount
+	#if hp <= 0:
+		#queue_free()
