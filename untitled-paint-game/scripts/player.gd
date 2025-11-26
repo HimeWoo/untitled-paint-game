@@ -29,6 +29,8 @@ var facing_dir := 1
 
 @export var attack_scene: PackedScene = preload("res://scenes/MeleeAttack.tscn")
 
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+
 func _ready() -> void:
 	jumps_left = 1
 	
@@ -112,6 +114,7 @@ func _physics_process(delta: float) -> void:
 			print("Switched to: ", current_paint_color)
 			last_paint_color = current_paint_color
 	# --------------------------
+	_update_animation()
 
 	if not is_on_floor() and not is_dashing:
 		velocity += get_gravity() * delta
@@ -182,3 +185,19 @@ func perform_slash() -> void:
 	await get_tree().create_timer(ATTACK_COOLDOWN).timeout
 	is_attacking = false
 	can_attack = true
+	
+func _update_animation() -> void:
+	if sprite == null:
+		return
+	sprite.flip_h = facing_dir < 0
+
+	# Change 0.1 to 1.0 or even 5.0 to prevent micro-movements from triggering 'walk'
+	var is_moving: bool = abs(velocity.x) > 5.0
+	
+	var target_anim := "walk" if is_moving else "idle"
+	
+	# Add this print line! If your Output log goes crazy switching 
+	# between idle/walk, you know this is the problem.
+	if sprite.animation != target_anim:
+		print("Switching animation to: ", target_anim) 
+		sprite.play(target_anim)
