@@ -90,7 +90,7 @@ func _on_detect_exit(body: Node2D) -> void:
 
 		player = null
 
-#func apply_damage(amount: int, knockback: Vector2) -> void:
-	#hp -= amount
-	#if hp <= 0:
-		#queue_free()
+func apply_damage(amount: int, knockback: Vector2) -> void:
+	hp -= amount
+	if hp <= 0:
+		queue_free()
