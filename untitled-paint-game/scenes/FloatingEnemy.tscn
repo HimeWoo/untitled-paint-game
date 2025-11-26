@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://b8txfoox5y1qr"]
+[gd_scene load_steps=6 format=3 uid="uid://b8txfoox5y1qr"]
 
 [ext_resource type="Texture2D" uid="uid://bs5elx113sajt" path="res://assets/icon.svg" id="1_fmri8"]
 [ext_resource type="Script" uid="uid://d20xq3rlb12ml" path="res://scripts/floating_enemy.gd" id="1_y5xqv"]
+[ext_resource type="PackedScene" uid="uid://dh6488mkbfq22" path="res://scenes/EnemyProjectile.tscn" id="2_vtvda"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y5xqv"]
 size = Vector2(120, 121)
@@ -13,6 +14,7 @@ radius = 1015.0122
 scale = Vector2(0.2, 0.2)
 collision_layer = 5
 script = ExtResource("1_y5xqv")
+projectile_scene = ExtResource("2_vtvda")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_fmri8")

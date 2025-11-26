@@ -42,6 +42,7 @@ func _physics_process(delta: float) -> void:
 		dir = (player.global_position - global_position).normalized()
 		speed = chase_speed
 		if can_fire:
+			print("Enemy: firing at player")  # DEBUG
 			_fire_at_player()
 
 	# float bob
@@ -57,13 +58,17 @@ func _physics_process(delta: float) -> void:
 func _fire_at_player() -> void:
 	can_fire = false
 	fire_timer.start()
-	if projectile_scene == null: return
+	if projectile_scene == null:
+		print("Enemy: projectile_scene is NULL!") # DEBUG
+		return
 
 	var proj := projectile_scene.instantiate()
 	get_parent().add_child(proj)
 
 	proj.global_position = global_position
 	var shoot_dir := (player.global_position - global_position).normalized()
+
+	print("Enemy: spawned projectile at ", proj.global_position, " dir: ", shoot_dir) # DEBUG
 
 	if proj.has_method("setup"):
 		proj.speed = projectile_speed
@@ -73,6 +78,9 @@ func _fire_at_player() -> void:
 			5,
 			homing_strength if use_homing else 0.0
 		)
+	else:
+		print("Enemy: projectile has no setup()!") # DEBUG
+
 
 func _on_fire_timer_timeout() -> void:
 	can_fire = true
