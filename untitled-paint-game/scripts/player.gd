@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-@onready var sprite: Sprite2D = $Sprite2D
+#@onready var sprite: Sprite2D = $Sprite2D
 @export var projectile_scene: PackedScene = preload("res://scenes/PlayerProjectile.tscn")
 @export var shoot_cooldown: float = 0.25
 var can_shoot := true
@@ -196,8 +196,6 @@ func _update_animation() -> void:
 	
 	var target_anim := "walk" if is_moving else "idle"
 	
-	# Add this print line! If your Output log goes crazy switching 
-	# between idle/walk, you know this is the problem.
 	if sprite.animation != target_anim:
-		print("Switching animation to: ", target_anim) 
+		#print("Switching animation to: ", target_anim) 
 		sprite.play(target_anim)
