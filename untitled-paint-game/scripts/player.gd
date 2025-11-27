@@ -32,6 +32,7 @@ const ATTACK_COOLDOWN = 0.4
 var is_attacking = false 
 var can_attack = true
 var inventory: Inventory = Inventory.new()
+var selector: PaintSelector = PaintSelector.new()
 var last_paint_color = null 
 
 var facing_dir := 1
@@ -42,24 +43,17 @@ var facing_dir := 1
 
 func _ready() -> void:
 	jumps_left = 1
-	
-	# --- ADDED FOR TESTING ---
-	# We need items in the inventory to test keys 1, 2, and 3!
-	# Assuming PaintColor.Colors has RED, BLUE, GREEN
-	#inventory.add_color(PaintColor.Colors.RED)   # Key 1
-	#inventory.add_color(PaintColor.Colors.BLUE)  # Key 2
-	#inventory.add_color(PaintColor.Colors.GREEN) # Key 3
-	
-	inventory.select_index(0)
 
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("inv_next"):
-		inventory.select_next(1)
-	elif event.is_action_pressed("inv_prev"):
-		inventory.select_next(-1)
-	elif event is InputEventKey and event.pressed:
-		var key_event := event as InputEventKey
-		var num := key_event.keycode - KEY_1 
+# need to update this for new the paint queue controls
+#
+# func _unhandled_input(event: InputEvent) -> void:
+# 	if event.is_action_pressed("inv_next"):
+# 		queue.select_next(1)
+# 	elif event.is_action_pressed("inv_prev"):
+# 		queue.select_next(-1)
+# 	elif event is InputEventKey and event.pressed:
+# 		var key_event := event as InputEventKey
+# 		var num := key_event.keycode - KEY_1 
 		
 
 		if num >= 0: 
@@ -101,27 +95,31 @@ func _get_projectile_spawn_pos() -> Vector2:
 	local.x = abs(local.x) * facing_dir
 
 	return global_position + local
+# 		if num >= 0: 
+# 			queue.select_index(num)
 
 func _physics_process(delta: float) -> void:
-	var facing_left := Input.is_action_pressed("ui_left") or Input.is_key_pressed(KEY_A)
-	var facing_right := Input.is_action_pressed("ui_right") or Input.is_key_pressed(KEY_D)
+	var facing_left := Input.is_action_pressed("move_left")
+	var facing_right := Input.is_action_pressed("move_right")
 	var dir := int(facing_right) - int(facing_left)
 	if dir != 0:
 		facing_dir = dir
 		sprite.flip_h = (facing_dir == -1)
 
-	var selected_item = inventory.current_color()
+	# i think this section i commented out isn't necessary anymore
+
+	# var selected_item = queue.current_color()
 	
 	if Input.is_action_just_pressed("shoot") and can_shoot:
 		_shoot_projectile()
 	
 	# Check if we actually have a color selected (not null)
-	if selected_item != null:
-		var current_paint_color = PaintColor.Colors.find_key(selected_item)
+	# if selected_item != null:
+	# 	var current_paint_color = PaintColor.Colors.find_key(selected_item)
 		
-		if current_paint_color != last_paint_color:
-			print("Switched to: ", current_paint_color)
-			last_paint_color = current_paint_color
+	# 	if current_paint_color != last_paint_color:
+	# 		print("Switched to: ", current_paint_color)
+	# 		last_paint_color = current_paint_color
 	# --------------------------
 	_update_animation()
 
@@ -130,7 +128,7 @@ func _physics_process(delta: float) -> void:
 	elif is_on_floor():
 		jumps_left = 1 
 
-	if Input.is_action_just_pressed("ui_accept") or Input.is_action_just_pressed("jump"):
+	if Input.is_action_just_pressed("jump"):
 		if is_on_floor():
 			velocity.y = JUMP_VELOCITY
 		elif jumps_left > 0:
@@ -140,8 +138,12 @@ func _physics_process(delta: float) -> void:
 			print("No jumps left/not on floor")
 			pass
 
-	if Input.is_action_just_pressed("dash") and dash_cooldown_timer <= 0.0 and not is_dashing and is_on_floor():
-		dash_direction = facing_dir if facing_dir != 0 else 1
+	if Input.is_action_just_pressed("dash") and dash_cooldown_timer <= 0.0 and not is_dashing:
+		var left := Input.is_action_pressed("move_left")
+		var right := Input.is_action_pressed("move_right")
+		dash_direction = int(right) - int(left)
+		if dash_direction == 0:
+			dash_direction = sign(velocity.x) if velocity.x != 0 else 1
 		start_dash()
 	if Input.is_action_just_pressed("melee_attack"):
 		perform_slash()
@@ -154,8 +156,8 @@ func _physics_process(delta: float) -> void:
 		if dash_timer <= 0:
 			end_dash()
 	else:
-		var left := Input.is_action_pressed("ui_left") or Input.is_key_pressed(KEY_A)
-		var right := Input.is_action_pressed("ui_right") or Input.is_key_pressed(KEY_D)
+		var left := Input.is_action_pressed("move_left")
+		var right := Input.is_action_pressed("move_right")
 		var direction := int(right) - int(left)
 
 		var accel := 0.0
@@ -179,6 +181,24 @@ func _physics_process(delta: float) -> void:
 		dash_cooldown_timer -= delta
 	if dash_decel_timer > 0.0:
 		dash_decel_timer -= delta
+	
+	# ---------------- Paint Queue ----------------
+	if Input.is_action_just_pressed("queue_next"):
+		_action_queue_next()
+	elif Input.is_action_just_pressed("queue_prev"):
+		_action_queue_prev()
+	
+	if Input.is_action_just_pressed("queue_red"):
+		_action_queue_color(PaintColor.Colors.RED)
+	if Input.is_action_just_pressed("queue_blue"):
+		_action_queue_color(PaintColor.Colors.BLUE)
+	if Input.is_action_just_pressed("queue_yellow"):
+		_action_queue_color(PaintColor.Colors.YELLOW)
+	if Input.is_action_just_pressed("queue_confirm"):
+		_action_queue_confirm()
+	if Input.is_action_just_pressed("queue_clear"):
+		_action_queue_clear()
+	# ---------------------------------------------
 
 	move_and_slide()
 
@@ -209,7 +229,8 @@ func perform_slash() -> void:
 	await get_tree().create_timer(ATTACK_COOLDOWN).timeout
 	is_attacking = false
 	can_attack = true
-	
+
+
 func _update_animation() -> void:
 	if sprite == null:
 		return
@@ -223,3 +244,36 @@ func _update_animation() -> void:
 	if sprite.animation != target_anim:
 		#print("Switching animation to: ", target_anim) 
 		sprite.play(target_anim)
+
+
+func _action_queue_next() -> void:
+	selector.select_next()
+
+
+func _action_queue_prev() -> void:
+	selector.select_prev()
+
+
+func _action_queue_color(color: PaintColor.Colors) -> void:
+	# Amount of the color in inventory
+	var total_amt: int = inventory.count(color)
+	# Amount of the color used but not confirmed
+	var used_amt: int = selector.get_colors_used().count(color)
+	if used_amt < total_amt:
+		selector.add_color(color)
+
+
+func _action_queue_confirm() -> void:
+	if PaintColor.is_primary(selector.get_selection().color):
+		return
+	else:
+		var palette: Array[PaintColor.Colors] = selector.get_colors_used()
+		if palette.is_empty():
+			return
+		for color in palette:
+			inventory.remove_color(color)
+		selector.mix_selected()
+
+
+func _action_queue_clear() -> void:
+	selector.clear_selection()
