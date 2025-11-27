@@ -7,4 +7,5 @@
 script = ExtResource("1_w1inn")
 display_name = "Red"
 texture = ExtResource("2_g04s1")
+color = 1
 metadata/_custom_type_script = "uid://d2ullu6tafuic"
