@@ -44,7 +44,7 @@ var facing_dir := 1
 
 func _ready() -> void:
 	jumps_left = 1
-	inventory.select_index(0)
+	#inventory.select_index(0)
 
 # need to update this for new the paint queue controls
 #
@@ -132,9 +132,7 @@ func _physics_process(delta: float) -> void:
 				velocity.y = launch
 				jumps_left = 1 
 				print("EFFECT TRIGGERED: Launched with force ", launch)
-
 	# ----------------------------------------------------
-	
 	var facing_left := Input.is_action_pressed("ui_left") or Input.is_key_pressed(KEY_A)
 	var facing_right := Input.is_action_pressed("ui_right") or Input.is_key_pressed(KEY_D)
 	var dir := int(facing_right) - int(facing_left)
@@ -144,16 +142,16 @@ func _physics_process(delta: float) -> void:
 
 	# i think this section i commented out isn't necessary anymore
 
-	# var selected_item = queue.current_color()
+	#var selected_item = queue.current_color()
 	
 	if Input.is_action_just_pressed("shoot") and can_shoot:
 		_shoot_projectile()
 	
-	if selected_item != null:
-		var current_paint_color = PaintColor.Colors.find_key(selected_item)
-		if current_paint_color != last_paint_color:
-			# print("Switched to: ", current_paint_color) # Commented out to reduce console noise
-			last_paint_color = current_paint_color
+	#if selected_item != null:
+		#var current_paint_color = PaintColor.Colors.find_key(selected_item)
+		#if current_paint_color != last_paint_color:
+			## print("Switched to: ", current_paint_color) # Commented out to reduce console noise
+			#last_paint_color = current_paint_color
 	
 	_update_animation()
 
