@@ -1,17 +1,31 @@
 extends CharacterBody2D
 
+#@onready var sprite: Sprite2D = $Sprite2D
+@export var projectile_scene: PackedScene = preload("res://scenes/PlayerProjectile.tscn")
+@export var shoot_cooldown: float = 0.25
+var can_shoot := true
+
 # ---------- MOVEMENT VARIABLES ----------
 const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
 const DASH_SPEED = 700.0
 const DASH_TIME = 0.15
 const DASH_COOLDOWN = 0.5
+const GROUND_ACCEL = 2000.0
+const GROUND_DECEL = 3000.0
+const AIR_ACCEL = 1200.0
+const AIR_DECEL = 300.0
+const DASH_DECEL = 2000.0
+const DASH_DECEL_DURATION = 0.25
+
 
 var jumps_left = 1
 var is_dashing = false
 var dash_timer = 0.0
 var dash_cooldown_timer = 0.0
 var dash_direction = 0
+var horizontal_momentum = 0.0
+var dash_decel_timer = 0.0
 
 # ---------- MELEE ATTACK VARIABLES ---------
 const ATTACK_COOLDOWN = 0.4
@@ -44,6 +58,45 @@ func _ready() -> void:
 
 # 		if num >= 0: 
 # 			queue.select_index(num)
+		if num >= 0: 
+			inventory.select_index(num)
+			
+func _get_aim_dir() -> Vector2:
+	var dir := Vector2.ZERO
+	if Input.is_action_pressed("aim_left"): dir.x -= 1
+	if Input.is_action_pressed("aim_right"): dir.x += 1
+	if Input.is_action_pressed("aim_up"): dir.y -= 1
+	if Input.is_action_pressed("aim_down"): dir.y += 1
+
+	# fallback to facing direction if no aim held
+	if dir == Vector2.ZERO:
+		dir = Vector2(facing_dir, 0)  # assuming you already track facing_dir
+	return dir.normalized()
+
+func _shoot_projectile() -> void:
+	can_shoot = false
+
+	var proj := projectile_scene.instantiate()
+	get_parent().add_child(proj)
+
+	var spawn_pos := _get_projectile_spawn_pos()
+	proj.global_position = spawn_pos
+	proj.setup(_get_aim_dir(), 5)
+
+	await get_tree().create_timer(shoot_cooldown).timeout
+	can_shoot = true
+	
+func _get_projectile_spawn_pos() -> Vector2:
+	if not has_node("ProjectileSpawn"):
+		return global_position
+
+	var spawn: Marker2D = $ProjectileSpawn
+	var local = spawn.position
+
+	# Mirror X based on facing
+	local.x = abs(local.x) * facing_dir
+
+	return global_position + local
 
 func _physics_process(delta: float) -> void:
 	var facing_left := Input.is_action_pressed("move_left")
@@ -51,10 +104,14 @@ func _physics_process(delta: float) -> void:
 	var dir := int(facing_right) - int(facing_left)
 	if dir != 0:
 		facing_dir = dir
+		sprite.flip_h = (facing_dir == -1)
 
 	# i think this section i commented out isn't necessary anymore
 
 	# var selected_item = queue.current_color()
+	
+	if Input.is_action_just_pressed("shoot") and can_shoot:
+		_shoot_projectile()
 	
 	# Check if we actually have a color selected (not null)
 	# if selected_item != null:
@@ -77,6 +134,9 @@ func _physics_process(delta: float) -> void:
 		elif jumps_left > 0:
 			velocity.y = JUMP_VELOCITY
 			jumps_left -= 1
+		else:
+			print("No jumps left/not on floor")
+			pass
 
 	if Input.is_action_just_pressed("dash") and dash_cooldown_timer <= 0.0 and not is_dashing:
 		var left := Input.is_action_pressed("move_left")
@@ -90,8 +150,9 @@ func _physics_process(delta: float) -> void:
 
 	if is_dashing:
 		dash_timer -= delta
-		velocity.y = 0 
-		velocity.x = dash_direction * DASH_SPEED
+		# removed to allow jumping during dash
+		# velocity.y = 0
+		horizontal_momentum = dash_direction * DASH_SPEED
 		if dash_timer <= 0:
 			end_dash()
 	else:
@@ -99,11 +160,23 @@ func _physics_process(delta: float) -> void:
 		var right := Input.is_action_pressed("move_right")
 		var direction := int(right) - int(left)
 
-		if direction != 0:
-			velocity.x = direction * SPEED
+		var accel := 0.0
+		var decel := 0.0
+		if is_on_floor():
+			accel = GROUND_ACCEL
+			decel = GROUND_DECEL
 		else:
-			velocity.x = move_toward(velocity.x, 0, SPEED)
+			accel = AIR_ACCEL
+			decel = AIR_DECEL
+		if dash_decel_timer > 0.0:
+			decel = DASH_DECEL
 
+		if direction != 0:
+			horizontal_momentum = move_toward(horizontal_momentum, direction * SPEED, accel * delta)
+		else:
+			horizontal_momentum = move_toward(horizontal_momentum, 0.0, decel * delta)
+
+	velocity.x = horizontal_momentum
 	if dash_cooldown_timer > 0:
 		dash_cooldown_timer -= delta
 	
@@ -124,6 +197,8 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("queue_clear"):
 		_action_queue_clear()
 	# ---------------------------------------------
+	if dash_decel_timer > 0.0:
+		dash_decel_timer -= delta
 
 	move_and_slide()
 
@@ -134,6 +209,7 @@ func start_dash() -> void:
 
 func end_dash() -> void:
 	is_dashing = false
+	dash_decel_timer = DASH_DECEL_DURATION
 
 func perform_slash() -> void:
 	if not can_attack:
@@ -165,10 +241,8 @@ func _update_animation() -> void:
 	
 	var target_anim := "walk" if is_moving else "idle"
 	
-	# Add this print line! If your Output log goes crazy switching 
-	# between idle/walk, you know this is the problem.
 	if sprite.animation != target_anim:
-		print("Switching animation to: ", target_anim) 
+		#print("Switching animation to: ", target_anim) 
 		sprite.play(target_anim)
 
 
