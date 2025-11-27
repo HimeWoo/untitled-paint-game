@@ -2,7 +2,7 @@ extends TileMapLayer
 
 # Define the maximum ID you have created.
 # If you have Default (0), Red (1), and Blue (2), your count is 3.
-const TOTAL_COLORS = 3 
+const TOTAL_COLORS = 5
 
 func _input(event):
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
@@ -34,3 +34,17 @@ func cycle_tile_color():
 		# 4. Apply the new ID
 		set_cell(map_coords, source_id, atlas_coords, next_alt_id)
 		print("Cycled tile at ", map_coords, " from ID ", current_alt_id, " to ", next_alt_id)
+
+func get_tile_data_at_position(global_pos: Vector2, layer_name: String):
+	var local_pos = to_local(global_pos)
+	var map_coords = local_to_map(local_pos)
+	
+	# Get the TileData object (holds physics, navigation, and custom data)
+	var tile_data = get_cell_tile_data(map_coords)
+	
+	if tile_data:
+		# Return the specific custom data value we asked for
+		return tile_data.get_custom_data(layer_name)
+	
+	# Default return if no tile exists (e.g., walking on air/void)
+	return null
