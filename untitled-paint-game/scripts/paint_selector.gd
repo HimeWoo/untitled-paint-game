@@ -51,19 +51,21 @@ func at(idx: int) -> QueueElement:
 
 ## Confirms the mixture on palette and moves it to the next queue slot if able
 func mix_selected() -> void:
-	if not is_queue_full():
-		var selected: QueueElement = get_selection()
-		var index: int
-		for i in range(capacity() - 1):
-			index = wrapi(selected_index + i + 1, 0, capacity())
-			if at(index).is_blank():
-				break
-		at(index).color = selected.color
-		at(index).is_mixed = true
+	var selected: QueueElement = get_selection()
+	var index: int
+	# Attempt to put the mixture in every slot other than current selected slot
+	for i in range(1, capacity() + 1):
+		index = wrapi(selected_index + i, 0, capacity())
+		if at(index).is_blank():
+			break
+	at(index).color = selected.color
+	at(index).is_mixed = true
+	# If all other slots are full, put the mixture in current slot
+	if selected_index != index:
 		selected.color = PaintColor.Colors.NONE
 		selected.is_mixed = false
-		_colors_used.clear()
-		UISignals.queue_changed.emit(self)
+	_colors_used.clear()
+	UISignals.queue_changed.emit(self)
 
 
 ## Returns the current mix of colors

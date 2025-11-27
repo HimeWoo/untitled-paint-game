@@ -190,15 +190,12 @@ func _action_queue_color(color: PaintColor.Colors) -> void:
 
 
 func _action_queue_confirm() -> void:
-	if PaintColor.is_primary(selector.get_selection().color):
-		return
-	else:
+	if not PaintColor.is_primary(selector.get_selection().color):
 		var palette: Array[PaintColor.Colors] = selector.get_colors_used()
-		if palette.is_empty():
-			return
-		for color in palette:
-			inventory.remove_color(color)
-		selector.mix_selected()
+		if not palette.is_empty():
+			for color in palette:
+				inventory.remove_color(color)
+			selector.mix_selected()
 
 
 func _action_queue_clear() -> void:
