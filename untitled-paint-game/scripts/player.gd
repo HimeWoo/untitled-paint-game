@@ -56,8 +56,8 @@ func _ready() -> void:
 # 		var num := key_event.keycode - KEY_1 
 		
 
-		if num >= 0: 
-			inventory.select_index(num)
+		#if num >= 0: 
+			#inventory.select_index(num)
 			
 func _get_aim_dir() -> Vector2:
 	var dir := Vector2.ZERO
