@@ -35,12 +35,15 @@ var selector: PaintSelector = PaintSelector.new()
 var last_paint_color = null 
 
 var facing_dir := 1
+var teleport_cooldown_timer := 0.0
 
 @export var attack_scene: PackedScene = preload("res://scenes/MeleeAttack.tscn")
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 @export var terrain_map: TileMapLayer
+
+var last_frame_tile_coords: Vector2i = Vector2i(-999, -999)
 
 func _ready() -> void:
 	jumps_left = 1
@@ -98,10 +101,12 @@ func _physics_process(delta: float) -> void:
 	var current_jump_velocity = JUMP_VELOCITY
 	var current_dash_speed = DASH_SPEED
 	
+	if teleport_cooldown_timer > 0:
+		teleport_cooldown_timer -= delta
 	# 2. CHECK TERRAIN EFFECTS
 	if terrain_map:
 		# Check 5 pixels below feet to ensure we hit the floor
-		var floor_pos = global_position + Vector2(0, 10)
+		var floor_pos = global_position + Vector2(0, 12)
 		var tile_coords = terrain_map.local_to_map(terrain_map.to_local(floor_pos))
 		var tile_data = terrain_map.get_cell_tile_data(tile_coords)
 		
@@ -132,6 +137,24 @@ func _physics_process(delta: float) -> void:
 				velocity.y = launch
 				jumps_left = 1 
 				print("EFFECT TRIGGERED: Launched with force ", launch)
+			# --- PURPLE (Teleport) ---
+			var is_teleporter = tile_data.get_custom_data("is_teleporter")
+			
+			# --- PURPLE (Teleport) ---
+			if is_teleporter and tile_coords != last_frame_tile_coords and teleport_cooldown_timer <= 0: 
+				var target_pos = terrain_map.get_teleport_target(tile_coords)
+				if target_pos != Vector2.ZERO:
+					var world_target = terrain_map.to_global(target_pos)
+					var tile_height = terrain_map.tile_set.tile_size.y
+					world_target.y -= tile_height
+					global_position = world_target
+
+					teleport_cooldown_timer = 1.0
+					var dest_coords = terrain_map.local_to_map(terrain_map.to_local(world_target))
+					last_frame_tile_coords = dest_coords
+					
+					print("WOOSH! Teleported to ", world_target)
+		last_frame_tile_coords = tile_coords
 	# ----------------------------------------------------
 	var facing_left := Input.is_action_pressed("ui_left") or Input.is_key_pressed(KEY_A)
 	var facing_right := Input.is_action_pressed("ui_right") or Input.is_key_pressed(KEY_D)
