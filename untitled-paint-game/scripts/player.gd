@@ -274,7 +274,7 @@ func perform_slash() -> void:
 	var attack_instance = attack_scene.instantiate()
 	attack_instance.position = Vector2(50 * facing_dir, 0) 
 	add_child(attack_instance)
-	attack_instance.start_attack(self, facing_dir)
+	attack_instance.start_attack(self, facing_dir, terrain_map, selector.get_selection().color)
 	await get_tree().create_timer(ATTACK_COOLDOWN).timeout
 	is_attacking = false
 	can_attack = true
