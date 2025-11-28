@@ -2,7 +2,7 @@ extends TileMapLayer
 
 # Define the maximum ID you have created.
 # If you have Default (0), Red (1), and Blue (2), your count is 3.
-const TOTAL_COLORS = 5
+const TOTAL_COLORS = 8
 
 func _input(event):
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
@@ -48,3 +48,20 @@ func get_tile_data_at_position(global_pos: Vector2, layer_name: String):
 	
 	# Default return if no tile exists (e.g., walking on air/void)
 	return null
+func get_teleport_target(current_coords: Vector2i) -> Vector2:
+	# 1. Get every single tile currently painted on the map
+	var all_cells = get_used_cells()
+	
+	# 2. Loop through them to find another Purple tile
+	for cell_coords in all_cells:
+		# Skip the tile we are currently standing on
+		if cell_coords == current_coords:
+			continue
+			
+		var tile_data = get_cell_tile_data(cell_coords)
+		if tile_data and tile_data.get_custom_data("is_teleporter"):
+			# Found one! Return its world position (center of tile)
+			return map_to_local(cell_coords)
+			
+	# If no other purple tile exists, return a "Zero" vector to signal failure
+	return Vector2.ZERO
