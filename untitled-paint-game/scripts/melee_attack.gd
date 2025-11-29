@@ -67,9 +67,12 @@ func _paint_tiles_under_hitbox() -> void:
 				var cell := Vector2i(x, y)
 				var data = _tilemap.get_cell_tile_data(cell)
 				if data and data.get_custom_data("can_paint"):
-					var src = _tilemap.get_cell_source_id(cell)
-					var atlas = _tilemap.get_cell_atlas_coords(cell)
-					_tilemap.set_cell(cell, src, atlas, alt_id)
+					if _selected_color == PaintColor.Colors.PURPLE and _tilemap.has_method("paint_purple"):
+						_tilemap.paint_purple(cell)
+					else:
+						var src = _tilemap.get_cell_source_id(cell)
+						var atlas = _tilemap.get_cell_atlas_coords(cell)
+						_tilemap.set_cell(cell, src, atlas, alt_id)
 
 func _color_to_alt(color: PaintColor.Colors) -> int:
 	match color:

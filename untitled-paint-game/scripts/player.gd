@@ -139,8 +139,7 @@ func _physics_process(delta: float) -> void:
 				print("EFFECT TRIGGERED: Launched with force ", launch)
 			# --- PURPLE (Teleport) ---
 			var is_teleporter = tile_data.get_custom_data("is_teleporter")
-			
-			# --- PURPLE (Teleport) ---
+
 			if is_teleporter and tile_coords != last_frame_tile_coords and teleport_cooldown_timer <= 0: 
 				var target_pos = terrain_map.get_teleport_target(tile_coords)
 				if target_pos != Vector2.ZERO:

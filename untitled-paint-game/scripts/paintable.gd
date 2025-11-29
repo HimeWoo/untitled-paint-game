@@ -4,6 +4,9 @@ extends TileMapLayer
 # If you have Default (0), Red (1), and Blue (2), your count is 3.
 const TOTAL_COLORS = 8
 
+var purple_cells: Array[Vector2i] = []
+
+
 func _input(event):
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		cycle_tile_color()
@@ -65,3 +68,20 @@ func get_teleport_target(current_coords: Vector2i) -> Vector2:
 			
 	# If no other purple tile exists, return a "Zero" vector to signal failure
 	return Vector2.ZERO
+
+func paint_purple(cell: Vector2i) -> void:
+	var alt_default := 0
+	var alt_purple := 7
+	if get_cell_alternative_tile(cell) == alt_purple:
+		return  # already purple
+
+	if purple_cells.size() >= 2:
+		var to_clear : Variant = purple_cells.pop_front()
+		var src := get_cell_source_id(to_clear)
+		var atlas := get_cell_atlas_coords(to_clear)
+		set_cell(to_clear, src, atlas, alt_default)
+
+	var src_new := get_cell_source_id(cell)
+	var atlas_new := get_cell_atlas_coords(cell)
+	set_cell(cell, src_new, atlas_new, alt_purple)
+	purple_cells.push_back(cell)
