@@ -1,6 +1,5 @@
 extends CharacterBody2D
 
-#@onready var sprite: Sprite2D = $Sprite2D
 @export var projectile_scene: PackedScene = preload("res://scenes/PlayerProjectile.tscn")
 @export var shoot_cooldown: float = 0.25
 var can_shoot := true
@@ -75,6 +74,7 @@ func _get_aim_dir() -> Vector2:
 		dir = Vector2(facing_dir, 0) 
 	return dir.normalized()
 
+
 func _shoot_projectile() -> void:
 	can_shoot = false
 	var proj := projectile_scene.instantiate()
@@ -84,7 +84,8 @@ func _shoot_projectile() -> void:
 	proj.setup(_get_aim_dir(), 5)
 	await get_tree().create_timer(shoot_cooldown).timeout
 	can_shoot = true
-	
+
+
 func _get_projectile_spawn_pos() -> Vector2:
 	if not has_node("ProjectileSpawn"):
 		return global_position
@@ -94,6 +95,7 @@ func _get_projectile_spawn_pos() -> Vector2:
 	return global_position + local
 # 		if num >= 0: 
 # 			queue.select_index(num)
+
 
 func _physics_process(delta: float) -> void:
 	# 1. DEFINE CURRENT STATS (Reset to base values every frame)

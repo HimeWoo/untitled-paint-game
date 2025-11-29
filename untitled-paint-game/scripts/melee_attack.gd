@@ -7,10 +7,9 @@ extends Area2D
 
 var _tilemap: TileMapLayer
 var _selected_color: PaintColor.Colors
-
-
 var owner_body: Node2D
 var hit_objects: Array = [] 
+
 
 func _ready() -> void:
 	monitoring = false 
@@ -34,6 +33,7 @@ func start_attack(attacker: Node2D, facing_dir: int, terrain: TileMapLayer, colo
 	
 	await get_tree().create_timer(active_time).timeout
 	queue_free()
+
 
 func _hit(target: Node) -> void:
 	if target == owner_body: 
@@ -74,6 +74,7 @@ func _paint_tiles_under_hitbox() -> void:
 						var atlas = _tilemap.get_cell_atlas_coords(cell)
 						_tilemap.set_cell(cell, src, atlas, alt_id)
 
+
 func _color_to_alt(color: PaintColor.Colors) -> int:
 	match color:
 		PaintColor.Colors.RED: return 1
@@ -87,6 +88,7 @@ func _color_to_alt(color: PaintColor.Colors) -> int:
 
 func _on_body_entered(body: Node2D) -> void:
 	_hit(body)
+
 
 func _on_area_entered(area: Area2D) -> void:
 	# Sometimes enemies are Areas (like hitboxes), sometimes Bodies
