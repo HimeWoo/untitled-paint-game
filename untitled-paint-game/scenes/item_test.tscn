@@ -62,7 +62,7 @@ custom_data_layer_0/name = "can_paint"
 custom_data_layer_0/type = 1
 sources/0 = SubResource("TileSetAtlasSource_f3voe")
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5v2uq"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_sp2it"]
 texture = ExtResource("9_bvmv3")
 0:0/next_alternative_id = 9
 0:0/0 = 0
@@ -76,15 +76,11 @@ texture = ExtResource("9_bvmv3")
 0:0/1/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 0:0/1/custom_data_0 = true
 0:0/1/custom_data_1 = 1.5
-0:0/1/custom_data_2 = 1.0
-0:0/1/custom_data_3 = 1.0
 0:0/2 = 2
 0:0/2/modulate = Color(0, 0, 1, 1)
 0:0/2/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 0:0/2/custom_data_0 = true
-0:0/2/custom_data_1 = 1.0
 0:0/2/custom_data_2 = 1.5
-0:0/2/custom_data_3 = 1.0
 0:0/3 = 3
 0:0/3/modulate = Color(0, 1, 0, 1)
 0:0/3/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
@@ -94,8 +90,6 @@ texture = ExtResource("9_bvmv3")
 0:0/4/modulate = Color(0.99607843, 1, 0, 1)
 0:0/4/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 0:0/4/custom_data_0 = true
-0:0/4/custom_data_1 = 1.0
-0:0/4/custom_data_2 = 1.0
 0:0/4/custom_data_3 = 1.5
 0:0/5 = 5
 0:0/5/modulate = Color(0.988964, 0.4217439, 0.23528805, 1)
@@ -151,13 +145,14 @@ custom_data_layer_4/name = "launch_force"
 custom_data_layer_4/type = 3
 custom_data_layer_5/name = "is_teleporter"
 custom_data_layer_5/type = 1
-sources/0 = SubResource("TileSetAtlasSource_5v2uq")
+sources/0 = SubResource("TileSetAtlasSource_sp2it")
 
 [node name="Main" type="Node"]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Interface" parent="CanvasLayer" instance=ExtResource("1_qchoo")]
+metadata/_edit_use_anchors_ = true
 
 [node name="concrete_tiles" type="TileMapLayer" parent="."]
 scale = Vector2(4.837432, 0.911558)
