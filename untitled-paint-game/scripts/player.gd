@@ -2,7 +2,15 @@ extends CharacterBody2D
 
 @export var projectile_scene: PackedScene = preload("res://scenes/PlayerProjectile.tscn")
 @export var shoot_cooldown: float = 0.25
+@export var max_hp: int = 100
+var current_hp: int
 var can_shoot := true
+
+@export var invincibility_duration: float = 2.0
+@export var invincible_flash_interval: float = 0.15
+var is_invincible: bool = false
+var invincible_timer: float = 0.0
+var invincible_flash_accum: float = 0.0
 
 # ---------- MOVEMENT VARIABLES ----------
 const SPEED = 200.0
@@ -49,6 +57,8 @@ var last_frame_tile_coords: Vector2i = Vector2i(-999, -999)
 func _ready() -> void:
 	jumps_left = 1
 	default_speed_scale = sprite.speed_scale
+	current_hp = max_hp
+	z_index = 1
 	#inventory.select_index(0)
 
 # need to update this for new the paint queue controls
@@ -101,6 +111,26 @@ func _get_projectile_spawn_pos() -> Vector2:
 
 
 func _physics_process(delta: float) -> void:
+	
+	# --- INVINCIBILITY UPDATE ---
+	if is_invincible:
+		invincible_timer -= delta
+		invincible_flash_accum += delta
+
+		# flash tint
+		if invincible_flash_accum >= invincible_flash_interval:
+			invincible_flash_accum = 0.0
+			if sprite.modulate == Color(1, 1, 1, 1):
+				sprite.modulate = Color(0.893, 0.0, 0.085, 1.0)  # pale yellow glow
+			else:
+				sprite.modulate = Color(1, 1, 1, 1)
+
+		if invincible_timer <= 0.0:
+			is_invincible = false
+			sprite.modulate = Color(1, 1, 1, 1)  # reset
+	else:
+		sprite.modulate = Color(1, 1, 1, 1)
+	
 	# 1. DEFINE CURRENT STATS (Reset to base values every frame)
 	var current_speed = SPEED
 	var current_jump_velocity = JUMP_VELOCITY
@@ -261,6 +291,31 @@ func _physics_process(delta: float) -> void:
 	# ---------------------------------------------
 
 	move_and_slide()
+
+func apply_damage(amount: int, knockback: Vector2) -> void:
+	# Ignore damage if invincible
+	if is_invincible:
+		return
+
+	is_invincible = true
+	invincible_timer = invincibility_duration
+	invincible_flash_accum = 0.0
+
+	current_hp -= amount
+	
+	# Apply knockback
+	horizontal_momentum += knockback.x
+	velocity.y += knockback.y
+
+	print("Player took ", amount, " damage. HP = ", current_hp, "/", max_hp)
+
+	if current_hp <= 0:
+		_die()
+func _die() -> void:
+	# Placeholder (game over here later_
+	queue_free()
+
+
 
 func start_dash():
 	is_dashing = true

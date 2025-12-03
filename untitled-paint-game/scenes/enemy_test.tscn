@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://48i18u4jme0m"]
+[gd_scene load_steps=7 format=3 uid="uid://48i18u4jme0m"]
 
 [ext_resource type="PackedScene" uid="uid://b3rae3dafdwir" path="res://scenes/player.tscn" id="1_gep6m"]
 [ext_resource type="PackedScene" uid="uid://b8txfoox5y1qr" path="res://scenes/FloatingEnemy.tscn" id="2_ainam"]
+[ext_resource type="PackedScene" uid="uid://bsxqk7a26x7o2" path="res://scenes/GroundEnemy.tscn" id="3_ainam"]
 
 [sub_resource type="Gradient" id="Gradient_a8v3n"]
 offsets = PackedFloat32Array(0.3611111, 0.6111111, 0.85493827)
@@ -18,7 +19,7 @@ size = Vector2(617, 14)
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(442.99997, 486)
 scale = Vector2(5.9099555, -5.2295876)
-zoom = Vector2(2, 2)
+zoom = Vector2(2.5, 2.5)
 process_callback = 0
 position_smoothing_enabled = true
 position_smoothing_speed = 6.0
@@ -27,7 +28,10 @@ position_smoothing_speed = 6.0
 position = Vector2(210, 570)
 
 [node name="FloatingEnemy" parent="." instance=ExtResource("2_ainam")]
-position = Vector2(600, 554)
+position = Vector2(704.00006, 554.00006)
+
+[node name="GroundEnemy" parent="." instance=ExtResource("3_ainam")]
+position = Vector2(525, 577)
 
 [node name="Floor" type="Node2D" parent="."]
 position = Vector2(535, 591)

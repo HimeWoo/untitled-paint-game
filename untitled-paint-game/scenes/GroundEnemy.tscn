@@ -1,9 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://b8txfoox5y1qr"]
+[gd_scene load_steps=8 format=3 uid="uid://bsxqk7a26x7o2"]
 
-[ext_resource type="Texture2D" uid="uid://bs5elx113sajt" path="res://assets/icon.svg" id="1_fmri8"]
-[ext_resource type="Script" uid="uid://e7xagyljh0qf" path="res://scripts/enemy.gd" id="1_vtvda"]
-[ext_resource type="Resource" uid="uid://b8v4qquc17tuq" path="res://data/FloatingEnemy.tres" id="2_gf8k1"]
-[ext_resource type="PackedScene" uid="uid://dh6488mkbfq22" path="res://scenes/EnemyProjectile.tscn" id="2_vtvda"]
+[ext_resource type="Script" uid="uid://e7xagyljh0qf" path="res://scripts/enemy.gd" id="1_qunq5"]
+[ext_resource type="Resource" uid="uid://ddqsy055qs7i0" path="res://data/GroundEnemy.tres" id="2_qunq5"]
+[ext_resource type="PackedScene" uid="uid://dh6488mkbfq22" path="res://scenes/EnemyProjectile.tscn" id="3_5qxhf"]
+[ext_resource type="Texture2D" uid="uid://bs5elx113sajt" path="res://assets/icon.svg" id="4_lij6f"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y5xqv"]
 size = Vector2(120, 121)
@@ -14,15 +14,15 @@ radius = 1015.0122
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vtvda"]
 size = Vector2(120, 120)
 
-[node name="FloatingEnemy" type="CharacterBody2D"]
+[node name="GroundEnemy" type="CharacterBody2D"]
 scale = Vector2(0.2, 0.2)
 collision_layer = 4
-script = ExtResource("1_vtvda")
-stats = ExtResource("2_gf8k1")
-projectile_scene = ExtResource("2_vtvda")
+script = ExtResource("1_qunq5")
+stats = ExtResource("2_qunq5")
+projectile_scene = ExtResource("3_5qxhf")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_fmri8")
+texture = ExtResource("4_lij6f")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -0.5)

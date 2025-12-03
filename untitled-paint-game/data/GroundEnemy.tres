@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="EnemyStats" load_steps=2 format=3 uid="uid://ddqsy055qs7i0"]
+
+[ext_resource type="Script" uid="uid://ck8cbpdng0y2j" path="res://scripts/enemy_stats.gd" id="1_if42d"]
+
+[resource]
+script = ExtResource("1_if42d")
+max_hp = 40
+patrol_speed = 40.0
+chase_speed = 60.0
+enable_bob = false
+enable_shooting = false
+contact_damage = 10
+is_grounded = true
+metadata/_custom_type_script = "uid://ck8cbpdng0y2j"
