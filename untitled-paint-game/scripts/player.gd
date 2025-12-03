@@ -5,26 +5,27 @@ extends CharacterBody2D
 var can_shoot := true
 
 # ---------- MOVEMENT VARIABLES ----------
-const SPEED = 200.0
-const JUMP_VELOCITY = -400.0
-const DASH_SPEED = 500.0
-const DASH_TIME = 0.10
-const DASH_COOLDOWN = 0.5
-const GROUND_ACCEL = 2000.0
-const GROUND_DECEL = 3000.0
-const AIR_ACCEL = 1200.0
-const AIR_DECEL = 300.0
-const DASH_DECEL = 2000.0
+const SPEED = 135.0
+const JUMP_VELOCITY = -300.0
+const DASH_SPEED = 275.0
+const DASH_TIME = 0.15
+const DASH_COOLDOWN = 1.5
+const GROUND_ACCEL = 1000.0
+const GROUND_DECEL = 1000.0
+const AIR_ACCEL = 400.0
+const AIR_DECEL = 100.0
+const DASH_DECEL = 0.0
 const DASH_DECEL_DURATION = 0.25
 
 var jumps_left = 1
 var is_dashing = false
 var dash_timer = 0.0
-var dash_cooldown_timer = 0.0
+var dash_cooldown_timer = 1.0
 var dash_direction = 0
 var horizontal_momentum = 0.0
 var dash_decel_timer = 0.0
 var last_jump_was_double := false
+var is_carrying_dash_momentum := false  # New: tracks if we jumped out of dash
 
 # ---------- MELEE ATTACK VARIABLES ---------
 const ATTACK_COOLDOWN = 0.2
@@ -182,32 +183,45 @@ func _physics_process(delta: float) -> void:
 	
 	_update_animation()
 
+	# Don't apply gravity during dash or when on floor
 	if not is_on_floor() and not is_dashing:
 		velocity += get_gravity() * delta
 	elif is_on_floor():
 		jumps_left = 1 
 		last_jump_was_double = false
 
+	var jumped_this_frame := false
+	
 	if Input.is_action_just_pressed("jump"):
-		if is_on_floor():
+		if is_on_floor() or is_dashing:
+			jumped_this_frame = true
+			# If jumping out of a dash, mark that we're carrying momentum
+			if is_dashing:
+				print("Perfmed Dash Jump")
+				# print("Current momentum: ", horizontal_momentum)
+				is_carrying_dash_momentum = true
+				end_dash()  # End dash but keep the momentum
 			velocity.y = current_jump_velocity
 			last_jump_was_double = false
 		elif jumps_left > 0:
+			jumped_this_frame = true
 			velocity.y = current_jump_velocity
 			jumps_left -= 1
 			last_jump_was_double = true
 		else:
 			pass
+	# Smoother jump release - reduce velocity by 50% instead of instantly to 0
 	elif Input.is_action_just_released("jump") and velocity.y < 0 and not last_jump_was_double:
-		velocity.y = 0
+		velocity.y *= 0.5
 
-	if Input.is_action_just_pressed("dash") and dash_cooldown_timer <= 0.0 and not is_dashing:
-		
-		var left := Input.is_action_pressed("move_left")
-		var right := Input.is_action_pressed("move_right")
+	# Dash only when on the ground
+	if Input.is_action_just_pressed("dash") and dash_cooldown_timer <= 0.0 and not is_dashing and is_on_floor():
+		var left := Input.is_action_pressed("move_left") or Input.is_key_pressed(KEY_A)
+		var right := Input.is_action_pressed("move_right") or Input.is_key_pressed(KEY_D)
 		dash_direction = int(right) - int(left)
 		if dash_direction == 0:
 			dash_direction = sign(velocity.x) if velocity.x != 0 else 1
+		print("Dash Direction: ", dash_direction)
 		start_dash()
 	if Input.is_action_just_pressed("melee_attack"):
 		perform_slash()
@@ -215,25 +229,54 @@ func _physics_process(delta: float) -> void:
 	if is_dashing:
 		horizontal_momentum = dash_direction * current_dash_speed 
 	else:
-		var left := Input.is_action_pressed("move_left")
-		var right := Input.is_action_pressed("move_right")
+		# Use consistent input checking - check both action and direct keys
+		var left := Input.is_action_pressed("move_left") or Input.is_key_pressed(KEY_A)
+		var right := Input.is_action_pressed("move_right") or Input.is_key_pressed(KEY_D)
 		var direction := int(right) - int(left)
+		
+		# DEBUG: Print state every frame when carrying momentum
+		# if is_carrying_dash_momentum:
+			# print("carrying=true, on_floor=", is_on_floor(), ", momentum=", horizontal_momentum)
 
 		var accel := 0.0
 		var decel := 0.0
 		if is_on_floor():
 			accel = GROUND_ACCEL
 			decel = GROUND_DECEL
+			# Reset momentum carry when landing (but not on the frame we jump!)
+			if is_carrying_dash_momentum and not jumped_this_frame:
+				# print("LANDED -> Clearing momentum carry flag")
+				is_carrying_dash_momentum = false
 		else:
 			accel = AIR_ACCEL
-			decel = AIR_DECEL
+			# If carrying dash momentum, use much slower deceleration
+			if is_carrying_dash_momentum:
+				decel = 50.0  # Much slower air decel when carrying dash momentum
+			else:
+				decel = AIR_DECEL
 		if dash_decel_timer > 0.0:
 			decel = DASH_DECEL
 
 		if direction != 0:
-			# Using the MODIFIED variable
-			horizontal_momentum = move_toward(horizontal_momentum, direction * current_speed, accel * delta)
+			# When carrying dash momentum and moving faster than normal speed
+			if is_carrying_dash_momentum and abs(horizontal_momentum) > current_speed:
+				# print("DEBUG - Carrying: ", is_carrying_dash_momentum, " | Momentum: ", horizontal_momentum, " | Current Speed: ", current_speed, " | Direction: ", direction, " | Sign match: ", sign(direction) == sign(horizontal_momentum))
+				# If moving in the same direction as momentum, maintain it perfectly
+				if sign(direction) == sign(horizontal_momentum):
+					# Don't change momentum at all - perfect preservation
+					# print("✓ Preserving dash momentum: ", horizontal_momentum, " | Direction: ", direction)
+					pass
+				else:
+					# Allow changing direction with normal air control
+					# print("✗ Changing direction - momentum: ", horizontal_momentum)
+					horizontal_momentum = move_toward(horizontal_momentum, direction * current_speed, accel * delta)
+			else:
+				# Normal acceleration when not carrying dash momentum or slower than normal
+				# if is_carrying_dash_momentum:
+					# print("⚠ Lost momentum preservation! Momentum: ", horizontal_momentum, " vs Speed: ", current_speed)
+				horizontal_momentum = move_toward(horizontal_momentum, direction * current_speed, accel * delta)
 		else:
+			# Only apply deceleration when no direction is held
 			horizontal_momentum = move_toward(horizontal_momentum, 0.0, decel * delta)
 
 	velocity.x = horizontal_momentum
@@ -281,6 +324,7 @@ func start_dash():
 func end_dash() -> void:
 	is_dashing = false
 	dash_decel_timer = DASH_DECEL_DURATION
+	dash_cooldown_timer = DASH_COOLDOWN  # Set the cooldown here!
 
 func perform_slash() -> void:
 	if not can_attack:
