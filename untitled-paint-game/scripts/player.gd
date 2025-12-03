@@ -24,9 +24,10 @@ var dash_cooldown_timer = 0.0
 var dash_direction = 0
 var horizontal_momentum = 0.0
 var dash_decel_timer = 0.0
+var last_jump_was_double := false
 
 # ---------- MELEE ATTACK VARIABLES ---------
-const ATTACK_COOLDOWN = 0.4
+const ATTACK_COOLDOWN = 0.2
 var is_attacking = false 
 var can_attack = true
 var inventory: Inventory = Inventory.new()
@@ -185,15 +186,20 @@ func _physics_process(delta: float) -> void:
 		velocity += get_gravity() * delta
 	elif is_on_floor():
 		jumps_left = 1 
+		last_jump_was_double = false
 
 	if Input.is_action_just_pressed("jump"):
 		if is_on_floor():
 			velocity.y = current_jump_velocity
+			last_jump_was_double = false
 		elif jumps_left > 0:
 			velocity.y = current_jump_velocity
 			jumps_left -= 1
+			last_jump_was_double = true
 		else:
 			pass
+	elif Input.is_action_just_released("jump") and velocity.y < 0 and not last_jump_was_double:
+		velocity.y = 0
 
 	if Input.is_action_just_pressed("dash") and dash_cooldown_timer <= 0.0 and not is_dashing:
 		
@@ -207,11 +213,7 @@ func _physics_process(delta: float) -> void:
 		perform_slash()
 
 	if is_dashing:
-		dash_timer -= delta
-		# Using the MODIFIED variable
 		horizontal_momentum = dash_direction * current_dash_speed 
-		if dash_timer <= 0:
-			end_dash()
 	else:
 		var left := Input.is_action_pressed("move_left")
 		var right := Input.is_action_pressed("move_right")
@@ -260,23 +262,24 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 
-func start_dash() -> void:
-	sprite.play("dash")
-	# Stretch the dash animation to the whole dash window
-	var frames := sprite.sprite_frames
-	if frames and frames.has_animation("dash"):
-		var frame_count := frames.get_frame_count("dash")
-		var anim_fps := frames.get_animation_speed("dash")
-		if frame_count > 0 and anim_fps > 0.0:
-			var desired_fps := float(frame_count) / DASH_TIME
-			sprite.speed_scale = desired_fps / anim_fps
+func start_dash():
 	is_dashing = true
-	dash_timer = DASH_TIME
-	dash_cooldown_timer = DASH_COOLDOWN
+	dash_timer = DASH_TIME # Optional: Keep this if you want to track time for other things
+	
+	# 1. Play animation
+	sprite.play("dash")
+	
+	# 2. Set the momentum (Use horizontal_momentum, NOT velocity.x directly)
+	horizontal_momentum = DASH_SPEED * dash_direction
+	
+	# 3. Wait for animation to finish
+	await sprite.animation_finished
+	
+	# 4. Cleanup
+	end_dash()
 
 func end_dash() -> void:
 	is_dashing = false
-	sprite.speed_scale = default_speed_scale
 	dash_decel_timer = DASH_DECEL_DURATION
 
 func perform_slash() -> void:
@@ -308,9 +311,19 @@ func perform_slash() -> void:
 func _update_animation() -> void:
 	if sprite == null:
 		return
+	if is_dashing:
+		return
 	sprite.flip_h = facing_dir < 0
 	if is_attacking:
 		return
+	
+	# Reset speed_scale when changing away from dash
+	if sprite.animation == "dash" and not is_dashing:
+		# Wait for dash animation to finish before switching
+		if sprite.frame < sprite.sprite_frames.get_frame_count("dash") - 1:
+			return
+		sprite.speed_scale = default_speed_scale
+	
 	var is_moving: bool = abs(velocity.x) > 5.0
 	var target_anim := "walk" if is_moving else "idle"
 	if sprite.animation != target_anim:
