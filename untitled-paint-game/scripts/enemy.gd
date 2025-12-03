@@ -74,13 +74,14 @@ func _physics_process(delta: float) -> void:
 		dir = Vector2(patrol_dir, 0)
 		speed = stats.patrol_speed
 
-	# Chase player 
+	# Chase player
 	if stats.enable_chase and player and is_instance_valid(player):
 		dir = (player.global_position - global_position).normalized()
 		speed = stats.chase_speed
-		
-		if stats.enable_shooting and can_fire:
-			_fire_at_player()
+
+	# Shooting
+	if stats.enable_shooting and can_fire and player and is_instance_valid(player):
+		_fire_at_player()
 			
 	if stats.is_grounded:
 		dir.y = 0.0

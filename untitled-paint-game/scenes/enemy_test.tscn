@@ -1,8 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://48i18u4jme0m"]
+[gd_scene load_steps=9 format=3 uid="uid://48i18u4jme0m"]
 
 [ext_resource type="PackedScene" uid="uid://b3rae3dafdwir" path="res://scenes/player.tscn" id="1_gep6m"]
 [ext_resource type="PackedScene" uid="uid://b8txfoox5y1qr" path="res://scenes/FloatingEnemy.tscn" id="2_ainam"]
 [ext_resource type="PackedScene" uid="uid://bsxqk7a26x7o2" path="res://scenes/GroundEnemy.tscn" id="3_ainam"]
+[ext_resource type="PackedScene" uid="uid://byt3sjb16n237" path="res://scenes/TurretEnemy.tscn" id="4_mo2s0"]
+[ext_resource type="PackedScene" uid="uid://dhah2xlx861hv" path="res://scenes/items/red_paint.tscn" id="5_1yn4p"]
 
 [sub_resource type="Gradient" id="Gradient_a8v3n"]
 offsets = PackedFloat32Array(0.3611111, 0.6111111, 0.85493827)
@@ -28,7 +30,7 @@ position_smoothing_speed = 6.0
 position = Vector2(255, 571)
 
 [node name="FloatingEnemy" parent="." instance=ExtResource("2_ainam")]
-position = Vector2(704.00006, 554.00006)
+position = Vector2(760, 490.00015)
 
 [node name="GroundEnemy" parent="." instance=ExtResource("3_ainam")]
 position = Vector2(525, 577)
@@ -47,3 +49,10 @@ texture = SubResource("GradientTexture1D_gep6m")
 position = Vector2(3.1909485, 1.0357971)
 scale = Vector2(0.49092376, 0.34526473)
 shape = SubResource("RectangleShape2D_ainam")
+
+[node name="TurretEnemy" parent="." instance=ExtResource("4_mo2s0")]
+position = Vector2(648, 577)
+
+[node name="RedPaint" parent="." instance=ExtResource("5_1yn4p")]
+visible = false
+position = Vector2(175, 554)

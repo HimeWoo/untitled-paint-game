@@ -1,0 +1,56 @@
+[gd_scene load_steps=8 format=3 uid="uid://byt3sjb16n237"]
+
+[ext_resource type="Script" uid="uid://e7xagyljh0qf" path="res://scripts/enemy.gd" id="1_nfe6d"]
+[ext_resource type="Resource" uid="uid://ly103fl3ctd3" path="res://data/TurretEnemy.tres" id="2_nfe6d"]
+[ext_resource type="PackedScene" uid="uid://d8m4hk2gtbvk" path="res://scenes/EnemyProjectile2.tscn" id="3_nfe6d"]
+[ext_resource type="Texture2D" uid="uid://cvo46mwsuck7c" path="res://assets/turret_enemy.png" id="4_6oka5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y5xqv"]
+size = Vector2(120, 121)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fmri8"]
+radius = 1099.9999
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vtvda"]
+size = Vector2(120, 120)
+
+[node name="TurretEnemy" type="CharacterBody2D"]
+scale = Vector2(0.2, 0.2)
+collision_layer = 4
+script = ExtResource("1_nfe6d")
+stats = ExtResource("2_nfe6d")
+projectile_scene = ExtResource("3_nfe6d")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("4_6oka5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_y5xqv")
+
+[node name="DetectionArea" type="Area2D" parent="."]
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+shape = SubResource("CircleShape2D_fmri8")
+
+[node name="FireTimer" type="Timer" parent="."]
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+layout_direction = 2
+offset_left = -60.0
+offset_top = -109.99999
+offset_right = 59.999985
+offset_bottom = -75.00001
+max_value = 20.0
+value = 20.0
+rounded = true
+show_percentage = false
+
+[node name="ContactDamageArea" type="Area2D" parent="."]
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ContactDamageArea"]
+position = Vector2(7.152556e-06, 7.152556e-06)
+scale = Vector2(0.9999998, 0.9999998)
+shape = SubResource("RectangleShape2D_vtvda")

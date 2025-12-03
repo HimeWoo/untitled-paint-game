@@ -6,7 +6,7 @@
 script = ExtResource("1_if42d")
 max_hp = 40
 patrol_speed = 40.0
-chase_speed = 160.0
+chase_speed = 100.0
 enable_bob = false
 enable_shooting = false
 contact_damage = 10

@@ -55,7 +55,7 @@ func _hit(target: Node) -> void:
 			final_knockback = Vector2(0, abs(knockback_force.x) * sign(_attack_dir.y))
 		
 		target.apply_damage(damage, final_knockback)
-		print("Hit ", target.name, " for ", damage)
+		print("Melee hit ", target.name, " for ", damage)
 
 
 func _paint_tiles_under_hitbox() -> void:
