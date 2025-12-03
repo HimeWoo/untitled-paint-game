@@ -171,7 +171,7 @@ terrain_map = NodePath("../canvas_tiles")
 [node name="Camera2D" type="Camera2D" parent="Player"]
 position = Vector2(7, -77)
 scale = Vector2(5.9099555, -5.2295876)
-zoom = Vector2(2, 2)
+zoom = Vector2(4, 4)
 process_callback = 0
 position_smoothing_enabled = true
 position_smoothing_speed = 6.0

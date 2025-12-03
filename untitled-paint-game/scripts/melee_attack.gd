@@ -9,6 +9,7 @@ var _tilemap: TileMapLayer
 var _selected_color: PaintColor.Colors
 var owner_body: Node2D
 var hit_objects: Array = [] 
+var _attack_dir: Vector2 = Vector2.RIGHT
 
 
 func _ready() -> void:
@@ -19,13 +20,16 @@ func _ready() -> void:
 	area_entered.connect(_on_area_entered)
 
 
-func start_attack(attacker: Node2D, facing_dir: int, terrain: TileMapLayer, color: PaintColor.Colors) -> void:
+func start_attack(attacker: Node2D, attack_dir: Vector2, terrain: TileMapLayer, color: PaintColor.Colors) -> void:
 	owner_body = attacker
+	_attack_dir = attack_dir.normalized()
+	if _attack_dir == Vector2.ZERO:
+		_attack_dir = Vector2.RIGHT
 	_tilemap = terrain
 	_selected_color = color
 	hit_objects.clear()
 	
-	scale.x = facing_dir 
+	scale.x = sign(_attack_dir.x) if abs(_attack_dir.x) > 0.0 else 1.0
 	visible = true
 	monitoring = true
 	
@@ -45,7 +49,10 @@ func _hit(target: Node) -> void:
 	hit_objects.append(target)
 	if target.has_method("apply_damage"):
 		var final_knockback = knockback_force
-		final_knockback.x *= scale.x 
+		if abs(_attack_dir.x) > 0.0:
+			final_knockback.x *= sign(_attack_dir.x)
+		elif abs(_attack_dir.y) > 0.0:
+			final_knockback = Vector2(0, abs(knockback_force.x) * sign(_attack_dir.y))
 		
 		target.apply_damage(damage, final_knockback)
 		print("Hit ", target.name, " for ", damage)
@@ -55,24 +62,24 @@ func _paint_tiles_under_hitbox() -> void:
 	if _tilemap == null:
 		return
 	var shape: CollisionShape2D = $CollisionShape2D
-	if shape.shape is RectangleShape2D:
-		var extents: Vector2 = shape.shape.extents * shape.global_scale.abs()
-		var top_left = shape.global_position - extents
-		var bottom_right = shape.global_position + extents
-		var start = _tilemap.local_to_map(_tilemap.to_local(top_left))
-		var end = _tilemap.local_to_map(_tilemap.to_local(bottom_right))
-		var alt_id = _color_to_alt(_selected_color)
-		for x in range(start.x, end.x + 1):
-			for y in range(start.y, end.y + 1):
-				var cell := Vector2i(x, y)
-				var data = _tilemap.get_cell_tile_data(cell)
-				if data and data.get_custom_data("can_paint"):
-					if _selected_color == PaintColor.Colors.PURPLE and _tilemap.has_method("paint_purple"):
-						_tilemap.paint_purple(cell)
-					else:
-						var src = _tilemap.get_cell_source_id(cell)
-						var atlas = _tilemap.get_cell_atlas_coords(cell)
-						_tilemap.set_cell(cell, src, atlas, alt_id)
+	var rect := shape.shape.get_rect()  # works for any Shape2D
+	var top_left := shape.to_global(rect.position * shape.global_scale)
+	var bottom_right := shape.to_global((rect.position + rect.size) * shape.global_scale)
+	var start = _tilemap.local_to_map(_tilemap.to_local(top_left))
+	var end = _tilemap.local_to_map(_tilemap.to_local(bottom_right))
+	var alt_id = _color_to_alt(_selected_color)
+	for x in range(start.x, end.x + 1):
+		for y in range(start.y, end.y + 1):
+			var cell := Vector2i(x, y)
+			var data = _tilemap.get_cell_tile_data(cell)
+			if data and data.get_custom_data("can_paint"):
+				if _selected_color == PaintColor.Colors.PURPLE and _tilemap.has_method("paint_purple"):
+					_tilemap.paint_purple(cell)
+				else:
+					var src = _tilemap.get_cell_source_id(cell)
+					var atlas = _tilemap.get_cell_atlas_coords(cell)
+					_tilemap.set_cell(cell, src, atlas, alt_id)
+
 
 
 func _color_to_alt(color: PaintColor.Colors) -> int:
