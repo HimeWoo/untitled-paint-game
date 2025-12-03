@@ -3,13 +3,13 @@
 [ext_resource type="Script" uid="uid://e7xagyljh0qf" path="res://scripts/enemy.gd" id="1_qunq5"]
 [ext_resource type="Resource" uid="uid://ddqsy055qs7i0" path="res://data/GroundEnemy.tres" id="2_qunq5"]
 [ext_resource type="PackedScene" uid="uid://dh6488mkbfq22" path="res://scenes/EnemyProjectile.tscn" id="3_5qxhf"]
-[ext_resource type="Texture2D" uid="uid://bs5elx113sajt" path="res://assets/icon.svg" id="4_lij6f"]
+[ext_resource type="Texture2D" uid="uid://dl8vkte4i6m3q" path="res://assets/ground_enemy.png" id="4_qunq5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y5xqv"]
 size = Vector2(120, 121)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fmri8"]
-radius = 1015.0122
+radius = 715.0174
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vtvda"]
 size = Vector2(120, 120)
@@ -22,7 +22,7 @@ stats = ExtResource("2_qunq5")
 projectile_scene = ExtResource("3_5qxhf")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("4_lij6f")
+texture = ExtResource("4_qunq5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -0.5)

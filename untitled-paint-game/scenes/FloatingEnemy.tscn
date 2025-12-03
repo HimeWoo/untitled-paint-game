@@ -1,9 +1,9 @@
 [gd_scene load_steps=8 format=3 uid="uid://b8txfoox5y1qr"]
 
-[ext_resource type="Texture2D" uid="uid://bs5elx113sajt" path="res://assets/icon.svg" id="1_fmri8"]
 [ext_resource type="Script" uid="uid://e7xagyljh0qf" path="res://scripts/enemy.gd" id="1_vtvda"]
 [ext_resource type="Resource" uid="uid://b8v4qquc17tuq" path="res://data/FloatingEnemy.tres" id="2_gf8k1"]
 [ext_resource type="PackedScene" uid="uid://dh6488mkbfq22" path="res://scenes/EnemyProjectile.tscn" id="2_vtvda"]
+[ext_resource type="Texture2D" uid="uid://cnnt41l6cvuob" path="res://assets/floating_enemy.png" id="4_gf8k1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y5xqv"]
 size = Vector2(120, 121)
@@ -22,7 +22,7 @@ stats = ExtResource("2_gf8k1")
 projectile_scene = ExtResource("2_vtvda")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_fmri8")
+texture = ExtResource("4_gf8k1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -0.5)
