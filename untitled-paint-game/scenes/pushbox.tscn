@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://bj5po58m1bnam"]
+
+[ext_resource type="Texture2D" uid="uid://bs5elx113sajt" path="res://assets/icon.svg" id="1_p8o3m"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_p8o3m"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_quxu0"]
+size = Vector2(136.58932, 126)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p8o3m"]
+size = Vector2(20.976564, 0.5)
+
+[node name="Pushbox" type="RigidBody2D"]
+collision_layer = 32
+collision_mask = 3
+mass = 100.0
+physics_material_override = SubResource("PhysicsMaterial_p8o3m")
+gravity_scale = 4.0
+lock_rotation = true
+linear_damp = 10.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-8.4703295e-22, 0)
+scale = Vector2(0.31254527, 0.2800362)
+shape = SubResource("RectangleShape2D_quxu0")
+
+[node name="Sprite2D" type="Sprite2D" parent="CollisionShape2D"]
+texture = ExtResource("1_p8o3m")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(0, -18)
+scale = Vector2(2.0022345, 0.4557518)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-1.19076255e-07, 0)
+shape = SubResource("RectangleShape2D_p8o3m")
+debug_color = Color(0.8979846, 0.10847784, 0.7219732, 0.41960785)

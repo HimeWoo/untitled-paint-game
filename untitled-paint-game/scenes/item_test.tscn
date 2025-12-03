@@ -1,5 +1,6 @@
-[gd_scene load_steps=13 format=4 uid="uid://5j7165prjd2j"]
+[gd_scene load_steps=15 format=4 uid="uid://5j7165prjd2j"]
 
+[ext_resource type="Texture2D" uid="uid://2bcbuley55ou" path="res://assets/parallax_pixleated.png" id="1_bvmv3"]
 [ext_resource type="PackedScene" uid="uid://bq5kxtjqomv3i" path="res://scenes/ui/interface.tscn" id="1_qchoo"]
 [ext_resource type="PackedScene" uid="uid://b3rae3dafdwir" path="res://scenes/player.tscn" id="1_sh6w4"]
 [ext_resource type="PackedScene" uid="uid://dhah2xlx861hv" path="res://scenes/items/red_paint.tscn" id="3_3jfeh"]
@@ -8,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://iydhjgar5iis" path="res://scenes/items/yellow_paint.tscn" id="5_sp2it"]
 [ext_resource type="Texture2D" uid="uid://b7l1vy3gvilhw" path="res://assets/tiles/tiles-concrete.png" id="8_sp2it"]
 [ext_resource type="Texture2D" uid="uid://ytknjfaps4nu" path="res://assets/tiles/tiles-canvas.png" id="9_bvmv3"]
+[ext_resource type="PackedScene" uid="uid://bj5po58m1bnam" path="res://scenes/pushbox.tscn" id="9_sp2it"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_f3voe"]
 texture = ExtResource("8_sp2it")
@@ -149,6 +151,15 @@ sources/0 = SubResource("TileSetAtlasSource_sp2it")
 
 [node name="Main" type="Node"]
 
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2(1024, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+position = Vector2(692, 290)
+texture = ExtResource("1_bvmv3")
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Interface" parent="CanvasLayer" instance=ExtResource("1_qchoo")]
@@ -169,9 +180,9 @@ position = Vector2(526, 403)
 terrain_map = NodePath("../canvas_tiles")
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
-position = Vector2(7, -77)
-scale = Vector2(5.9099555, -5.2295876)
-zoom = Vector2(4, 4)
+position = Vector2(2, -41.000004)
+scale = Vector2(5.9099555, 20.909775)
+zoom = Vector2(3, 3)
 process_callback = 0
 position_smoothing_enabled = true
 position_smoothing_speed = 6.0
@@ -193,3 +204,6 @@ position = Vector2(600, 364)
 
 [node name="YellowPaint2" parent="." instance=ExtResource("5_sp2it")]
 position = Vector2(683, 364)
+
+[node name="Pushbox" parent="." instance=ExtResource("9_sp2it")]
+position = Vector2(336, 447)
