@@ -15,7 +15,9 @@ enum Direction {
 @export var scripted_velocity: Vector2
 ## The camera to move when triggered
 @export var camera: Camera2D
-## Position the camera moves toward when triggered
+## New zoom of the camera when triggered
+@export var camera_zoom: Vector2
+## New position the camera moves toward when triggered
 @export var camera_target: Vector2
 # In screen_transition_test.tscn I just set the target to the position
 # of the next/previous room accordingly
@@ -28,6 +30,8 @@ func _ready() -> void:
 func _on_body_entered(body: CharacterBody2D) -> void:
 	if body.is_in_group("player") and _entered_from_valid_direction(body):
 		camera.position = camera_target
+		if not camera_zoom.is_zero_approx():
+			camera.target_zoom = camera_zoom
 		# Apply scripted velocity here
 
 
