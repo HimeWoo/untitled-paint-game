@@ -5,10 +5,10 @@ extends CharacterBody2D
 var can_shoot := true
 
 # ---------- MOVEMENT VARIABLES ----------
-const SPEED = 300.0
+const SPEED = 200.0
 const JUMP_VELOCITY = -400.0
-const DASH_SPEED = 700.0
-const DASH_TIME = 0.15
+const DASH_SPEED = 500.0
+const DASH_TIME = 0.10
 const DASH_COOLDOWN = 0.5
 const GROUND_ACCEL = 2000.0
 const GROUND_DECEL = 3000.0
@@ -35,6 +35,7 @@ var last_paint_color = null
 
 var facing_dir := 1
 var teleport_cooldown_timer := 0.0
+var default_speed_scale := 1.0
 
 @export var attack_scene: PackedScene = preload("res://scenes/MeleeAttack.tscn")
 
@@ -46,6 +47,7 @@ var last_frame_tile_coords: Vector2i = Vector2i(-999, -999)
 
 func _ready() -> void:
 	jumps_left = 1
+	default_speed_scale = sprite.speed_scale
 	#inventory.select_index(0)
 
 # need to update this for new the paint queue controls
@@ -194,6 +196,7 @@ func _physics_process(delta: float) -> void:
 			pass
 
 	if Input.is_action_just_pressed("dash") and dash_cooldown_timer <= 0.0 and not is_dashing:
+		
 		var left := Input.is_action_pressed("move_left")
 		var right := Input.is_action_pressed("move_right")
 		dash_direction = int(right) - int(left)
@@ -258,24 +261,45 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 func start_dash() -> void:
+	sprite.play("dash")
+	# Stretch the dash animation to the whole dash window
+	var frames := sprite.sprite_frames
+	if frames and frames.has_animation("dash"):
+		var frame_count := frames.get_frame_count("dash")
+		var anim_fps := frames.get_animation_speed("dash")
+		if frame_count > 0 and anim_fps > 0.0:
+			var desired_fps := float(frame_count) / DASH_TIME
+			sprite.speed_scale = desired_fps / anim_fps
 	is_dashing = true
 	dash_timer = DASH_TIME
 	dash_cooldown_timer = DASH_COOLDOWN
 
 func end_dash() -> void:
 	is_dashing = false
+	sprite.speed_scale = default_speed_scale
 	dash_decel_timer = DASH_DECEL_DURATION
 
 func perform_slash() -> void:
 	if not can_attack:
 		return
 
+	var attack_dir := _get_attack_direction()
+	if attack_dir == Vector2.ZERO:
+		attack_dir = Vector2(facing_dir, 0)
+	var attack_offset := attack_dir.normalized() * 15.0
+	var attack_anim := "slash_side"
+	if attack_dir.y < 0:
+		attack_anim = "slash_up"
+	elif attack_dir.y > 0:
+		attack_anim = "slash_down"
+	sprite.play(attack_anim)
+
 	is_attacking = true
 	can_attack = false
 	var attack_instance = attack_scene.instantiate()
-	attack_instance.position = Vector2(50 * facing_dir, 0) 
+	attack_instance.position = attack_offset
 	add_child(attack_instance)
-	attack_instance.start_attack(self, facing_dir, terrain_map, selector.get_selection().color)
+	attack_instance.start_attack(self, attack_dir, terrain_map, selector.get_selection().color)
 	await get_tree().create_timer(ATTACK_COOLDOWN).timeout
 	is_attacking = false
 	can_attack = true
@@ -285,6 +309,8 @@ func _update_animation() -> void:
 	if sprite == null:
 		return
 	sprite.flip_h = facing_dir < 0
+	if is_attacking:
+		return
 	var is_moving: bool = abs(velocity.x) > 5.0
 	var target_anim := "walk" if is_moving else "idle"
 	if sprite.animation != target_anim:
@@ -322,3 +348,11 @@ func _action_queue_confirm() -> void:
 
 func _action_queue_clear() -> void:
 	selector.clear_selection()
+
+
+func _get_attack_direction() -> Vector2:
+	if Input.is_action_pressed("look_up"):
+		return Vector2.UP
+	if Input.is_action_pressed("look_down"):
+		return Vector2.DOWN
+	return Vector2(facing_dir, 0)

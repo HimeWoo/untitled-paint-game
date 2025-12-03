@@ -9,6 +9,7 @@ var _tilemap: TileMapLayer
 var _selected_color: PaintColor.Colors
 var owner_body: Node2D
 var hit_objects: Array = [] 
+var _attack_dir: Vector2 = Vector2.RIGHT
 
 
 func _ready() -> void:
@@ -19,13 +20,16 @@ func _ready() -> void:
 	area_entered.connect(_on_area_entered)
 
 
-func start_attack(attacker: Node2D, facing_dir: int, terrain: TileMapLayer, color: PaintColor.Colors) -> void:
+func start_attack(attacker: Node2D, attack_dir: Vector2, terrain: TileMapLayer, color: PaintColor.Colors) -> void:
 	owner_body = attacker
+	_attack_dir = attack_dir.normalized()
+	if _attack_dir == Vector2.ZERO:
+		_attack_dir = Vector2.RIGHT
 	_tilemap = terrain
 	_selected_color = color
 	hit_objects.clear()
 	
-	scale.x = facing_dir 
+	scale.x = sign(_attack_dir.x) if abs(_attack_dir.x) > 0.0 else 1.0
 	visible = true
 	monitoring = true
 	
@@ -45,7 +49,10 @@ func _hit(target: Node) -> void:
 	hit_objects.append(target)
 	if target.has_method("apply_damage"):
 		var final_knockback = knockback_force
-		final_knockback.x *= scale.x 
+		if abs(_attack_dir.x) > 0.0:
+			final_knockback.x *= sign(_attack_dir.x)
+		elif abs(_attack_dir.y) > 0.0:
+			final_knockback = Vector2(0, abs(knockback_force.x) * sign(_attack_dir.y))
 		
 		target.apply_damage(damage, final_knockback)
 		print("Hit ", target.name, " for ", damage)
