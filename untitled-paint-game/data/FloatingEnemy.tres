@@ -4,4 +4,5 @@
 
 [resource]
 script = ExtResource("1_vg63k")
+chase_speed = 110.0
 metadata/_custom_type_script = "uid://ck8cbpdng0y2j"
