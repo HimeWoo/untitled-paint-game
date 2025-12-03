@@ -62,24 +62,24 @@ func _paint_tiles_under_hitbox() -> void:
 	if _tilemap == null:
 		return
 	var shape: CollisionShape2D = $CollisionShape2D
-	if shape.shape is RectangleShape2D:
-		var extents: Vector2 = shape.shape.extents * shape.global_scale.abs()
-		var top_left = shape.global_position - extents
-		var bottom_right = shape.global_position + extents
-		var start = _tilemap.local_to_map(_tilemap.to_local(top_left))
-		var end = _tilemap.local_to_map(_tilemap.to_local(bottom_right))
-		var alt_id = _color_to_alt(_selected_color)
-		for x in range(start.x, end.x + 1):
-			for y in range(start.y, end.y + 1):
-				var cell := Vector2i(x, y)
-				var data = _tilemap.get_cell_tile_data(cell)
-				if data and data.get_custom_data("can_paint"):
-					if _selected_color == PaintColor.Colors.PURPLE and _tilemap.has_method("paint_purple"):
-						_tilemap.paint_purple(cell)
-					else:
-						var src = _tilemap.get_cell_source_id(cell)
-						var atlas = _tilemap.get_cell_atlas_coords(cell)
-						_tilemap.set_cell(cell, src, atlas, alt_id)
+	var rect := shape.shape.get_rect()  # works for any Shape2D
+	var top_left := shape.to_global(rect.position * shape.global_scale)
+	var bottom_right := shape.to_global((rect.position + rect.size) * shape.global_scale)
+	var start = _tilemap.local_to_map(_tilemap.to_local(top_left))
+	var end = _tilemap.local_to_map(_tilemap.to_local(bottom_right))
+	var alt_id = _color_to_alt(_selected_color)
+	for x in range(start.x, end.x + 1):
+		for y in range(start.y, end.y + 1):
+			var cell := Vector2i(x, y)
+			var data = _tilemap.get_cell_tile_data(cell)
+			if data and data.get_custom_data("can_paint"):
+				if _selected_color == PaintColor.Colors.PURPLE and _tilemap.has_method("paint_purple"):
+					_tilemap.paint_purple(cell)
+				else:
+					var src = _tilemap.get_cell_source_id(cell)
+					var atlas = _tilemap.get_cell_atlas_coords(cell)
+					_tilemap.set_cell(cell, src, atlas, alt_id)
+
 
 
 func _color_to_alt(color: PaintColor.Colors) -> int:

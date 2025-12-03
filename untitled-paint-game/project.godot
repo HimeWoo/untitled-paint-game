@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="untitled-paint-game"
-run/main_scene="uid://mw8qnwfxu075"
+run/main_scene="uid://5j7165prjd2j"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://assets/icon.svg"
 
