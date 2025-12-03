@@ -1,15 +1,10 @@
-[gd_scene load_steps=10 format=4 uid="uid://mw8qnwfxu075"]
+[gd_scene load_steps=5 format=3 uid="uid://bnpt1wamtq1ef"]
 
-[ext_resource type="PackedScene" uid="uid://iydhjgar5iis" path="res://scenes/items/yellow_paint.tscn" id="1_7ac3l"]
-[ext_resource type="PackedScene" uid="uid://bq5kxtjqomv3i" path="res://scenes/ui/interface.tscn" id="1_u4f7j"]
-[ext_resource type="Texture2D" uid="uid://ytknjfaps4nu" path="res://assets/tiles/tiles-canvas.png" id="1_ub0e1"]
-[ext_resource type="Script" uid="uid://gv6nyjmp4ovt" path="res://scripts/paintable.gd" id="2_1r3rq"]
-[ext_resource type="PackedScene" uid="uid://dhah2xlx861hv" path="res://scenes/items/red_paint.tscn" id="2_iig34"]
-[ext_resource type="PackedScene" uid="uid://b3rae3dafdwir" path="res://scenes/player.tscn" id="3_1r3rq"]
-[ext_resource type="PackedScene" uid="uid://bco8vv41h18bo" path="res://scenes/items/blue_paint.tscn" id="6_3e81p"]
+[ext_resource type="Texture2D" uid="uid://ytknjfaps4nu" path="res://assets/tiles/tiles-canvas.png" id="1_gro6u"]
+[ext_resource type="Script" uid="uid://gv6nyjmp4ovt" path="res://scripts/paintable.gd" id="2_1111w"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1r3rq"]
-texture = ExtResource("1_ub0e1")
+texture = ExtResource("1_gro6u")
 0:0/0 = 0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 1:0/0 = 0
@@ -685,38 +680,7 @@ custom_data_layer_5/name = "is_teleporter"
 custom_data_layer_5/type = 1
 sources/0 = SubResource("TileSetAtlasSource_1r3rq")
 
-[node name="Tutorial" type="Node2D"]
-
-[node name="YellowPaint" parent="." instance=ExtResource("1_7ac3l")]
-position = Vector2(2047, 408)
-
-[node name="RedPaint" parent="." instance=ExtResource("2_iig34")]
-position = Vector2(2004, 407)
+[node name="paint_tiles" type="TileMapLayer"]
 scale = Vector2(1.0009203, 1)
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="Interface" parent="CanvasLayer" instance=ExtResource("1_u4f7j")]
-
-[node name="paint_tiles" type="TileMapLayer" parent="."]
-position = Vector2(2.9999998, 47)
-scale = Vector2(1.0009203, 1)
-tile_map_data = PackedByteArray("AAAAABgAAAAHAAAAAAABABgAAAAIAAIAAAACABgAAAAIAAIAAAADABgAAAAIAAIAAAAEABgAAAAIAAIAAAAFABgAAAAIAAIAAAAGABgAAAAIAAIAAAAIABgAAAAIAAIAAAAHABgAAAAIAAIAAAAKABgAAAAIAAIAAAAJABgAAAAIAAIAAAALABgAAAAIAAIAAAAMABgAAAAIAAIAAAANABgAAAAIAAIAAAAOABgAAAAIAAIAAAAPABgAAAAIAAIAAAAQABgAAAAIAAIAAAARABgAAAAIAAIAAAASABgAAAAIAAIAAAATABgAAAAIAAIAAAAUABgAAAAIAAIAAAAVABgAAAAIAAIAAAAWABgAAAAIAAIAAAAXABgAAAAIAAIAAAAYABgAAAAIAAIAAAAZABgAAAAIAAIAAAAaABgAAAAIAAAAAAAbABgAAAAIAAIAAAAcABgAAAAIAAIAAAAdABgAAAAIAAIAAAAeABgAAAAIAAIAAAAfABgAAAAIAAIAAAAgABgAAAAIAAIAAAAhABgAAAAIAAIAAAAiABgAAAAIAAIAAAAjABgAAAAIAAIAAAAlABgAAAAJAAIAAAAkABgAAAAIAAIAAAAaABQAAAAGAAAAAAAaABUAAAAGAAEAAAAaABYAAAAGAAEAAAAaABcAAAAGAAEAAAAhABcAAAAGAAEAAAAhABYAAAAGAAEAAAAhABUAAAAGAAEAAAAhABQAAAAGAAEAAAAhABMAAAAGAAAAAAAhABIAAAAGAAAAAAAhABEAAAAGAAAAAAAuABgAAAAHAAAAAAAvABgAAAAIAAIAAAAwABgAAAAIAAIAAAAxABgAAAAIAAIAAAAyABgAAAAIAAIAAAAzABgAAAAIAAIAAAA0ABgAAAAIAAIAAAA1ABgAAAAIAAIAAAA2ABgAAAAIAAIAAAA3ABgAAAAIAAIAAAA4ABgAAAAIAAIAAAA5ABgAAAAIAAIAAAA6ABgAAAAJAAIAAABIABgAAAAHAAAAAABJABgAAAAIAAIAAABKABgAAAAIAAIAAABLABgAAAAIAAIAAABMABgAAAAIAAIAAABNABgAAAAIAAIAAABOABgAAAAIAAIAAABPABgAAAAIAAIAAABQABgAAAAIAAIAAABRABgAAAAIAAIAAABSABgAAAAIAAIAAABTABgAAAAIAAIAAABUABgAAAAIAAIAAABVABgAAAAIAAIAAABWABgAAAAIAAIAAABXABgAAAAIAAIAAABYABgAAAAIAAIAAABZABgAAAAIAAIAAABaABgAAAAJAAIAAABoABgAAAAHAAAAAABpABgAAAAIAAIAAABqABgAAAAIAAIAAABrABgAAAAIAAIAAABsABgAAAAIAAIAAABtABgAAAAIAAIAAABuABgAAAAIAAIAAABvABgAAAAIAAIAAABwABgAAAAIAAIAAABxABgAAAAIAAIAAAByABgAAAAIAAIAAABzABgAAAAIAAIAAAB0ABgAAAAIAAIAAAB1ABgAAAAIAAIAAAB2ABgAAAAIAAIAAAB3ABgAAAAIAAIAAAB4ABgAAAAIAAIAAAB5ABgAAAAIAAIAAAB6ABgAAAAIAAIAAAB7ABgAAAAIAAIAAAB8ABgAAAAIAAIAAAB9ABgAAAAIAAIAAAB+ABgAAAAIAAIAAAB/ABgAAAAIAAIAAACAABgAAAAIAAIAAACBABgAAAAIAAIAAACCABgAAAAIAAIAAACDABgAAAAIAAIAAACEABgAAAAIAAIAAACFABgAAAAIAAIAAACGABgAAAAIAAIAAACHABgAAAAIAAIAAACIABgAAAAIAAIAAACJABgAAAAIAAIAAACKABgAAAAIAAIAAACLABgAAAAJAAIAAACIABcAAAAGAAEAAACIABYAAAAGAAAAAACIABUAAAAGAAAAAACIABQAAAAGAAEAAACIABMAAAAGAAAAAACIABIAAAAGAAEAAACIABEAAAAGAAAAAACIABAAAAAGAAEAAACIAA8AAAAGAAEAAACIAA4AAAAGAAEAAACIAA0AAAAGAAEAAACIAAwAAAAGAAEAAACIAAsAAAAGAAAAAACIAAoAAAAGAAAAAACIAAkAAAAGAAEAAACIAAgAAAAGAAEAAACIAAcAAAAGAAEAAACJAAYAAAAJAAEAAACJAAUAAAAGAAEAAACIAAUAAAAHAAAAAACIAAYAAAAIAAAAAACKAAUAAAAIAAIAAACLAAUAAAAIAAIAAACMAAUAAAAIAAIAAACNAAUAAAAIAAIAAACOAAUAAAAIAAIAAACPAAUAAAAIAAIAAACQAAUAAAAIAAIAAACRAAUAAAAIAAIAAACSAAUAAAAIAAIAAACTAAUAAAAJAAIAAACMAAQAAAAGAAAAAACMAAMAAAAGAAEAAACMAAIAAAAGAAEAAACMAAEAAAAGAAEAAAA=")
 tile_set = SubResource("TileSet_u4f7j")
-script = ExtResource("2_1r3rq")
-
-[node name="Player" parent="." node_paths=PackedStringArray("terrain_map") instance=ExtResource("3_1r3rq")]
-position = Vector2(288, 348)
-terrain_map = NodePath("../paint_tiles")
-
-[node name="Camera2D" type="Camera2D" parent="Player"]
-position = Vector2(3, -24)
-scale = Vector2(1.2184491, 1.4138817)
-zoom = Vector2(2, 2)
-position_smoothing_speed = 7.0
-
-[node name="BluePaint" parent="." instance=ExtResource("6_3e81p")]
-position = Vector2(2088, 408)
-
-[node name="BluePaint2" parent="." instance=ExtResource("6_3e81p")]
-position = Vector2(2125, 409)
+script = ExtResource("2_1111w")
