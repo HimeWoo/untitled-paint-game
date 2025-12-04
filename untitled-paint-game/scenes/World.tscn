@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=4 uid="uid://dx0dttskdoexx"]
+
+[ext_resource type="PackedScene" uid="uid://b3rae3dafdwir" path="res://scenes/player.tscn" id="1_32lhk"]
+[ext_resource type="PackedScene" uid="uid://csj3xhrhnrkgo" path="res://scenes/tiles.tscn" id="2_7g83o"]
+[ext_resource type="PackedScene" uid="uid://bco8vv41h18bo" path="res://scenes/items/blue_paint.tscn" id="3_1lgw5"]
+[ext_resource type="PackedScene" uid="uid://iydhjgar5iis" path="res://scenes/items/yellow_paint.tscn" id="4_hlk0d"]
+[ext_resource type="PackedScene" uid="uid://dhah2xlx861hv" path="res://scenes/items/red_paint.tscn" id="5_0uv0p"]
+
+[node name="World" type="Node2D"]
+
+[node name="paint_tiles" parent="." instance=ExtResource("2_7g83o")]
+tile_map_data = PackedByteArray("AAAAAAIAAQABAAEAAAABAAIAAQABAAEAAAACAAIAAQABAAEAAAADAAIAAQABAAEAAAAEAAIAAQABAAEAAAAFAAIAAQABAAEAAAAGAAIAAQABAAEAAAAHAAIAAQABAAEAAAAIAAIAAQABAAEAAAAJAAIAAQABAAEAAAAKAAIAAQABAAEAAAALAAIAAQABAAEAAAAMAAIAAQABAAEAAAANAAIAAQABAAEAAAAOAAIAAQABAAEAAAAPAAIAAQABAAEAAAAQAAIAAQABAAEAAAARAAIAAQABAAEAAAASAAIAAQABAAEAAAATAAIAAQABAAEAAAATAAMAAQABAAEAAAASAAMAAQABAAEAAAARAAMAAQABAAEAAAAQAAMAAQABAAEAAAAPAAMAAQABAAEAAAAOAAMAAQABAAEAAAANAAMAAQABAAEAAAAMAAMAAQABAAEAAAALAAMAAQABAAEAAAAKAAMAAQABAAEAAAAJAAMAAQABAAEAAAAIAAMAAQABAAEAAAAHAAMAAQABAAEAAAAGAAMAAQABAAEAAAD//wIAAQABAAEAAAD//wMAAQABAAEAAAAAAAMAAQABAAEAAAABAAMAAQABAAEAAAACAAMAAQABAAEAAAADAAMAAQABAAEAAAAEAAMAAQABAAEAAAAFAAMAAQABAAEAAAA=")
+
+[node name="Player" parent="." node_paths=PackedStringArray("terrain_map") instance=ExtResource("1_32lhk")]
+terrain_map = NodePath("../paint_tiles")
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+
+[node name="BluePaint" parent="." instance=ExtResource("3_1lgw5")]
+position = Vector2(154, -4)
+
+[node name="BluePaint2" parent="." instance=ExtResource("3_1lgw5")]
+position = Vector2(99, 1)
+
+[node name="YellowPaint" parent="." instance=ExtResource("4_hlk0d")]
+position = Vector2(60, 3)
+
+[node name="YellowPaint2" parent="." instance=ExtResource("4_hlk0d")]
+position = Vector2(33, 2)
+
+[node name="RedPaint" parent="." instance=ExtResource("5_0uv0p")]
+position = Vector2(239, 1)
+
+[node name="RedPaint2" parent="." instance=ExtResource("5_0uv0p")]
+position = Vector2(202, 1)
