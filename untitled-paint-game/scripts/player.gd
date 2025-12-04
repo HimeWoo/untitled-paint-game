@@ -147,12 +147,6 @@ func apply_contact_damage(amount: int, knockback: Vector2) -> void:
 
 	apply_damage(amount, knockback)
 
-
-
-func _die() -> void:
-	# TODO: hook into game over logic
-	queue_free()
-
 # INVINCIBILITY 
 func _update_invincibility(delta: float) -> void:
 	if is_invincible:
