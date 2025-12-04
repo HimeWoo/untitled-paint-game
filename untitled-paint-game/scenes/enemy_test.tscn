@@ -14,7 +14,7 @@ colors = PackedColorArray(0, 0, 0, 1, 0.5833333, 0.5833333, 0.5833333, 1, 1, 1, 
 gradient = SubResource("Gradient_a8v3n")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ainam"]
-size = Vector2(617, 14)
+size = Vector2(617, 12)
 
 [node name="Node2D" type="Node2D"]
 
@@ -39,14 +39,14 @@ position = Vector2(525, 577)
 position = Vector2(535, 591)
 
 [node name="Sprite2D" type="Sprite2D" parent="Floor"]
-position = Vector2(-78.63352, 0)
-scale = Vector2(2.6513007, 2.8963282)
+position = Vector2(-91.133545, 0)
+scale = Vector2(2.7489567, 2.8963282)
 texture = SubResource("GradientTexture1D_gep6m")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Floor/Sprite2D"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/Sprite2D/StaticBody2D"]
-position = Vector2(3.1909485, 1.0357971)
+position = Vector2(3.1909485, 1.3810577)
 scale = Vector2(0.49092376, 0.34526473)
 shape = SubResource("RectangleShape2D_ainam")
 

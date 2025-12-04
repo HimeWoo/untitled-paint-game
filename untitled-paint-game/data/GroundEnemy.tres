@@ -10,5 +10,6 @@ chase_speed = 100.0
 enable_bob = false
 enable_shooting = false
 contact_damage = 10
+contact_knockback_force = 600.0
 is_grounded = true
 metadata/_custom_type_script = "uid://ck8cbpdng0y2j"

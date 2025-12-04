@@ -2,7 +2,7 @@ class_name MeleeAttack
 extends Area2D 
 
 @export var damage: int = 10
-@export var knockback_force: Vector2 = Vector2(300, -200) 
+@export var knockback_force: Vector2 = Vector2(80, -40) 
 @export var active_time: float = 0.2
 
 var _tilemap: TileMapLayer
