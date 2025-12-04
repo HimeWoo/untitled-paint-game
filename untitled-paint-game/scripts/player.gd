@@ -28,7 +28,7 @@ var facing_dir: int = 1
 
 # INVINCIBILITY STAGE
 @export_group("Invincibility")
-@export var invincibility_duration: float = 1.2
+@export var invincibility_duration: float = 0.30
 @export var invincible_flash_interval: float = 0.15
 
 var is_invincible: bool = false
