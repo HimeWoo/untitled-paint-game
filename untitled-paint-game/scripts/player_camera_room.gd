@@ -18,24 +18,28 @@ extends Area2D
 
 @onready var _rect_pos: Vector2 = camera_area.shape.get_rect().position + camera_area.global_position
 @onready var _rect_end: Vector2 = camera_area.shape.get_rect().end + camera_area.global_position
- 
+
 
 func _process(_delta: float) -> void:
-	if overlaps_body(target) and not camera.in_transition:
+	if overlaps_body(target):
+		var camera_x: float
 		if lock_x:
-			camera.position.x = locked_x_value
+			camera_x = locked_x_value
 		elif target.position.x < _rect_pos.x:
-			camera.position.x = _rect_pos.x
+			camera_x = _rect_pos.x
 		elif target.position.x > _rect_end.x:
-			camera.position.x = _rect_end.x
+			camera_x = _rect_end.x
 		else:
-			camera.position.x = target.position.x
+			camera_x = target.position.x
 		
+		var camera_y: float
 		if lock_y:
-			camera.position.y = locked_y_value
+			camera_y = locked_y_value
 		elif target.position.y < _rect_pos.y:
-			camera.position.y = _rect_pos.y
+			camera_y = _rect_pos.y
 		elif target.position.y > _rect_end.y:
-			camera.position.y = _rect_pos.y
+			camera_y = _rect_pos.y
 		else:
-			camera.position.y = target.position.y
+			camera_y = target.position.y
+
+		camera.position = Vector2(camera_x, camera_y)

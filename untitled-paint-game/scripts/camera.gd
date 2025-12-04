@@ -5,8 +5,6 @@ extends Camera2D
 @export var zoom_speed: float = 1.0
 ## Zoom value to lerp [member Camera2D.zoom] toward 
 var target_zoom: Vector2 = zoom
-# True if the camera should be tracking a player
-var in_transition: bool = false
 
 
 func _process(delta: float) -> void:
