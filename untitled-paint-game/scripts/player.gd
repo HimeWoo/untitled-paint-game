@@ -285,16 +285,26 @@ func _handle_jump_and_gravity(delta: float, current_jump_velocity: float) -> voi
 		jumps_left = 1
 		last_jump_was_double = false
 
+	var jumped_this_frame := false
+	
 	if Input.is_action_just_pressed("jump"):
-		if is_on_floor():
+		if is_on_floor() or is_dashing:
+			jumped_this_frame = true
+			# If jumping out of a dash, mark that we're carrying momentum
+			if is_dashing:
+				print("Perfmed Dash Jump")
+				# print("Current momentum: ", horizontal_momentum)
+				is_carrying_dash_momentum = true
+				end_dash()  # End dash but keep the momentum
 			velocity.y = current_jump_velocity
 			last_jump_was_double = false
 		elif jumps_left > 0:
+			jumped_this_frame = true
 			velocity.y = current_jump_velocity
 			jumps_left -= 1
 			last_jump_was_double = true
 	elif Input.is_action_just_released("jump") and velocity.y < 0 and not last_jump_was_double:
-		velocity.y = 0
+		velocity.y *= 0.5
 
 
 func _handle_dash_input(current_dash_speed: float) -> void:
@@ -304,6 +314,7 @@ func _handle_dash_input(current_dash_speed: float) -> void:
 		dash_direction = int(right) - int(left)
 		if dash_direction == 0:
 			dash_direction = sign(velocity.x) if velocity.x != 0 else 1
+		print("Dash Direction: ", dash_direction)
 		start_dash()
 
 	if is_dashing:
@@ -315,6 +326,10 @@ func _handle_horizontal_movement(delta: float, current_speed: float) -> void:
 		var left := Input.is_action_pressed("move_left")
 		var right := Input.is_action_pressed("move_right")
 		var direction := int(right) - int(left)
+		
+		# DEBUG: Print state every frame when carrying momentum
+		# if is_carrying_dash_momentum:
+			# print("carrying=true, on_floor=", is_on_floor(), ", momentum=", horizontal_momentum)
 
 		var accel := 0.0
 		var decel := 0.0
@@ -331,6 +346,7 @@ func _handle_horizontal_movement(delta: float, current_speed: float) -> void:
 		if direction != 0:
 			horizontal_momentum = move_toward(horizontal_momentum, direction * current_speed, accel * delta)
 		else:
+			# Only apply deceleration when no direction is held
 			horizontal_momentum = move_toward(horizontal_momentum, 0.0, decel * delta)
 
 	velocity.x = horizontal_momentum
