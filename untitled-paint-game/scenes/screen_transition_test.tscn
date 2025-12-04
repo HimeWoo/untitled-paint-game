@@ -56,7 +56,7 @@ position_smoothing_speed = 8.0
 script = ExtResource("3_vcnrn")
 zoom_speed = 8.0
 
-[node name="Room" type="Area2D" parent="." groups=["room"]]
+[node name="Room" type="Area2D" parent="."]
 position = Vector2(176, -96)
 collision_layer = 0
 collision_mask = 0
@@ -65,7 +65,7 @@ collision_mask = 0
 shape = SubResource("RectangleShape2D_vcnrn")
 disabled = true
 
-[node name="Room2" type="Area2D" parent="." groups=["room"]]
+[node name="Room2" type="Area2D" parent="."]
 position = Vector2(560, -96)
 collision_layer = 0
 collision_mask = 0
@@ -74,7 +74,7 @@ collision_mask = 0
 shape = SubResource("RectangleShape2D_dgjjp")
 disabled = true
 
-[node name="Room3" type="Area2D" parent="." groups=["room"]]
+[node name="Room3" type="Area2D" parent="."]
 position = Vector2(944, -96)
 collision_layer = 0
 collision_mask = 0
@@ -83,7 +83,7 @@ collision_mask = 0
 shape = SubResource("RectangleShape2D_o3glg")
 disabled = true
 
-[node name="PlayerCameraRoom" type="Area2D" parent="." node_paths=PackedStringArray("camera", "target", "camera_area") groups=["room"]]
+[node name="PlayerCameraRoom" type="Area2D" parent="." node_paths=PackedStringArray("camera", "target", "camera_area")]
 position = Vector2(560, -320)
 collision_layer = 0
 collision_mask = 2
