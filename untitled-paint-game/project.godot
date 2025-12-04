@@ -19,11 +19,6 @@ config/icon="res://assets/icon.svg"
 
 UISignals="*res://scripts/ui/ui_signals.gd"
 
-[display]
-
-window/size/viewport_width=1732
-window/size/viewport_height=1058
-
 [input]
 
 dash={
@@ -109,6 +104,7 @@ look_down={
 2d_physics/layer_3="Enemy"
 2d_physics/layer_4="PlayerProjectile"
 2d_physics/layer_5="EnemyProjectile"
+2d_physics/layer_7="RoomTransition"
 
 [rendering]
 
