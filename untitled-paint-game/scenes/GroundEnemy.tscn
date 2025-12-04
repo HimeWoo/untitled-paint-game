@@ -6,13 +6,13 @@
 [ext_resource type="Texture2D" uid="uid://dl8vkte4i6m3q" path="res://assets/ground_enemy.png" id="4_qunq5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y5xqv"]
-size = Vector2(120, 121)
+size = Vector2(130.00002, 130.00003)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fmri8"]
 radius = 940.1196
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vtvda"]
-size = Vector2(120, 120)
+size = Vector2(110.00005, 110.00003)
 
 [node name="GroundEnemy" type="CharacterBody2D"]
 scale = Vector2(0.2, 0.2)
@@ -25,7 +25,8 @@ projectile_scene = ExtResource("3_5qxhf")
 texture = ExtResource("4_qunq5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -0.5)
+position = Vector2(4.4703456e-06, 1.1920927e-06)
+scale = Vector2(0.99999964, 0.99999964)
 shape = SubResource("RectangleShape2D_y5xqv")
 
 [node name="DetectionArea" type="Area2D" parent="."]
@@ -51,6 +52,6 @@ show_percentage = false
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ContactDamageArea"]
-position = Vector2(7.152556e-06, 7.152556e-06)
-scale = Vector2(0.9999998, 0.9999998)
+position = Vector2(-4.1723247e-06, 2.533197e-06)
+scale = Vector2(0.9999994, 0.9999994)
 shape = SubResource("RectangleShape2D_vtvda")

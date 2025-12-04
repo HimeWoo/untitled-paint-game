@@ -13,8 +13,8 @@ metadata/_snap_count = 15
 
 [node name="MeleeAttack" type="Area2D"]
 scale = Vector2(0.38485515, 1.0684867)
-collision_layer = 5
-collision_mask = 5
+collision_layer = 21
+collision_mask = 7
 script = ExtResource("1_xyme3")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

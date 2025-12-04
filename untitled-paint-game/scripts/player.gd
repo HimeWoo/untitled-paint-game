@@ -10,6 +10,7 @@ extends CharacterBody2D
 @export_group("Combat - Melee")
 @export var attack_scene: PackedScene = preload("res://scenes/MeleeAttack.tscn")
 @export var attack_cooldown: float = 0.2
+@export var melee_knockback_force: Vector2 = Vector2(300.0, -200.0)
 
 # PLAYER STATS
 @export_group("Player Stats")
@@ -46,6 +47,12 @@ var invincible_flash_accum: float = 0.0
 @export var dash_cooldown: float = 0.5
 @export var dash_decel: float = 2000.0
 @export var dash_decel_duration: float = 0.25
+
+@export_group("Contact / Dash Grace")
+@export var post_dash_contact_grace: float = 0.25
+
+var post_dash_contact_timer: float = 0.0
+
 
 # MOVEMENT – ACCEL/DECEL
 @export_group("Movement - Accel / Decel")
@@ -86,6 +93,7 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	_update_invincibility(delta)
+	_update_post_dash_contact_grace(delta)
 
 	# Movement stats (base + terrain modifiers)
 	var current_speed := move_speed
@@ -132,6 +140,14 @@ func apply_damage(amount: int, knockback: Vector2) -> void:
 	if current_hp <= 0:
 		_die()
 
+# While dashing, ignore contact damage entirely
+func apply_contact_damage(amount: int, knockback: Vector2) -> void:
+	if is_dashing or post_dash_contact_timer > 0.0:
+		return
+
+	apply_damage(amount, knockback)
+
+
 
 func _die() -> void:
 	# TODO: hook into game over logic
@@ -155,6 +171,11 @@ func _update_invincibility(delta: float) -> void:
 			sprite.modulate = Color(1, 1, 1, 1)
 	else:
 		sprite.modulate = Color(1, 1, 1, 1)
+
+# POST DASH INVINCIBILITY 
+func _update_post_dash_contact_grace(delta: float) -> void:
+	if post_dash_contact_timer > 0.0:
+		post_dash_contact_timer -= delta
 
 # TERRAIN EFFECTS
 func _apply_terrain_effects(
@@ -336,6 +357,7 @@ func start_dash() -> void:
 func end_dash() -> void:
 	is_dashing = false
 	dash_decel_timer = dash_decel_duration
+	post_dash_contact_timer = post_dash_contact_grace
 
 
 # COMBAT: MELEE
@@ -362,6 +384,8 @@ func perform_slash() -> void:
 	var attack_instance := attack_scene.instantiate()
 	attack_instance.position = attack_offset
 	add_child(attack_instance)
+
+	attack_instance.knockback_force = melee_knockback_force
 	attack_instance.start_attack(self, attack_dir, terrain_map, selector.get_selection().color)
 
 	await get_tree().create_timer(attack_cooldown).timeout

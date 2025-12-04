@@ -109,15 +109,19 @@ func _physics_process(delta: float) -> void:
 
 
 func _on_contact_body_entered(body: Node2D) -> void:
-	if not stats.enable_contact_damage:
+	# If this enemy type should not deal touch damage, do nothing.
+	if stats == null or not stats.enable_contact_damage:
 		return
+	
 	if not body.is_in_group("player"):
 		return
 
 	var dir := (body.global_position - global_position).normalized()
 	var knockback := dir * stats.contact_knockback_force
 
-	if body.has_method("apply_damage"):
+	if body.has_method("apply_contact_damage"):
+		body.apply_contact_damage(stats.contact_damage, knockback)
+	elif body.has_method("apply_damage"):
 		body.apply_damage(stats.contact_damage, knockback)
 
 
