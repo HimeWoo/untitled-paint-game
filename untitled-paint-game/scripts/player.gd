@@ -294,7 +294,7 @@ func _handle_jump_and_gravity(delta: float, current_jump_velocity: float) -> voi
 			if is_dashing:
 				print("Perfmed Dash Jump")
 				# print("Current momentum: ", horizontal_momentum)
-				is_carrying_dash_momentum = true
+				# is_carrying_dash_momentum = true
 				end_dash()  # End dash but keep the momentum
 			velocity.y = current_jump_velocity
 			last_jump_was_double = false
