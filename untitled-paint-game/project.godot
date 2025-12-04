@@ -23,6 +23,12 @@ UISignals="*res://scripts/ui/ui_signals.gd"
 
 window/size/viewport_width=1412
 
+[global_group]
+
+hazard=""
+spike=""
+water=""
+
 [input]
 
 dash={

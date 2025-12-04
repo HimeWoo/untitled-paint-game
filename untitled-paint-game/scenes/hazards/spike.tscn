@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dffmuh4oa73qh"]
+
+[ext_resource type="Texture2D" uid="uid://dbxp518wwxjwe" path="res://assets/Spike_B.png" id="1_81jhk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_81jhk"]
+size = Vector2(32, 8)
+
+[node name="Spike" type="Area2D" groups=["hazard", "spike"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_81jhk")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_81jhk")
+region_enabled = true
+region_rect = Rect2(0, 14, 32, 8)

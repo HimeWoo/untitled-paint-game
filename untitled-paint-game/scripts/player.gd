@@ -305,6 +305,9 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 
+	# After movement, check overlaps/collisions with hazards (nodes in groups: hazard/water/spike)
+	_check_hazard_contact_and_die()
+
 func start_dash():
 	is_dashing = true
 	dash_timer = DASH_TIME # Optional: Keep this if you want to track time for other things
@@ -413,3 +416,37 @@ func _get_attack_direction() -> Vector2:
 	if Input.is_action_pressed("look_down"):
 		return Vector2.DOWN
 	return Vector2(facing_dir, 0)
+	
+# --- Hazard helpers ---
+func _is_hazard_node(n: Node) -> bool:
+	return n != null and (n.is_in_group("hazard") or n.is_in_group("water") or n.is_in_group("spike"))
+
+func _check_hazard_contact_and_die() -> void:
+	# 1) Any slide collisions with hazard bodies?
+	for i in range(get_slide_collision_count()):
+		var c: KinematicCollision2D = get_slide_collision(i)
+		var col = c.get_collider()
+		if col is Node and _is_hazard_node(col):
+			print("Hazard contact (body): ", col.name)
+			_die()
+			return
+
+	# 2) Overlapping hazard Areas using a small shape around the player (more reliable than point)
+	var shape := CircleShape2D.new()
+	shape.radius = 10.0
+	var sp := PhysicsShapeQueryParameters2D.new()
+	sp.shape = shape
+	sp.transform = Transform2D(0.0, global_position)
+	sp.collide_with_areas = true
+	sp.collide_with_bodies = false
+	var ahits := get_world_2d().direct_space_state.intersect_shape(sp, 16)
+	for h in ahits:
+		var a = h.get("collider")
+		if a is Node and _is_hazard_node(a):
+			print("Hazard contact (area): ", a.name)
+			_die()
+			return
+
+func _die() -> void:
+	print("Player died: hazard contact")
+	get_tree().reload_current_scene()
