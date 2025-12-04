@@ -493,6 +493,19 @@ func _update_animation() -> void:
 
 	sprite.flip_h = facing_dir < 0
 
+	
+	# jump frames
+	if not is_on_floor():
+		if velocity.y < 0:
+			if sprite.animation != "jump":
+				sprite.play("jump")
+			sprite.frame = 0
+		else:
+			if sprite.animation != "jump":
+				sprite.play("jump")
+			sprite.frame = 1 
+		return
+	
 	# Reset speed_scale when changing away from dash
 	if sprite.animation == "dash" and not is_dashing:
 		if sprite.frame < sprite.sprite_frames.get_frame_count("dash") - 1:
