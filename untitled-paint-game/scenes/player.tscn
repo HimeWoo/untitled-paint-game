@@ -1,10 +1,11 @@
-[gd_scene load_steps=32 format=3 uid="uid://b3rae3dafdwir"]
+[gd_scene load_steps=35 format=3 uid="uid://b3rae3dafdwir"]
 
 [ext_resource type="Script" uid="uid://c40lun7bwqact" path="res://scripts/player.gd" id="1_g2els"]
 [ext_resource type="Texture2D" uid="uid://cknx0cbgr468d" path="res://assets/charas/player-idle.png" id="2_dqkch"]
 [ext_resource type="Texture2D" uid="uid://c72k2yqwt1rq4" path="res://assets/charas/player-dash.png" id="2_qlg0r"]
 [ext_resource type="Texture2D" uid="uid://dlju23wppi6q2" path="res://assets/charas/player-walk.png" id="3_qlg0r"]
 [ext_resource type="Texture2D" uid="uid://ksv6bxh1xry4" path="res://assets/charas/player-slash_down.png" id="4_fjrip"]
+[ext_resource type="Texture2D" uid="uid://d5a7a4enpsxb" path="res://assets/charas/player-jump.png" id="4_smehm"]
 [ext_resource type="Texture2D" uid="uid://kcon0l3haefg" path="res://assets/charas/player-slash_side.png" id="5_smehm"]
 [ext_resource type="Texture2D" uid="uid://8paelyih6n1g" path="res://assets/charas/player-slash_up.png" id="6_ur7pv"]
 
@@ -31,6 +32,14 @@ region = Rect2(64, 0, 16, 20)
 [sub_resource type="AtlasTexture" id="AtlasTexture_d2wvv"]
 atlas = ExtResource("2_dqkch")
 region = Rect2(80, 0, 16, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_31cv2"]
+atlas = ExtResource("4_smehm")
+region = Rect2(0, 0, 16, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pf23h"]
+atlas = ExtResource("4_smehm")
+region = Rect2(16, 0, 16, 20)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4r5pv"]
 atlas = ExtResource("4_fjrip")
@@ -131,6 +140,17 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_31cv2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pf23h")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_4r5pv")
 }, {
 "duration": 1.0,
@@ -208,9 +228,8 @@ script = ExtResource("1_g2els")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_a8ls1")
-animation = &"dash"
+animation = &"jump"
 autoplay = "idle"
-frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-0.5, 0)

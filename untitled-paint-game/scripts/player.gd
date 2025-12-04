@@ -268,8 +268,7 @@ func _update_facing_from_input() -> void:
 	var facing_left := Input.is_action_pressed("ui_left") or Input.is_key_pressed(KEY_A)
 	var facing_right := Input.is_action_pressed("ui_right") or Input.is_key_pressed(KEY_D)
 	var dir := int(facing_right) - int(facing_left)
-
-	if dir != 0:
+	if dir != 0 and not is_attacking:
 		facing_dir = dir
 		sprite.flip_h = (facing_dir == -1)
 
