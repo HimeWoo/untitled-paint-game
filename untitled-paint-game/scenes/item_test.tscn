@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://5j7165prjd2j"]
+[gd_scene load_steps=16 format=4 uid="uid://5j7165prjd2j"]
 
 [ext_resource type="Texture2D" uid="uid://2bcbuley55ou" path="res://assets/parallax_pixleated.png" id="1_bvmv3"]
 [ext_resource type="PackedScene" uid="uid://bq5kxtjqomv3i" path="res://scenes/ui/interface.tscn" id="1_qchoo"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://b7l1vy3gvilhw" path="res://assets/tiles/tiles-concrete.png" id="8_sp2it"]
 [ext_resource type="Texture2D" uid="uid://ytknjfaps4nu" path="res://assets/tiles/tiles-canvas.png" id="9_bvmv3"]
 [ext_resource type="PackedScene" uid="uid://bj5po58m1bnam" path="res://scenes/pushbox.tscn" id="9_sp2it"]
+[ext_resource type="PackedScene" uid="uid://byodqxwxmkf75" path="res://scenes/platform.tscn" id="11_5v2uq"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_f3voe"]
 texture = ExtResource("8_sp2it")
@@ -207,3 +208,9 @@ position = Vector2(683, 364)
 
 [node name="Pushbox" parent="." instance=ExtResource("9_sp2it")]
 position = Vector2(336, 447)
+
+[node name="Platform" parent="." instance=ExtResource("11_5v2uq")]
+position = Vector2(727, 398)
+movement_mode = 3
+start_direction = 1
+pixel_offset = 150

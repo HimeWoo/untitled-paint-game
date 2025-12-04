@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://byodqxwxmkf75"]
+
+[ext_resource type="Texture2D" uid="uid://buh45skyrvnym" path="res://assets/platforms.png" id="1_ba0x2"]
+[ext_resource type="Script" uid="uid://b5ya8wq6bi5tl" path="res://scripts/platform.gd" id="1_nlgqw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nlgqw"]
+size = Vector2(32, 8)
+
+[node name="Platform" type="AnimatableBody2D"]
+collision_layer = 11
+collision_mask = 3
+script = ExtResource("1_nlgqw")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_ba0x2")
+region_enabled = true
+region_rect = Rect2(16, 16, 32, 9)
+region_filter_clip_enabled = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_nlgqw")
+one_way_collision = true
+
+[node name="RayCastWallHitLeft" type="RayCast2D" parent="."]
+target_position = Vector2(-18, 0)
+collision_mask = 16
+
+[node name="RayCastWallHitRight" type="RayCast2D" parent="."]
+target_position = Vector2(17, 0)
+collision_mask = 16
