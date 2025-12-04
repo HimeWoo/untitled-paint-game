@@ -22,6 +22,7 @@ UISignals="*res://scripts/ui/ui_signals.gd"
 [display]
 
 window/size/viewport_width=1412
+window/stretch/mode="viewport"
 
 [global_group]
 
