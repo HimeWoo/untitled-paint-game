@@ -95,11 +95,18 @@ func _physics_process(delta: float) -> void:
 	_update_invincibility(delta)
 	_update_post_dash_contact_grace(delta)
 
-	# Movement stats (base + terrain modifiers)
+	# 1. Initialize stats using the BASE export variables
 	var current_speed := move_speed
 	var current_jump_velocity := jump_velocity
 	var current_dash_speed := dash_speed
-	_apply_terrain_effects(delta, current_speed, current_jump_velocity, current_dash_speed)
+	
+	# 2. Get the MODIFIED stats from the function
+	var modified_stats = _calculate_terrain_stats(delta, current_speed, current_jump_velocity, current_dash_speed)
+	
+	# 3. Extract the results
+	current_speed = modified_stats["speed"]
+	current_jump_velocity = modified_stats["jump"]
+	current_dash_speed = modified_stats["dash"]
 
 	# Facing + combat inputs
 	_update_facing_from_input()
@@ -109,9 +116,11 @@ func _physics_process(delta: float) -> void:
 	_update_animation()
 
 	# Vertical motion (gravity / jumping)
+	# Now using the correctly modified current_jump_velocity
 	_handle_jump_and_gravity(delta, current_jump_velocity)
 
 	# Dash and horizontal movement
+	# Now using the correctly modified dash/move speeds
 	_handle_dash_input(current_dash_speed)
 	_handle_horizontal_movement(delta, current_speed)
 
@@ -172,17 +181,25 @@ func _update_post_dash_contact_grace(delta: float) -> void:
 		post_dash_contact_timer -= delta
 
 # TERRAIN EFFECTS
-func _apply_terrain_effects(
+# Returns a Dictionary with keys: speed, jump, dash
+func _calculate_terrain_stats(
 	delta: float,
-	current_speed: float,
-	current_jump_velocity: float,
-	current_dash_speed: float
-) -> void:
+	in_speed: float,
+	in_jump: float,
+	in_dash: float
+) -> Dictionary:
+	
+	# Create local copies to modify
+	var out_speed = in_speed
+	var out_jump = in_jump
+	var out_dash = in_dash
+
 	if teleport_cooldown_timer > 0.0:
 		teleport_cooldown_timer -= delta
 
 	if terrain_map == null:
-		return
+		# If no map, return original stats
+		return {"speed": out_speed, "jump": out_jump, "dash": out_dash}
 
 	var floor_pos := global_position + Vector2(0, foot_check_offset_y)
 	var tile_coords := terrain_map.local_to_map(terrain_map.to_local(floor_pos))
@@ -192,29 +209,25 @@ func _apply_terrain_effects(
 		# RED (Speed)
 		var speed_mult: float = tile_data.get_custom_data("speed_modifier")
 		if speed_mult != 0.0 and speed_mult != 1.0:
-			current_speed *= speed_mult
-			print("EFFECT ACTIVE: Speed changed to ", current_speed, " (Multiplier: ", speed_mult, ")")
+			out_speed *= speed_mult
 
 		# BLUE (Jump)
 		var jump_mult: float = tile_data.get_custom_data("jump_modifier")
 		if jump_mult != 0.0 and jump_mult != 1.0:
-			current_jump_velocity *= jump_mult
-			print("EFFECT ACTIVE: Jump Height changed to ", current_jump_velocity, " (Multiplier: ", jump_mult, ")")
+			out_jump *= jump_mult
 
 		# YELLOW (Dash)
 		var dash_mult: float = tile_data.get_custom_data("dash_modifier")
 		if dash_mult != 0.0 and dash_mult != 1.0:
-			current_dash_speed *= dash_mult
-			print("EFFECT ACTIVE: Dash Speed changed to ", current_dash_speed, " (Multiplier: ", dash_mult, ")")
+			out_dash *= dash_mult
 
-		# GREEN (Launch Pad)
+		# GREEN (Launch Pad) - Directly modifies velocity, this is fine to keep as side effect
 		var launch = tile_data.get_custom_data("launch_force")
 		if launch != 0.0 and is_on_floor():
 			velocity.y = launch
 			jumps_left = 1
-			print("EFFECT TRIGGERED: Launched with force ", launch)
 
-		# PURPLE (Teleport)
+		# PURPLE (Teleport) - Side effect logic is fine here too
 		var is_teleporter: bool = tile_data.get_custom_data("is_teleporter")
 		if is_teleporter and tile_coords != last_frame_tile_coords and teleport_cooldown_timer <= 0.0:
 			var target_pos = terrain_map.get_teleport_target(tile_coords)
@@ -223,17 +236,14 @@ func _apply_terrain_effects(
 				var tile_height := terrain_map.tile_set.tile_size.y
 				world_target.y -= tile_height
 				global_position = world_target
-
 				teleport_cooldown_timer = 1.0
 				var dest_coords := terrain_map.local_to_map(terrain_map.to_local(world_target))
 				last_frame_tile_coords = dest_coords
 
-				print("WOOSH! Teleported to ", world_target)
-
 	last_frame_tile_coords = tile_coords
-	move_speed = current_speed
-	jump_velocity = current_jump_velocity
-	dash_speed = current_dash_speed
+	
+	# RETURN the calculated values instead of overwriting the class variables
+	return {"speed": out_speed, "jump": out_jump, "dash": out_dash}
 
 # INPUT HELPERS
 func _update_facing_from_input() -> void:
@@ -302,7 +312,7 @@ func _handle_jump_and_gravity(delta: float, current_jump_velocity: float) -> voi
 
 
 func _handle_dash_input(current_dash_speed: float) -> void:
-	if Input.is_action_just_pressed("dash") and dash_cooldown_timer <= 0.0 and not is_dashing:
+	if Input.is_action_just_pressed("dash") and dash_cooldown_timer <= 0.0 and not is_dashing and is_on_floor():
 		var left := Input.is_action_pressed("move_left")
 		var right := Input.is_action_pressed("move_right")
 		dash_direction = int(right) - int(left)
