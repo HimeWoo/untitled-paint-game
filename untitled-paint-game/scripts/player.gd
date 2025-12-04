@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-@export var projectile_scene: PackedScene = preload("res://scenes/PlayerProjectile.tscn")
+var projectile_scene: PackedScene = preload("res://scenes/PlayerProjectile.tscn")
 @export var shoot_cooldown: float = 0.25
 var can_shoot := true
 
@@ -9,7 +9,7 @@ const SPEED = 135.0
 const JUMP_VELOCITY = -300.0
 const DASH_SPEED = 275.0
 const DASH_TIME = 0.15
-const DASH_COOLDOWN = 1.5
+const DASH_COOLDOWN = 0.4
 const GROUND_ACCEL = 1000.0
 const GROUND_DECEL = 1000.0
 const AIR_ACCEL = 400.0
@@ -47,6 +47,7 @@ var default_speed_scale := 1.0
 
 var last_frame_tile_coords: Vector2i = Vector2i(-999, -999)
 
+var push_force = Vector2(SPEED, 0)
 func _ready() -> void:
 	jumps_left = 1
 	default_speed_scale = sprite.speed_scale
@@ -66,7 +67,7 @@ func _ready() -> void:
 
 		#if num >= 0: 
 			#inventory.select_index(num)
-			
+
 func _get_aim_dir() -> Vector2:
 	var dir := Vector2.ZERO
 	if Input.is_action_pressed("aim_left"): dir.x -= 1
@@ -304,6 +305,25 @@ func _physics_process(delta: float) -> void:
 	# ---------------------------------------------
 
 	move_and_slide()
+	
+## 1. Calculate push direction based on INPUT
+	# We check the keys again to see which way you are trying to go
+	var input_dir_x = int(Input.is_action_pressed("ui_right") or Input.is_key_pressed(KEY_D)) - int(Input.is_action_pressed("ui_left") or Input.is_key_pressed(KEY_A))
+	
+	# 2. Create the force vector
+	# CHANGE: Use 'current_speed' instead of 'SPEED'. 
+	# 'current_speed' holds the red tile multiplier calculated at the start of the frame.
+	var current_push_force = Vector2(input_dir_x * current_speed, 0)
+
+	for i in get_slide_collision_count():
+		var collision = get_slide_collision(i)
+		var collider = collision.get_collider()
+		
+		# Check if we hit the box
+		if collider.has_method("attempt_push"):
+			# 3. Pass the calculated force
+			# If on red tile, current_speed is higher -> force vector is longer -> heavier boxes move
+			collider.attempt_push(current_push_force)
 
 func start_dash():
 	is_dashing = true
