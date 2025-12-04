@@ -1,7 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://48i18u4jme0m"]
+[gd_scene load_steps=9 format=3 uid="uid://48i18u4jme0m"]
 
 [ext_resource type="PackedScene" uid="uid://b3rae3dafdwir" path="res://scenes/player.tscn" id="1_gep6m"]
 [ext_resource type="PackedScene" uid="uid://b8txfoox5y1qr" path="res://scenes/FloatingEnemy.tscn" id="2_ainam"]
+[ext_resource type="PackedScene" uid="uid://bsxqk7a26x7o2" path="res://scenes/GroundEnemy.tscn" id="3_ainam"]
+[ext_resource type="PackedScene" uid="uid://byt3sjb16n237" path="res://scenes/TurretEnemy.tscn" id="4_mo2s0"]
+[ext_resource type="PackedScene" uid="uid://dhah2xlx861hv" path="res://scenes/items/red_paint.tscn" id="5_1yn4p"]
 
 [sub_resource type="Gradient" id="Gradient_a8v3n"]
 offsets = PackedFloat32Array(0.3611111, 0.6111111, 0.85493827)
@@ -11,35 +14,45 @@ colors = PackedColorArray(0, 0, 0, 1, 0.5833333, 0.5833333, 0.5833333, 1, 1, 1, 
 gradient = SubResource("Gradient_a8v3n")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ainam"]
-size = Vector2(617, 14)
+size = Vector2(617, 12)
 
 [node name="Node2D" type="Node2D"]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(442.99997, 486)
 scale = Vector2(5.9099555, -5.2295876)
-zoom = Vector2(2, 2)
+zoom = Vector2(2.5, 2.5)
 process_callback = 0
 position_smoothing_enabled = true
 position_smoothing_speed = 6.0
 
 [node name="Player" parent="." instance=ExtResource("1_gep6m")]
-position = Vector2(210, 570)
+position = Vector2(255, 571)
 
 [node name="FloatingEnemy" parent="." instance=ExtResource("2_ainam")]
-position = Vector2(600, 554)
+position = Vector2(760, 490.00015)
+
+[node name="GroundEnemy" parent="." instance=ExtResource("3_ainam")]
+position = Vector2(525, 577)
 
 [node name="Floor" type="Node2D" parent="."]
 position = Vector2(535, 591)
 
 [node name="Sprite2D" type="Sprite2D" parent="Floor"]
-position = Vector2(-78.63352, 0)
-scale = Vector2(2.6513007, 2.8963282)
+position = Vector2(-91.133545, 0)
+scale = Vector2(2.7489567, 2.8963282)
 texture = SubResource("GradientTexture1D_gep6m")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Floor/Sprite2D"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/Sprite2D/StaticBody2D"]
-position = Vector2(3.1909485, 1.0357971)
+position = Vector2(3.1909485, 1.3810577)
 scale = Vector2(0.49092376, 0.34526473)
 shape = SubResource("RectangleShape2D_ainam")
+
+[node name="TurretEnemy" parent="." instance=ExtResource("4_mo2s0")]
+position = Vector2(648, 577)
+
+[node name="RedPaint" parent="." instance=ExtResource("5_1yn4p")]
+visible = false
+position = Vector2(175, 554)

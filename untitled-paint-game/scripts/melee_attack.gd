@@ -2,7 +2,7 @@ class_name MeleeAttack
 extends Area2D 
 
 @export var damage: int = 10
-@export var knockback_force: Vector2 = Vector2(300, -200) 
+@export var knockback_force: Vector2 = Vector2(80, -40) 
 @export var active_time: float = 0.2
 
 var _tilemap: TileMapLayer
@@ -55,7 +55,7 @@ func _hit(target: Node) -> void:
 			final_knockback = Vector2(0, abs(knockback_force.x) * sign(_attack_dir.y))
 		
 		target.apply_damage(damage, final_knockback)
-		print("Hit ", target.name, " for ", damage)
+		print("Melee hit ", target.name, " for ", damage)
 
 
 func _paint_tiles_under_hitbox() -> void:

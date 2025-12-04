@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="EnemyStats" load_steps=2 format=3 uid="uid://ly103fl3ctd3"]
+
+[ext_resource type="Script" uid="uid://ck8cbpdng0y2j" path="res://scripts/enemy_stats.gd" id="1_563jy"]
+
+[resource]
+script = ExtResource("1_563jy")
+max_hp = 30
+enable_patrol = false
+enable_chase = false
+enable_bob = false
+enable_contact_damage = false
+fire_cooldown = 3.0
+use_homing = true
+homing_strength = 2.0
+contact_damage = 0
+is_grounded = true
+metadata/_custom_type_script = "uid://ck8cbpdng0y2j"
