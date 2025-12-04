@@ -1,9 +1,10 @@
 extends Area2D
 
 @export var speed: float = 350.0
-@export var damage: int = 5
+@export var damage: int = 10
 @export var lifetime: float = 3.0
 @export var homing_strength: float = 0.0  # 0 = straight shot
+@export var knockback_force: float = 200.0
 
 var velocity: Vector2 = Vector2.ZERO
 var target: Node2D = null
@@ -29,8 +30,11 @@ func _physics_process(delta: float) -> void:
 	global_position += velocity * delta
 
 func _hit_player(p: Node) -> void:
+	var dir = (p.global_position - global_position).normalized()
+	var knockback = dir * knockback_force
+
 	if p.has_method("apply_damage"):
-		p.apply_damage(damage, Vector2.ZERO)
+		p.apply_damage(damage, knockback)
 	queue_free()
 
 func _on_body_entered(body: Node2D) -> void:
