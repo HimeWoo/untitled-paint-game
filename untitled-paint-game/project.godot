@@ -109,6 +109,7 @@ look_down={
 2d_physics/layer_4="PlayerProjectile"
 2d_physics/layer_5="EnemyProjectile"
 2d_physics/layer_6="Pushbox"
+2d_physics/layer_7="RoomTransition"
 
 [rendering]
 
