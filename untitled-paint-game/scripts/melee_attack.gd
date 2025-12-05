@@ -61,17 +61,28 @@ func _hit(target: Node) -> void:
 func _paint_tiles_under_hitbox() -> void:
 	if _tilemap == null:
 		return
+
 	var shape: CollisionShape2D = $CollisionShape2D
-	var rect := shape.shape.get_rect()  # works for any Shape2D
-	var top_left := shape.to_global(rect.position * shape.global_scale)
-	var bottom_right := shape.to_global((rect.position + rect.size) * shape.global_scale)
-	var start = _tilemap.local_to_map(_tilemap.to_local(top_left))
-	var end = _tilemap.local_to_map(_tilemap.to_local(bottom_right))
+	var rect := shape.shape.get_rect()
+	
+	var top_left_global := shape.to_global(rect.position)
+	var bottom_right_global := shape.to_global(rect.end)
+
+	var map_coord_1 = _tilemap.local_to_map(_tilemap.to_local(top_left_global))
+	var map_coord_2 = _tilemap.local_to_map(_tilemap.to_local(bottom_right_global))
+
+	var x_min = min(map_coord_1.x, map_coord_2.x)
+	var x_max = max(map_coord_1.x, map_coord_2.x)
+	var y_min = min(map_coord_1.y, map_coord_2.y)
+	var y_max = max(map_coord_1.y, map_coord_2.y)
+
 	var alt_id = _color_to_alt(_selected_color)
-	for x in range(start.x, end.x + 1):
-		for y in range(start.y, end.y + 1):
+
+	for x in range(x_min, x_max + 1):
+		for y in range(y_min, y_max + 1):
 			var cell := Vector2i(x, y)
 			var data = _tilemap.get_cell_tile_data(cell)
+			
 			if data and data.get_custom_data("can_paint"):
 				if _selected_color == PaintColor.Colors.PURPLE and _tilemap.has_method("paint_purple"):
 					_tilemap.paint_purple(cell)
