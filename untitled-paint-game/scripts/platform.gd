@@ -6,9 +6,9 @@ extends AnimatableBody2D
 # The Side to side (fixed) and side to side (collision) are old code I had.
 # The side to side with tilemap collision or fixed amount and smart wall distance return is new code.
 # Some of this code is modified and was inlcuded with my Exercise 1 submission.
-enum MovementMode { STATIONARY, FIXED_PATH, COLLIDE_TILEMAP, SMART_WALL_DIST_COLLIDE, SMART_WALL_DIST_RETURN_START }
+enum MovementMode { STATIONARY, FIXED_PATH, COLLIDE_TILEMAP, SMART_WALL_DIST_COLLIDE, SMART_WALL_DIST_RETURN_START, FIXED_PATH_VERTICAL, GO_TO_TARGET_RETURN_START }
 
-@export_enum("Stationary", "Fixed Path", "Side to Side (Collide TileMap)", "Side to Side min(Fixed Dist or Collide TileMap)", "Smart Wall Distance Return to Start")
+@export_enum("Stationary", "Fixed Path (Horizontal)", "Side to Side (Collide TileMap)", "Side to Side min(Fixed Dist or Collide TileMap)", "Smart Wall Distance Return to Start", "Fixed Path (Vertical)", "Go To Target (Return Start)")
 var movement_mode: int = MovementMode.STATIONARY
 
 @export_enum("Right", "Left")
@@ -16,6 +16,8 @@ var start_direction: int = 0  # 0 = right, 1 = left
 
 @export var pixel_offset: int = 64  # Oscillation distance (for fixed path)
 @export var speed: float = 50.0     # Movement speed
+@export var target_global: Vector2 = Vector2.ZERO  # Destination for GO_TO_TARGET_RETURN_START
+@export var reach_threshold: float = 1.0           # Threshold to consider destination reached
 
 @onready var ray_left: RayCast2D = $RayCastWallHitLeft
 @onready var ray_right: RayCast2D = $RayCastWallHitRight
@@ -23,12 +25,15 @@ var start_direction: int = 0  # 0 = right, 1 = left
 var direction := 1
 var start_position: Vector2
 var travel_distance := 0.0
+var base_dir := 1  # Remember initial horizontal direction for bounded oscillation
+var to_target := true  # For GO_TO_TARGET_RETURN_START mode
 
 func _ready():
 	# Convert to kinematic mode
 	PhysicsServer2D.body_set_mode(get_rid(), PhysicsServer2D.BODY_MODE_KINEMATIC)
 	start_position = global_position
 	direction = 1 if start_direction == 0 else -1
+	base_dir = direction
 
 func _physics_process(delta):
 	var motion := Vector2.ZERO
@@ -46,11 +51,13 @@ func _physics_process(delta):
 		MovementMode.FIXED_PATH:
 			motion = Vector2(direction * speed * delta, 0)
 			global_position += motion
-			# Check displacement relative to start and only flip when we've moved
-			# `pixel_offset` in the current movement direction.
-			var displacement := global_position.x - start_position.x
-			if (direction > 0 and displacement >= pixel_offset) or (direction < 0 and displacement <= -pixel_offset):
-				direction *= -1
+			var displacement_x := global_position.x - start_position.x
+			var signed_disp := displacement_x * base_dir
+			# Go outward until reaching pixel_offset, then return to start (0), not past it
+			if direction == base_dir and signed_disp >= pixel_offset:
+				direction = -base_dir
+			elif direction == -base_dir and signed_disp <= 0.0:
+				direction = base_dir
 
 		# Move side to side, reversing direction on tilemap collision
 		MovementMode.COLLIDE_TILEMAP:
@@ -89,4 +96,30 @@ func _physics_process(delta):
 			
 			motion = Vector2(direction * speed * delta, 0)
 			global_position += motion
+
+		# Vertical fixed path: move up/down between start.y and start.y + base_dir * pixel_offset
+		MovementMode.FIXED_PATH_VERTICAL:
+			motion = Vector2(0, direction * speed * delta)
+			global_position += motion
+			var displacement_y := global_position.y - start_position.y
+			var signed_disp_y := displacement_y * base_dir
+			# For vertical, base_dir uses start_direction (Right=1, Left=-1) but we repurpose as Up=-1, Down=1
+			# Interpret base_dir: if start_direction == 0 (Right), treat as Down for vertical; if Left, treat as Up
+			# Map base_dir to vertical_base_dir
+			var vertical_base_dir := 1 if (start_direction == 0) else -1
+			if direction == vertical_base_dir and signed_disp_y >= pixel_offset:
+				direction = -vertical_base_dir
+			elif direction == -vertical_base_dir and signed_disp_y <= 0.0:
+				direction = vertical_base_dir
+
+		# Go to target, then return to start, looping regardless of where target is
+		MovementMode.GO_TO_TARGET_RETURN_START:
+			var dest: Vector2 = target_global if to_target else start_position
+			var to_vec: Vector2 = dest - global_position
+			var dist := to_vec.length()
+			if dist <= reach_threshold:
+				to_target = !to_target
+			else:
+				motion = to_vec.normalized() * speed * delta
+				global_position += motion
 	
