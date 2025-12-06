@@ -251,8 +251,7 @@ func _update_facing_from_input() -> void:
 	var facing_left := Input.is_action_pressed("ui_left") or Input.is_key_pressed(KEY_A)
 	var facing_right := Input.is_action_pressed("ui_right") or Input.is_key_pressed(KEY_D)
 	var dir := int(facing_right) - int(facing_left)
-
-	if dir != 0:
+	if dir != 0 and not is_attacking:
 		facing_dir = dir
 		sprite.flip_h = (facing_dir == -1)
 
@@ -476,6 +475,19 @@ func _update_animation() -> void:
 
 	sprite.flip_h = facing_dir < 0
 
+	
+	# jump frames
+	if not is_on_floor():
+		if velocity.y < 0:
+			if sprite.animation != "jump":
+				sprite.play("jump")
+			sprite.frame = 0
+		else:
+			if sprite.animation != "jump":
+				sprite.play("jump")
+			sprite.frame = 1 
+		return
+	
 	# Reset speed_scale when changing away from dash
 	if sprite.animation == "dash" and not is_dashing:
 		if sprite.frame < sprite.sprite_frames.get_frame_count("dash") - 1:
