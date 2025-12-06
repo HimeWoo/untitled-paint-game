@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=4 uid="uid://cqqs3koshw1te"]
+[gd_scene load_steps=25 format=4 uid="uid://cqqs3koshw1te"]
 
 [ext_resource type="PackedScene" uid="uid://b3rae3dafdwir" path="res://scenes/player.tscn" id="1_32lhk"]
 [ext_resource type="PackedScene" uid="uid://csj3xhrhnrkgo" path="res://scenes/tiles.tscn" id="2_7g83o"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://bj5po58m1bnam" path="res://scenes/pushbox.tscn" id="10_pdh0q"]
 [ext_resource type="PackedScene" uid="uid://bq5kxtjqomv3i" path="res://scenes/ui/interface.tscn" id="11_h1bdy"]
 [ext_resource type="Script" uid="uid://cg564iutjm3o8" path="res://scripts/room_transition.gd" id="13_nrtoj"]
+[ext_resource type="Texture2D" uid="uid://scr5ppigf6cy" path="res://assets/bgs/bg-tut1.png" id="14_i4b1j"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h1bdy"]
 size = Vector2(640, 360)
@@ -378,3 +379,13 @@ metadata/_custom_type_script = "uid://cg564iutjm3o8"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Transition6to5"]
 shape = SubResource("RectangleShape2D_dwmkc")
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2(1024, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+position = Vector2(-319, -258)
+texture = ExtResource("14_i4b1j")
+centered = false
