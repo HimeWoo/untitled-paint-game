@@ -12,6 +12,8 @@ extends CharacterBody2D
 @export var attack_cooldown: float = 0.2
 @export var melee_knockback_force: Vector2 = Vector2(300.0, -200.0)
 
+# PUSH FORCE
+@export var push_force: float = 150.0
 # PLAYER STATS
 @export_group("Player Stats")
 @export var max_hp: int = 100
@@ -130,6 +132,17 @@ func _physics_process(delta: float) -> void:
 
 	# Apply motion
 	move_and_slide()
+	
+	for i in get_slide_collision_count():
+		var c = get_slide_collision(i)
+		var collider = c.get_collider()
+		if collider is Pushbox:
+			collider.sleeping = false
+			var push_vector := -c.get_normal() * push_force
+			collider.attempt_push(push_vector)
+		elif collider is RigidBody2D:
+			collider.sleeping = false
+			collider.apply_impulse(-c.get_normal() * 200.0)
 
 
 # DAMAGE
