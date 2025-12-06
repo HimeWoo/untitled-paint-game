@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://byodqxwxmkf75"]
 
-[ext_resource type="Texture2D" uid="uid://buh45skyrvnym" path="res://assets/platforms.png" id="1_ba0x2"]
 [ext_resource type="Script" uid="uid://b5ya8wq6bi5tl" path="res://scripts/platform.gd" id="1_nlgqw"]
+[ext_resource type="Texture2D" uid="uid://duwpjqh4q3juf" path="res://assets/tiles/platform-moving.png" id="2_nlgqw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nlgqw"]
 size = Vector2(32, 8)
@@ -12,9 +12,11 @@ collision_mask = 3
 script = ExtResource("1_nlgqw")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_ba0x2")
+position = Vector2(0, 0.0138888955)
+scale = Vector2(1, 1.0034722)
+texture = ExtResource("2_nlgqw")
 region_enabled = true
-region_rect = Rect2(16, 16, 32, 9)
+region_rect = Rect2(0, 0, 32, 8)
 region_filter_clip_enabled = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
