@@ -1,15 +1,16 @@
-[gd_scene load_steps=11 format=4 uid="uid://cqqs3koshw1te"]
+[gd_scene load_steps=12 format=4 uid="uid://cqqs3koshw1te"]
 
 [ext_resource type="PackedScene" uid="uid://b3rae3dafdwir" path="res://scenes/player.tscn" id="1_32lhk"]
-[ext_resource type="PackedScene" path="res://scenes/tiles.tscn" id="2_7g83o"]
+[ext_resource type="PackedScene" uid="uid://csj3xhrhnrkgo" path="res://scenes/tiles.tscn" id="2_7g83o"]
 [ext_resource type="PackedScene" uid="uid://dffmuh4oa73qh" path="res://scenes/hazards/spike.tscn" id="3_7g83o"]
 [ext_resource type="PackedScene" uid="uid://bco8vv41h18bo" path="res://scenes/items/blue_paint.tscn" id="4_d1c63"]
 [ext_resource type="PackedScene" uid="uid://byodqxwxmkf75" path="res://scenes/platform.tscn" id="5_0uv0p"]
 [ext_resource type="PackedScene" uid="uid://iydhjgar5iis" path="res://scenes/items/yellow_paint.tscn" id="6_b3faq"]
 [ext_resource type="PackedScene" uid="uid://dhah2xlx861hv" path="res://scenes/items/red_paint.tscn" id="7_ygioq"]
-[ext_resource type="PackedScene" path="res://scenes/GroundEnemy.tscn" id="8_ygioq"]
+[ext_resource type="PackedScene" uid="uid://bsxqk7a26x7o2" path="res://scenes/GroundEnemy.tscn" id="8_ygioq"]
 [ext_resource type="PackedScene" uid="uid://b8txfoox5y1qr" path="res://scenes/FloatingEnemy.tscn" id="9_pdh0q"]
 [ext_resource type="PackedScene" uid="uid://bj5po58m1bnam" path="res://scenes/pushbox.tscn" id="10_pdh0q"]
+[ext_resource type="PackedScene" uid="uid://bq5kxtjqomv3i" path="res://scenes/ui/interface.tscn" id="11_h1bdy"]
 
 [node name="World" type="Node2D"]
 
@@ -158,3 +159,14 @@ position = Vector2(2256, -4)
 
 [node name="Spike30" parent="Spike Collection" instance=ExtResource("3_7g83o")]
 position = Vector2(2224, -4)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Interface" parent="CanvasLayer" instance=ExtResource("11_h1bdy")]
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_right = 288.0
+offset_bottom = 108.0
+grow_horizontal = 1
+grow_vertical = 1
