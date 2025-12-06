@@ -16,9 +16,9 @@ enum Direction {
 ## The camera to move when triggered
 @export var camera: Camera
 ## New zoom of the camera when triggered
-@export var camera_zoom: Vector2
+@export_custom(PROPERTY_HINT_LINK, "suffix:") var camera_zoom: Vector2 = Vector2.ZERO
 ## New position the camera moves toward when triggered
-@onready var camera_target: Node2D = $CameraTarget
+@export var camera_target: Vector2 = Vector2.ZERO
 
 
 func _ready() -> void:
@@ -28,7 +28,7 @@ func _ready() -> void:
 func _on_body_entered(body: CharacterBody2D) -> void:
 	if body.is_in_group("player") and _entered_from_valid_direction(body):
 		if not camera_target == null:
-			camera.position = camera_target.global_position
+			camera.position = camera_target
 		if not camera_zoom.is_zero_approx():
 			camera.target_zoom = camera_zoom
 		# Apply scripted velocity here
