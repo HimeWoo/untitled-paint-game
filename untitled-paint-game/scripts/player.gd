@@ -64,6 +64,7 @@ var post_dash_contact_timer: float = 0.0
 # TERRAIN
 @export_group("Terrain")
 @export var terrain_map: TileMapLayer
+@export var platform_layer_bit: int = 2
 @export var foot_check_offset_y: float = 12.0
 
 # RUNTIME MOVEMENT STATE
@@ -288,6 +289,13 @@ func _handle_jump_and_gravity(delta: float, current_jump_velocity: float) -> voi
 	elif is_on_floor():
 		jumps_left = 1
 		last_jump_was_double = false
+
+	# Allow player to drop down through platforms by temporarily ignoring platform layer
+	if Input.is_action_just_pressed("look_down") and is_on_floor():
+		global_position.y += 2 # so no longer on floor
+		set_collision_mask_value(platform_layer_bit, false)
+		await get_tree().create_timer(0.25).timeout
+		set_collision_mask_value(platform_layer_bit, true)
 
 	var jumped_this_frame := false
 	
