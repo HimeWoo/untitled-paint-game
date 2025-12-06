@@ -1,6 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://csj3xhrhnrkgo"]
+[gd_scene load_steps=8 format=3 uid="uid://csj3xhrhnrkgo"]
 
 [ext_resource type="Texture2D" uid="uid://ytknjfaps4nu" path="res://assets/tiles/tiles-canvas.png" id="1_1g8qg"]
+[ext_resource type="Texture2D" uid="uid://b2ofw8ooe34k1" path="res://assets/tiles/spikes-flat.png" id="2_jhpg2"]
+[ext_resource type="Texture2D" uid="uid://d2f27jn8xgtym" path="res://assets/tiles/spikes.png" id="3_i3m0d"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_od8sr"]
 texture = ExtResource("1_1g8qg")
@@ -1374,6 +1376,36 @@ texture = ExtResource("1_1g8qg")
 6:2/7/custom_data_0 = true
 6:2/7/custom_data_5 = true
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ddpu7"]
+texture = ExtResource("3_i3m0d")
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+0:0/0/custom_data_6 = true
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_jhpg2"]
+texture = ExtResource("2_jhpg2")
+texture_region_size = Vector2i(16, 8)
+0:0/next_alternative_id = 2
+0:0/0 = 0
+0:0/0/texture_origin = Vector2i(0, -4)
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+0:0/0/custom_data_6 = true
+0:0/1 = 1
+0:0/1/flip_v = true
+0:0/1/texture_origin = Vector2i(0, 4)
+0:0/1/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+0:0/1/custom_data_6 = true
+1:0/next_alternative_id = 2
+1:0/0 = 0
+1:0/0/texture_origin = Vector2i(0, -4)
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1:0/0/custom_data_6 = true
+1:0/1 = 1
+1:0/1/flip_v = true
+1:0/1/texture_origin = Vector2i(0, 4)
+1:0/1/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1:0/1/custom_data_6 = true
+
 [sub_resource type="TileSet" id="TileSet_jhpg2"]
 physics_layer_0/collision_layer = 1
 terrain_set_0/mode = 0
@@ -1391,7 +1423,11 @@ custom_data_layer_4/name = "launch_force"
 custom_data_layer_4/type = 3
 custom_data_layer_5/name = "is_teleporter"
 custom_data_layer_5/type = 1
+custom_data_layer_6/name = "is_spike"
+custom_data_layer_6/type = 1
 sources/1 = SubResource("TileSetAtlasSource_od8sr")
+sources/3 = SubResource("TileSetAtlasSource_ddpu7")
+sources/5 = SubResource("TileSetAtlasSource_jhpg2")
 
 [node name="paint_tiles" type="TileMapLayer"]
 tile_set = SubResource("TileSet_jhpg2")
