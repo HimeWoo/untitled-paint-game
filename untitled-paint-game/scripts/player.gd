@@ -86,6 +86,9 @@ var last_frame_tile_coords: Vector2i = Vector2i(-999, -999)
 # NODES
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
+# MISC
+var is_dying: bool = false 
+
 # LIFECYCLE
 func _ready() -> void:
 	jumps_left = 1
@@ -135,6 +138,7 @@ func _physics_process(delta: float) -> void:
 	
 	track_pushboxes()
 
+	_check_tile_collisions()
 
 func track_pushboxes():
 	for i in get_slide_collision_count():
@@ -257,7 +261,6 @@ func _calculate_terrain_stats(
 				teleport_cooldown_timer = 1.0
 				var dest_coords := terrain_map.local_to_map(terrain_map.to_local(world_target))
 				last_frame_tile_coords = dest_coords
-
 	last_frame_tile_coords = tile_coords
 	
 	# RETURN the calculated values instead of overwriting the class variables
@@ -386,7 +389,7 @@ func _handle_horizontal_movement(delta: float, current_speed: float) -> void:
 
 
 	# After movement, check overlaps/collisions with hazards (nodes in groups: hazard/water/spike)
-	_check_hazard_contact_and_die()
+	#_check_hazard_contact_and_die()
 
 func start_dash():
 	is_dashing = true
@@ -560,7 +563,7 @@ func _get_attack_direction() -> Vector2:
 	
 # --- Hazard helpers ---
 func _is_hazard_node(n: Node) -> bool:
-	return n != null and (n.is_in_group("hazard") or n.is_in_group("water") or n.is_in_group("spike"))
+	return n != null and (n.is_in_group("hazard") or n.is_in_group("water"))
 
 func _check_hazard_contact_and_die() -> void:
 	# 1) Any slide collisions with hazard bodies?
@@ -571,7 +574,7 @@ func _check_hazard_contact_and_die() -> void:
 			print("Hazard contact (body): ", col.name)
 			_die()
 			return
-
+#
 	# 2) Overlapping hazard Areas using a small shape around the player (more reliable than point)
 	var shape := CircleShape2D.new()
 	shape.radius = 10.0
@@ -588,6 +591,26 @@ func _check_hazard_contact_and_die() -> void:
 			_die()
 			return
 
+
 func _die() -> void:
+	if is_dying:
+		return
+	is_dying = true
 	print("Player died: hazard contact")
-	get_tree().reload_current_scene()
+	if get_tree():
+		get_tree().reload_current_scene()
+
+func _check_tile_collisions() -> void:
+	for i in get_slide_collision_count():
+		var collision = get_slide_collision(i)
+		var collider = collision.get_collider()
+		
+		if collider == terrain_map:
+			var hit_pos = collision.get_position() - collision.get_normal()
+			var tile_coords = terrain_map.local_to_map(terrain_map.to_local(hit_pos))
+			
+			var tile_data = terrain_map.get_cell_tile_data(tile_coords)
+			if tile_data:
+				var is_spike = tile_data.get_custom_data("is_spike")
+				if is_spike: 
+					_die()
