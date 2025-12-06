@@ -21,8 +21,8 @@ UISignals="*res://scripts/ui/ui_signals.gd"
 
 [display]
 
-window/size/viewport_width=1412
-window/size/viewport_height=1488
+window/size/viewport_width=2222
+window/size/viewport_height=1518
 window/stretch/mode="viewport"
 
 [global_group]
