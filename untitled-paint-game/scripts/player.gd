@@ -374,8 +374,9 @@ func _handle_dash_input(current_dash_speed: float) -> void:
 		var left := Input.is_action_pressed("move_left")
 		var right := Input.is_action_pressed("move_right")
 		dash_direction = int(right) - int(left)
+		# if dash direction 0 use facing dir not fixed
 		if dash_direction == 0:
-			dash_direction = sign(velocity.x) if velocity.x != 0 else 1
+			dash_direction = facing_dir
 		print("Dash Direction: ", dash_direction)
 		start_dash()
 
