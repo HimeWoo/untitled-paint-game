@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=4 uid="uid://5j7165prjd2j"]
+[gd_scene load_steps=20 format=4 uid="uid://5j7165prjd2j"]
 
 [ext_resource type="Texture2D" uid="uid://2bcbuley55ou" path="res://assets/parallax_pixleated.png" id="1_bvmv3"]
 [ext_resource type="PackedScene" uid="uid://bq5kxtjqomv3i" path="res://scenes/ui/interface.tscn" id="1_qchoo"]
@@ -12,7 +12,9 @@
 [ext_resource type="PackedScene" uid="uid://bj5po58m1bnam" path="res://scenes/pushbox.tscn" id="9_sp2it"]
 [ext_resource type="PackedScene" uid="uid://byodqxwxmkf75" path="res://scenes/platform.tscn" id="11_5v2uq"]
 [ext_resource type="PackedScene" uid="uid://cglbrc1eaq6s8" path="res://scenes/hazards/water.tscn" id="12_auxfu"]
+[ext_resource type="PackedScene" uid="uid://c0ueve5t7pkg7" path="res://scenes/pressure_pad.tscn" id="13_auxfu"]
 [ext_resource type="PackedScene" uid="uid://dffmuh4oa73qh" path="res://scenes/hazards/spike.tscn" id="13_vbh4c"]
+[ext_resource type="PackedScene" uid="uid://ced6bjidq52ic" path="res://scenes/Door.tscn" id="14_vbh4c"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_f3voe"]
 texture = ExtResource("8_sp2it")
@@ -163,6 +165,9 @@ sources/0 = SubResource("TileSetAtlasSource_sp2it")
 
 [node name="Main" type="Node"]
 
+[node name="Door" parent="." instance=ExtResource("14_vbh4c")]
+position = Vector2(417, 456)
+
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
@@ -241,14 +246,15 @@ collision_mask = 3
 position = Vector2(683, 364)
 collision_mask = 3
 
-[node name="Pushbox" parent="." instance=ExtResource("9_sp2it")]
-position = Vector2(336, 447)
-
 [node name="Platform" parent="." instance=ExtResource("11_5v2uq")]
 position = Vector2(727, 398)
 movement_mode = 3
 start_direction = 1
 pixel_offset = 150
 
-[node name="Pushbox2" parent="." instance=ExtResource("9_sp2it")]
-position = Vector2(499, 447)
+[node name="Pushbox" parent="." instance=ExtResource("9_sp2it")]
+position = Vector2(339, 446)
+
+[node name="PressurePad" parent="." node_paths=PackedStringArray("linked_door") instance=ExtResource("13_auxfu")]
+position = Vector2(247, 461)
+linked_door = NodePath("../Door")

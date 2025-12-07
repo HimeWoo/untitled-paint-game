@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://c0ueve5t7pkg7"]
+
+[ext_resource type="Script" uid="uid://r0n2hq1jw6us" path="res://scripts/pressure_pad.gd" id="1_34gpk"]
+[ext_resource type="Texture2D" uid="uid://c0gr0m5chdxkx" path="res://assets/tiles/pressure_plate.png" id="2_ey7vk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ey7vk"]
+
+[node name="PressurePad" type="Node2D"]
+scale = Vector2(4.0413823, 1.2509872)
+script = ExtResource("1_34gpk")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_ey7vk")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_mask = 33
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+scale = Vector2(1.6053829, -0.29908794)
+shape = SubResource("RectangleShape2D_ey7vk")
