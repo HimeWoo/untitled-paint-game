@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://bj5po58m1bnam"]
 
-[ext_resource type="Texture2D" uid="uid://bs5elx113sajt" path="res://assets/icon.svg" id="1_p8o3m"]
+[ext_resource type="Texture2D" uid="uid://bs5elx113sajt" path="res://assets/tiles/icon.svg" id="1_p8o3m"]
 [ext_resource type="Script" uid="uid://r1vxjc2qvxjl" path="res://scripts/pushbox.gd" id="1_quxu0"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_p8o3m"]
