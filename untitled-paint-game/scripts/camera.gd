@@ -8,5 +8,5 @@ var target_zoom: Vector2 = zoom
 
 
 func _process(delta: float) -> void:
-  if not (target_zoom - zoom).is_zero_approx():
-    zoom = zoom.lerp(target_zoom, delta * zoom_speed)
+	if not (target_zoom - zoom).is_zero_approx():
+		zoom = zoom.lerp(target_zoom, delta * zoom_speed)
