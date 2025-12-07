@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=4 uid="uid://cqqs3koshw1te"]
+[gd_scene load_steps=31 format=4 uid="uid://cqqs3koshw1te"]
 
 [ext_resource type="PackedScene" uid="uid://b3rae3dafdwir" path="res://scenes/player.tscn" id="1_32lhk"]
 [ext_resource type="PackedScene" uid="uid://csj3xhrhnrkgo" path="res://scenes/tiles.tscn" id="2_7g83o"]
@@ -16,8 +16,10 @@
 [ext_resource type="Texture2D" uid="uid://6kruuej5teyy" path="res://assets/bgs/bg-sky.png" id="15_c0d7e"]
 [ext_resource type="Texture2D" uid="uid://cmacpn3jaliar" path="res://assets/bgs/bg-tut2.png" id="15_o1tcx"]
 [ext_resource type="Texture2D" uid="uid://ctyw0k4spwmo1" path="res://assets/bgs/bg-tut3.png" id="16_rpuxp"]
-[ext_resource type="PackedScene" path="res://scenes/Door.tscn" id="17_nthub"]
-[ext_resource type="PackedScene" path="res://scenes/pressure_pad.tscn" id="18_44lqw"]
+[ext_resource type="Texture2D" uid="uid://2j5krva2pd3a" path="res://assets/bgs/bg-dust.png" id="17_44lqw"]
+[ext_resource type="PackedScene" uid="uid://ced6bjidq52ic" path="res://scenes/Door.tscn" id="17_nthub"]
+[ext_resource type="PackedScene" uid="uid://c0ueve5t7pkg7" path="res://scenes/pressure_pad.tscn" id="18_44lqw"]
+[ext_resource type="Texture2D" uid="uid://r5q47i1wtxn6" path="res://assets/bgs/bg-dust2.png" id="18_dwmkc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h1bdy"]
 size = Vector2(640, 360)
@@ -331,6 +333,26 @@ scroll_scale = Vector2(0, 0)
 [node name="Sprite2D" type="Sprite2D" parent="Parallax2D2"]
 position = Vector2(576, 324)
 texture = ExtResource("15_c0d7e")
+
+[node name="Parallax2D3" type="Parallax2D" parent="."]
+z_index = -101
+repeat_size = Vector2(720, 0)
+autoscroll = Vector2(-180, 0)
+repeat_times = 6
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallax2D3"]
+position = Vector2(0, -80)
+texture = ExtResource("17_44lqw")
+
+[node name="Parallax2D4" type="Parallax2D" parent="."]
+z_index = -101
+repeat_size = Vector2(720, 0)
+autoscroll = Vector2(-240, 0)
+repeat_times = 6
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallax2D4"]
+position = Vector2(0, -80)
+texture = ExtResource("18_dwmkc")
 
 [node name="Door" parent="." instance=ExtResource("17_nthub")]
 position = Vector2(3431.9998, -199.99998)
