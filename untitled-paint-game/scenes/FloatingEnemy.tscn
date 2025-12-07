@@ -1,9 +1,31 @@
-[gd_scene load_steps=8 format=3 uid="uid://b8txfoox5y1qr"]
+[gd_scene load_steps=11 format=3 uid="uid://b8txfoox5y1qr"]
 
 [ext_resource type="Script" uid="uid://e7xagyljh0qf" path="res://scripts/enemy.gd" id="1_vtvda"]
 [ext_resource type="Resource" uid="uid://b8v4qquc17tuq" path="res://data/FloatingEnemy.tres" id="2_gf8k1"]
 [ext_resource type="PackedScene" uid="uid://dh6488mkbfq22" path="res://scenes/EnemyProjectile.tscn" id="2_vtvda"]
-[ext_resource type="Texture2D" uid="uid://cnnt41l6cvuob" path="res://assets/floating_enemy.png" id="4_gf8k1"]
+[ext_resource type="Texture2D" uid="uid://i1jnijuohkpv" path="res://assets/charas/enemies/mosq-def.png" id="4_gf8k1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ed3ba"]
+atlas = ExtResource("4_gf8k1")
+region = Rect2(0, 0, 18, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r4q46"]
+atlas = ExtResource("4_gf8k1")
+region = Rect2(18, 0, 18, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2u1xm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ed3ba")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r4q46")
+}],
+"loop": true,
+"name": &"default",
+"speed": 7.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y5xqv"]
 size = Vector2(130, 130.00003)
@@ -21,8 +43,10 @@ script = ExtResource("1_vtvda")
 stats = ExtResource("2_gf8k1")
 projectile_scene = ExtResource("2_vtvda")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("4_gf8k1")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(-7.2000856, 8.105216)
+sprite_frames = SubResource("SpriteFrames_2u1xm")
+frame_progress = 0.13391688
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(6.1094725e-06, 2.9802317e-07)

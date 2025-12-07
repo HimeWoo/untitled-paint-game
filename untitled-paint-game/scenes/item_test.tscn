@@ -257,4 +257,5 @@ position = Vector2(339, 446)
 
 [node name="PressurePad" parent="." node_paths=PackedStringArray("linked_door") instance=ExtResource("13_auxfu")]
 position = Vector2(247, 461)
+scale = Vector2(1, 1)
 linked_door = NodePath("../Door")

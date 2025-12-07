@@ -17,13 +17,14 @@ var facing_dir: int = -1
 @onready var fire_timer: Timer = $FireTimer
 @onready var health_bar: ProgressBar = $HealthBar
 @onready var contact_area: Area2D = $ContactDamageArea
+@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 func _ready() -> void:
 	add_to_group("enemy")
 	base_y = global_position.y
 
 	if stats == null:
-		stats = EnemyStats.new()  # fallback so nothing crashes
+		stats = EnemyStats.new()
 
 	hp = stats.max_hp
 	patrol_dir = stats.start_patrol_dir
@@ -39,6 +40,9 @@ func _ready() -> void:
 
 	if contact_area:
 		contact_area.body_entered.connect(_on_contact_body_entered)
+		
+	if animated_sprite:
+		animated_sprite.play("default")
 
 
 func _update_health_bar() -> void:
@@ -54,11 +58,11 @@ func _update_health_bar() -> void:
 
 	var col: Color
 	if ratio <= 0.25:
-		col = Color(1, 0, 0)       # red
+		col = Color(1, 0, 0)
 	elif ratio <= 0.5:
-		col = Color(1, 1, 0)       # yellow
+		col = Color(1, 1, 0)
 	else:
-		col = Color(0, 1, 0)       # green
+		col = Color(0, 1, 0)
 
 	health_bar.modulate = col
 
@@ -89,6 +93,10 @@ func _physics_process(delta: float) -> void:
 	# Facing + contact hitbox 
 	if dir.x != 0.0:
 		facing_dir = 1 if dir.x > 0.0 else -1
+		
+		# Flip the sprite based on direction
+		if animated_sprite:
+			animated_sprite.flip_h = (facing_dir == -1)
 
 	if stats.enable_contact_damage and contact_area:
 		var base_offset := 16.0
@@ -109,7 +117,6 @@ func _physics_process(delta: float) -> void:
 
 
 func _on_contact_body_entered(body: Node2D) -> void:
-	# If this enemy type should not deal touch damage, do nothing.
 	if stats == null or not stats.enable_contact_damage:
 		return
 	
@@ -144,7 +151,7 @@ func _fire_at_player() -> void:
 		proj.setup(
 			shoot_dir,
 			player if stats.use_homing else null,
-			10,  # or stats.contact_damage if you want to reuse
+			10,
 			stats.homing_strength if stats.use_homing else 0.0
 		)
 
