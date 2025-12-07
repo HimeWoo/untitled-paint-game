@@ -1,9 +1,31 @@
-[gd_scene load_steps=8 format=3 uid="uid://bsxqk7a26x7o2"]
+[gd_scene load_steps=11 format=3 uid="uid://bsxqk7a26x7o2"]
 
 [ext_resource type="Script" uid="uid://e7xagyljh0qf" path="res://scripts/enemy.gd" id="1_qunq5"]
 [ext_resource type="Resource" uid="uid://ddqsy055qs7i0" path="res://data/GroundEnemy.tres" id="2_qunq5"]
 [ext_resource type="PackedScene" uid="uid://dh6488mkbfq22" path="res://scenes/EnemyProjectile.tscn" id="3_5qxhf"]
-[ext_resource type="Texture2D" uid="uid://dl8vkte4i6m3q" path="res://assets/ground_enemy.png" id="4_qunq5"]
+[ext_resource type="Texture2D" uid="uid://berth500rujsp" path="res://assets/charas/enemies/snail-def.png" id="4_qunq5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bj4rl"]
+atlas = ExtResource("4_qunq5")
+region = Rect2(0, 0, 18, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5qxhf"]
+atlas = ExtResource("4_qunq5")
+region = Rect2(18, 0, 18, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lij6f"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bj4rl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5qxhf")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y5xqv"]
 size = Vector2(130.00002, 130.00003)
@@ -21,8 +43,10 @@ script = ExtResource("1_qunq5")
 stats = ExtResource("2_qunq5")
 projectile_scene = ExtResource("3_5qxhf")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("4_qunq5")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(-6.0499167, 6.8018513)
+sprite_frames = SubResource("SpriteFrames_lij6f")
+frame_progress = 0.5003169
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(4.4703456e-06, 1.1920927e-06)
