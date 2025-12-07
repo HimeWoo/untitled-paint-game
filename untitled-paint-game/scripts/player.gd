@@ -338,11 +338,6 @@ func _handle_jump_and_gravity(delta: float, current_jump_velocity: float) -> voi
 		last_jump_was_double = false
 
 	# Allow player to drop down through platforms by temporarily ignoring platform layer
-	if Input.is_action_just_pressed("look_down") and is_on_floor():
-		global_position.y += 2 # so no longer on floor
-		set_collision_mask_value(platform_layer_bit, false)
-		await get_tree().create_timer(0.25).timeout
-		set_collision_mask_value(platform_layer_bit, true)
 
 	var jumped_this_frame := false
 	
