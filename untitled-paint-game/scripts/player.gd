@@ -41,6 +41,9 @@ var invincible_flash_accum: float = 0.0
 @export_group("Movement - Base")
 @export var move_speed: float = 200.0
 @export var jump_velocity: float = -400.0
+@export var coyote_time: float = 0.15
+
+var coyote_timer: float = 0.0
 
 # MOVEMENT – DASH
 @export_group("Movement - Dash")
@@ -331,27 +334,32 @@ func _handle_paint_queue_input() -> void:
 
 # JUMP / GRAVITY / MOVE
 func _handle_jump_and_gravity(delta: float, current_jump_velocity: float) -> void:
-	if not is_on_floor() and not is_dashing:
-		velocity += get_gravity() * delta
-	elif is_on_floor():
+	if is_on_floor():
+		coyote_timer = coyote_time
 		jumps_left = 1
 		last_jump_was_double = false
+	else:
+		coyote_timer -= delta
+	
+	if not is_on_floor() and not is_dashing:
+		velocity += get_gravity() * delta
 
 	# Allow player to drop down through platforms by temporarily ignoring platform layer
 
 	var jumped_this_frame := false
 	
 	if Input.is_action_just_pressed("jump"):
-		if is_on_floor() or is_dashing:
+		if is_on_floor() or is_dashing or coyote_timer > 0.0:
 			jumped_this_frame = true
 			# If jumping out of a dash, mark that we're carrying momentum
 			if is_dashing:
-				print("Perfmed Dash Jump")
+				print("Performed Dash Jump")
 				# print("Current momentum: ", horizontal_momentum)
 				# is_carrying_dash_momentum = true
 				end_dash()  # End dash but keep the momentum
 			velocity.y = current_jump_velocity
 			last_jump_was_double = false
+			coyote_timer = 0.0
 		elif jumps_left > 0:
 			jumped_this_frame = true
 			velocity.y = current_jump_velocity
