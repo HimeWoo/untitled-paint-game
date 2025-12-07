@@ -58,6 +58,11 @@ var coyote_timer: float = 0.0
 
 var post_dash_contact_timer: float = 0.0
 
+@export_group("Dash VFX")
+@export var dash_ghost_scene: PackedScene = preload("res://scenes/dash-effect.tscn")
+@export var dash_ghost_interval: float = 0.02
+
+var dash_ghost_timer: float = 0.0
 
 # MOVEMENT – ACCEL/DECEL
 @export_group("Movement - Accel / Decel")
@@ -152,7 +157,7 @@ func _physics_process(delta: float) -> void:
 
 	# Dash and horizontal movement
 	# Now using the correctly modified dash/move speeds
-	_handle_dash_input(current_dash_speed)
+	_handle_dash_input(delta, current_dash_speed)
 	_handle_horizontal_movement(delta, current_speed)
 
 	# Paint queue input
@@ -369,7 +374,7 @@ func _handle_jump_and_gravity(delta: float, current_jump_velocity: float) -> voi
 		velocity.y *= 0.5
 
 
-func _handle_dash_input(current_dash_speed: float) -> void:
+func _handle_dash_input(delta: float, current_dash_speed: float) -> void:
 	if Input.is_action_just_pressed("dash") and dash_cooldown_timer <= 0.0 and not is_dashing and is_on_floor():
 		var left := Input.is_action_pressed("move_left")
 		var right := Input.is_action_pressed("move_right")
@@ -382,7 +387,24 @@ func _handle_dash_input(current_dash_speed: float) -> void:
 
 	if is_dashing:
 		horizontal_momentum = dash_direction * current_dash_speed
+		
+		dash_ghost_timer -= delta
+		if dash_ghost_timer <= 0.0:
+			_spawn_dash_ghost()
+			dash_ghost_timer = dash_ghost_interval
 
+func _spawn_dash_ghost() -> void:
+	if dash_ghost_scene == null:
+		return
+		
+	var ghost: Sprite2D = dash_ghost_scene.instantiate()
+	get_parent().add_child(ghost)
+	
+	# Copy player's appearance
+	ghost.global_position = sprite.global_position
+	ghost.texture = sprite.sprite_frames.get_frame_texture(sprite.animation, sprite.frame)
+	ghost.flip_h = sprite.flip_h
+	ghost.scale = sprite.scale
 
 func _handle_horizontal_movement(delta: float, current_speed: float) -> void:
 	if not is_dashing:
