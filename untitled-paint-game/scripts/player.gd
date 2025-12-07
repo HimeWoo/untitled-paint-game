@@ -136,11 +136,11 @@ func _physics_process(delta: float) -> void:
 	# Apply motion
 	move_and_slide()
 	
-	track_pushboxes()
+	# track_pushboxes(delta)
 
 	_check_tile_collisions()
 
-func track_pushboxes():
+func track_pushboxes(delta: float):
 	for i in get_slide_collision_count():
 		var c = get_slide_collision(i)
 		var collider = c.get_collider()

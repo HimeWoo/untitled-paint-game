@@ -216,7 +216,7 @@ shape = SubResource("RectangleShape2D_o1tcx")
 disabled = true
 
 [node name="Transition1to2" type="Area2D" parent="." node_paths=PackedStringArray("camera")]
-position = Vector2(352, -160)
+position = Vector2(386, -160)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("13_nrtoj")
@@ -229,7 +229,7 @@ metadata/_custom_type_script = "uid://cg564iutjm3o8"
 shape = SubResource("RectangleShape2D_rpuxp")
 
 [node name="Transition2to1" type="Area2D" parent="." node_paths=PackedStringArray("camera")]
-position = Vector2(288, -160)
+position = Vector2(320, -160)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("13_nrtoj")
