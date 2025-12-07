@@ -69,6 +69,22 @@ var post_dash_contact_timer: float = 0.0
 @export var platform_layer_bit: int = 2
 @export var foot_check_offset_y: float = 12.0
 
+# CHECKPOINTS
+@export_group("Checkpoint")
+@export var enable_checkpoints: bool = true
+@export var item_red_scene: PackedScene = preload("res://scenes/items/red_paint.tscn")
+@export var item_blue_scene: PackedScene = preload("res://scenes/items/blue_paint.tscn")
+@export var item_yellow_scene: PackedScene = preload("res://scenes/items/yellow_paint.tscn")
+var _checkpoint_active: bool = false
+var _checkpoint_pos: Vector2 = Vector2.ZERO
+var _checkpoint_room: Area2D = null
+var _checkpoint_inventory: Dictionary = {}
+var _checkpoint_paint: Dictionary = {} # Vector2i -> int (alt id)
+var _checkpoint_room_rect: Rect2 = Rect2()
+var _checkpoint_items: Array = [] # [{pos:Vector2, color:int}]
+var _respawn_grace_timer: float = 0.0
+var _last_checkpoint_time: float = -999.0
+
 # RUNTIME MOVEMENT STATE
 var jumps_left: int = 1
 var is_dashing: bool = false
@@ -100,6 +116,12 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	_update_invincibility(delta)
 	_update_post_dash_contact_grace(delta)
+
+	# If in a death/respawn phase, ignore inputs and movement
+	if is_dying:
+		velocity = Vector2.ZERO
+		move_and_slide()
+		return
 
 	# 1. Initialize stats using the BASE export variables
 	var current_speed := move_speed
@@ -136,9 +158,10 @@ func _physics_process(delta: float) -> void:
 	# Apply motion
 	move_and_slide()
 	
-	# track_pushboxes(delta)
+	track_pushboxes(delta)
 
-	_check_tile_collisions()
+	if _respawn_grace_timer <= 0.0:
+		_check_tile_collisions()
 
 func track_pushboxes(delta: float):
 	for i in get_slide_collision_count():
@@ -151,6 +174,9 @@ func track_pushboxes(delta: float):
 		elif collider is RigidBody2D:
 			collider.sleeping = false
 			collider.apply_impulse(-c.get_normal() * 200.0)
+
+	if _respawn_grace_timer > 0.0:
+		_respawn_grace_timer -= delta
 
 
 # DAMAGE
@@ -201,6 +227,8 @@ func _update_invincibility(delta: float) -> void:
 func _update_post_dash_contact_grace(delta: float) -> void:
 	if post_dash_contact_timer > 0.0:
 		post_dash_contact_timer -= delta
+	if _respawn_grace_timer > 0.0:
+		_respawn_grace_timer -= delta
 
 # TERRAIN EFFECTS
 # Returns a Dictionary with keys: speed, jump, dash
@@ -389,7 +417,7 @@ func _handle_horizontal_movement(delta: float, current_speed: float) -> void:
 
 
 	# After movement, check overlaps/collisions with hazards (nodes in groups: hazard/water/spike)
-	#_check_hazard_contact_and_die()
+	_check_hazard_contact_and_die()
 
 func start_dash():
 	is_dashing = true
@@ -566,6 +594,8 @@ func _is_hazard_node(n: Node) -> bool:
 	return n != null and (n.is_in_group("hazard") or n.is_in_group("water"))
 
 func _check_hazard_contact_and_die() -> void:
+	if is_dying or _respawn_grace_timer > 0.0:
+		return
 	# 1) Any slide collisions with hazard bodies?
 	for i in range(get_slide_collision_count()):
 		var c: KinematicCollision2D = get_slide_collision(i)
@@ -597,7 +627,10 @@ func _die() -> void:
 		return
 	is_dying = true
 	print("Player died: hazard contact")
-	if get_tree():
+	if enable_checkpoints and _checkpoint_active:
+		_restore_checkpoint()
+	else:
+		is_dying = false
 		get_tree().reload_current_scene()
 
 func _check_tile_collisions() -> void:
@@ -614,3 +647,169 @@ func _check_tile_collisions() -> void:
 				var is_spike = tile_data.get_custom_data("is_spike")
 				if is_spike: 
 					_die()
+
+# # Called by room transitions to register a checkpoint
+func set_room_checkpoint(spawn_pos: Vector2, room_area: Area2D) -> void:
+	if not enable_checkpoints:
+		return
+	if not can_set_checkpoint():
+		print("[Checkpoint] Ignored set: grace timer active")
+		return
+	var now := Time.get_ticks_msec() / 1000.0
+	if now - _last_checkpoint_time < 0.75:
+		print("[Checkpoint] Ignored set: cooldown")
+		return
+	_checkpoint_active = true
+	_checkpoint_pos = spawn_pos
+	_checkpoint_room = room_area
+	_checkpoint_room_rect = _room_rect_or_fallback(room_area, spawn_pos)
+	_checkpoint_inventory = _snapshot_inventory()
+	_checkpoint_paint = _snapshot_room_paint_rect(_checkpoint_room_rect)
+	_checkpoint_items = _snapshot_room_items(_checkpoint_room_rect)
+	_last_checkpoint_time = now
+
+func _restore_checkpoint() -> void:
+	velocity = Vector2.ZERO
+	is_dashing = false
+	dash_timer = 0.0
+	dash_cooldown_timer = 0.0
+	horizontal_momentum = 0.0
+	is_attacking = false
+	last_jump_was_double = false
+	_restore_inventory(_checkpoint_inventory)
+	if terrain_map != null:
+		_restore_room_paint_rect(_checkpoint_room_rect, _checkpoint_paint)
+	_restore_room_items(_checkpoint_room_rect, _checkpoint_items)
+	# Teleport to checkpoint
+	global_position = _checkpoint_pos
+	_respawn_grace_timer = 1.0
+	is_dying = false
+	await get_tree().process_frame
+	if UISignals != null:
+		UISignals.inventory_changed.emit(inventory)
+
+func can_set_checkpoint() -> bool:
+	return _respawn_grace_timer <= 0.0
+
+func _snapshot_inventory() -> Dictionary:
+	var snap: Dictionary = {}
+	if inventory == null:
+		return snap
+	if inventory._contents is Dictionary:
+		for color in inventory._contents.keys():
+			snap[color] = int(inventory._contents[color])
+	return snap
+
+func _restore_inventory(snap: Dictionary) -> void:
+	if inventory == null:
+		return
+	inventory.clear()
+	for color in snap.keys():
+		var count: int = int(snap[color])
+		for i in range(count):
+			inventory.add_color(color)
+
+func _snapshot_room_items(rect: Rect2) -> Array:
+	var items: Array = []
+	var scene_root := get_tree().get_current_scene()
+	if scene_root == null:
+		return items
+	var nodes: Array = scene_root.find_children("*", "WorldItem", true, false)
+	for n in nodes:
+		var pos := (n as Node2D).global_position
+		if rect.has_point(pos):
+			var wi := n as WorldItem
+			var data := wi.data
+			if data != null:
+				var area := n as Area2D
+				var parent_path: String = n.get_parent().get_path()
+				items.append({
+					"pos": pos,
+					"color": int(data.color),
+					"layer": int(area.collision_layer),
+					"mask": int(area.collision_mask),
+					"z": int((n as Node2D).z_index),
+					"parent": parent_path
+				})
+	return items
+
+func _restore_room_items(rect: Rect2, items: Array) -> void:
+	var scene_root := get_tree().get_current_scene()
+	if scene_root == null:
+		return
+	var existing: Array = scene_root.find_children("*", "WorldItem", true, false)
+	for n in existing:
+		var pos := (n as Node2D).global_position
+		if rect.has_point(pos):
+			(n as WorldItem).queue_free()
+	# Respawn from snapshot
+	for item in items:
+		var pos: Vector2 = item["pos"]
+		var color: int = item["color"]
+		var scene: PackedScene = null
+		if color == PaintColor.Colors.RED:
+			scene = item_red_scene
+		elif color == PaintColor.Colors.BLUE:
+			scene = item_blue_scene
+		elif color == PaintColor.Colors.YELLOW:
+			scene = item_yellow_scene
+		if scene != null:
+			var inst = scene.instantiate()
+			var parent_node: Node = scene_root
+			if item.has("parent"):
+				var p := scene_root.get_node_or_null(item["parent"])
+				if p != null:
+					parent_node = p
+			parent_node.add_child(inst)
+			(inst as Node2D).global_position = pos
+			if item.has("z"):
+				(inst as Node2D).z_index = int(item["z"])
+			var area := inst as Area2D
+			if area != null:
+				if item.has("layer"):
+					area.collision_layer = int(item["layer"])
+				if item.has("mask"):
+					area.collision_mask = int(item["mask"])
+
+func _snapshot_room_paint_rect(rect: Rect2) -> Dictionary:
+	var snap: Dictionary = {}
+	if terrain_map == null:
+		return snap
+	for cell: Vector2i in terrain_map.get_used_cells():
+		var cell_pos_local := terrain_map.map_to_local(cell)
+		var cell_pos_global := terrain_map.to_global(cell_pos_local)
+		if rect.has_point(cell_pos_global):
+			var alt := terrain_map.get_cell_alternative_tile(cell)
+			snap[cell] = alt
+	return snap
+
+func _restore_room_paint_rect(rect: Rect2, snap: Dictionary) -> void:
+	if terrain_map == null:
+		return
+	for cell: Vector2i in terrain_map.get_used_cells():
+		var cell_pos_local := terrain_map.map_to_local(cell)
+		var cell_pos_global := terrain_map.to_global(cell_pos_local)
+		if rect.has_point(cell_pos_global):
+			var tile_data := terrain_map.get_cell_tile_data(cell)
+			if tile_data and tile_data.get_custom_data("can_paint"):
+				var src := terrain_map.get_cell_source_id(cell)
+				var atlas := terrain_map.get_cell_atlas_coords(cell)
+				var alt := 0
+				if snap.has(cell):
+					alt = int(snap[cell])
+				terrain_map.set_cell(cell, src, atlas, alt)
+
+func _room_rect_global(area: Area2D) -> Rect2:
+	var shape_node: CollisionShape2D = area.get_node_or_null("CollisionShape2D")
+	if shape_node and shape_node.shape is RectangleShape2D:
+		var size: Vector2 = (shape_node.shape as RectangleShape2D).size
+		var center_global := shape_node.global_position
+		var top_left := center_global - size * 0.5
+		return Rect2(top_left, size)
+	return Rect2(area.global_position - Vector2(64, 64), Vector2(128, 128))
+
+func _room_rect_or_fallback(area: Area2D, around_pos: Vector2) -> Rect2:
+	if area != null and is_instance_valid(area):
+		return _room_rect_global(area)
+	# Fallback to a local rect around the spawn position
+	return Rect2(around_pos - Vector2(512, 384), Vector2(1024, 768))

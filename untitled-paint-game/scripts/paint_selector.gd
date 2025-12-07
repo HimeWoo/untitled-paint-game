@@ -17,6 +17,7 @@ var _capacity: int = STARTING_CAPACITY:
 
 
 func _init() -> void:
+	_colors_used = []
 	_queue.clear()
 	for i in range(_capacity):
 		_queue.push_back(QueueElement.new(PaintColor.Colors.NONE, false))
@@ -101,15 +102,11 @@ func clear_selection() -> void:
 
 ## Change selection to the next slot
 func select_next() -> void:
-	if not get_selection().is_mixed:
-		clear_selection()
 	selected_index = wrapi(selected_index + 1, 0, capacity())
 
 
 ## Change selection to the previous slot
 func select_prev() -> void:
-	if not get_selection().is_mixed:
-		clear_selection()
 	selected_index = wrapi(selected_index - 1, 0, capacity())
 
 

@@ -19,6 +19,12 @@ enum Direction {
 @export_custom(PROPERTY_HINT_LINK, "suffix:") var camera_zoom: Vector2 = Vector2.ZERO
 ## New position the camera moves toward when triggered
 @export var camera_target: Vector2 = Vector2.ZERO
+## If true, entering sets a player checkpoint at entry
+@export var set_checkpoint_on_enter: bool = true
+## Area2D representing the room bounds for paint reset (optional)
+@export var room_area_for_checkpoint: Area2D
+## Optional: explicit spawn marker to use for respawn
+@export var checkpoint_spawn: Node2D
 
 
 func _ready() -> void:
@@ -33,6 +39,17 @@ func _on_body_entered(body: CharacterBody2D) -> void:
 			camera.target_zoom = camera_zoom
 		# Apply scripted velocity here
 
+		var allow_checkpoint := true
+		allow_checkpoint = body.can_set_checkpoint()
+		if set_checkpoint_on_enter and allow_checkpoint:
+			var area_name ="unknown"
+			if room_area_for_checkpoint != null:
+				area_name = room_area_for_checkpoint.name
+			var spawn_pos := global_position
+			if checkpoint_spawn != null and is_instance_valid(checkpoint_spawn):
+				spawn_pos = checkpoint_spawn.global_position
+			print("RoomTransition name=", name, " Position=", spawn_pos, " room_area=",area_name)
+			body.set_room_checkpoint(spawn_pos, room_area_for_checkpoint)
 
 ## Returns true if the body entered from a direction in enter_directions
 func _entered_from_valid_direction(body: Node2D) -> bool:
