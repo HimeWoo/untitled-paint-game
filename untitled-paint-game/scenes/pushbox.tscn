@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://bj5po58m1bnam"]
 
-[ext_resource type="Texture2D" uid="uid://bs5elx113sajt" path="res://assets/tiles/icon.svg" id="1_p8o3m"]
 [ext_resource type="Script" uid="uid://r1vxjc2qvxjl" path="res://scripts/pushbox.gd" id="1_quxu0"]
+[ext_resource type="Texture2D" uid="uid://ywngwsfcnmxx" path="res://assets/tiles/box-big.png" id="2_quxu0"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_p8o3m"]
 
@@ -17,10 +17,12 @@ lock_rotation = true
 linear_damp = 10.0
 script = ExtResource("1_quxu0")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-8.4703295e-22, 0)
 scale = Vector2(0.31254527, 0.2800362)
-shape = SubResource("RectangleShape2D_quxu0")
+texture = ExtResource("2_quxu0")
 
-[node name="Sprite2D" type="Sprite2D" parent="CollisionShape2D"]
-texture = ExtResource("1_p8o3m")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-8.4703295e-22, 0)
+scale = Vector2(0.073423125, 0.06869523)
+shape = SubResource("RectangleShape2D_quxu0")

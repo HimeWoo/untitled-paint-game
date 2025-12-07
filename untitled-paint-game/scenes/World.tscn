@@ -1,8 +1,7 @@
-[gd_scene load_steps=25 format=4 uid="uid://cqqs3koshw1te"]
+[gd_scene load_steps=24 format=4 uid="uid://cqqs3koshw1te"]
 
 [ext_resource type="PackedScene" uid="uid://b3rae3dafdwir" path="res://scenes/player.tscn" id="1_32lhk"]
 [ext_resource type="PackedScene" uid="uid://csj3xhrhnrkgo" path="res://scenes/tiles.tscn" id="2_7g83o"]
-[ext_resource type="PackedScene" uid="uid://dffmuh4oa73qh" path="res://scenes/hazards/spike.tscn" id="3_7g83o"]
 [ext_resource type="Script" uid="uid://kudiuvlc2ftp" path="res://scripts/camera.gd" id="4_7c4bj"]
 [ext_resource type="PackedScene" uid="uid://bco8vv41h18bo" path="res://scenes/items/blue_paint.tscn" id="4_d1c63"]
 [ext_resource type="PackedScene" uid="uid://byodqxwxmkf75" path="res://scenes/platform.tscn" id="5_0uv0p"]
@@ -122,44 +121,6 @@ position = Vector2(3098, -196)
 
 [node name="Pushbox2" parent="." instance=ExtResource("10_pdh0q")]
 position = Vector2(3041, -312)
-
-[node name="Spike Collection" type="Node" parent="."]
-
-[node name="Spike" parent="Spike Collection" instance=ExtResource("3_7g83o")]
-visible = false
-position = Vector2(816, -52)
-
-[node name="Spike5" parent="Spike Collection" instance=ExtResource("3_7g83o")]
-visible = false
-position = Vector2(496, 76)
-
-[node name="Spike6" parent="Spike Collection" instance=ExtResource("3_7g83o")]
-visible = false
-position = Vector2(528, 76)
-
-[node name="Spike7" parent="Spike Collection" instance=ExtResource("3_7g83o")]
-visible = false
-position = Vector2(560, 76)
-
-[node name="Spike8" parent="Spike Collection" instance=ExtResource("3_7g83o")]
-visible = false
-position = Vector2(592, 76)
-
-[node name="Spike9" parent="Spike Collection" instance=ExtResource("3_7g83o")]
-visible = false
-position = Vector2(624, 76)
-
-[node name="Spike10" parent="Spike Collection" instance=ExtResource("3_7g83o")]
-visible = false
-position = Vector2(656, 76)
-
-[node name="Spike11" parent="Spike Collection" instance=ExtResource("3_7g83o")]
-visible = false
-position = Vector2(688, 76)
-
-[node name="Spike12" parent="Spike Collection" instance=ExtResource("3_7g83o")]
-visible = false
-position = Vector2(640, -69)
 
 [node name="Room1" type="Area2D" parent="."]
 position = Vector2(0, -80)

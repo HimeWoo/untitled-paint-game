@@ -256,5 +256,5 @@ pixel_offset = 150
 position = Vector2(339, 446)
 
 [node name="PressurePad" parent="." node_paths=PackedStringArray("linked_door") instance=ExtResource("13_auxfu")]
-position = Vector2(157, 439)
+position = Vector2(247, 461)
 linked_door = NodePath("../Door")
