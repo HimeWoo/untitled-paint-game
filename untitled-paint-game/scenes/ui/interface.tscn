@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://bq5kxtjqomv3i"]
+[gd_scene load_steps=22 format=3 uid="uid://bq5kxtjqomv3i"]
 
 [ext_resource type="PackedScene" uid="uid://cakpr3adjairv" path="res://scenes/ui/empty_slots_counter.tscn" id="1_veyun"]
 [ext_resource type="PackedScene" uid="uid://cgwqao8miwc7e" path="res://scenes/ui/red_counter.tscn" id="2_veyun"]
@@ -16,6 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://fko8uk8la1wu" path="res://assets/UI/tip-next_Q.png" id="15_8srw3"]
 [ext_resource type="Texture2D" uid="uid://w7o0ua6qg4vk" path="res://assets/item_slot.png" id="15_isiwi"]
 [ext_resource type="Texture2D" uid="uid://drlgwd15hgv5v" path="res://assets/UI/tip-next_E.png" id="16_isiwi"]
+[ext_resource type="Script" uid="uid://72e6mroesth3" path="res://scenes/ui/health_bar.gd" id="17_1oo0c"]
 [ext_resource type="Texture2D" uid="uid://doh1x2xr3fxco" path="res://assets/UI/tip-graphic_slash.png" id="17_ifsx0"]
 [ext_resource type="Texture2D" uid="uid://52ywvaxhi28t" path="res://assets/UI/tip-key_J.png" id="18_w8rl8"]
 [ext_resource type="Texture2D" uid="uid://bcjkupk0mjusu" path="res://assets/UI/tip-graphic_dash.png" id="19_iykce"]
@@ -86,6 +87,23 @@ layout_mode = 2
 layout_mode = 2
 texture = ExtResource("16_isiwi")
 expand_mode = 5
+
+[node name="HealthBar" type="HBoxContainer" parent="TopLeft"]
+custom_minimum_size = Vector2(240, 40)
+layout_mode = 2
+size_flags_vertical = 0
+script = ExtResource("17_1oo0c")
+
+[node name="Bar" type="ProgressBar" parent="TopLeft/HealthBar"]
+custom_minimum_size = Vector2(240, 34)
+layout_mode = 2
+value = 100.0
+
+[node name="HP" type="Label" parent="TopLeft/HealthBar"]
+visible = false
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="TopRight" type="VBoxContainer" parent="."]
 layout_mode = 2

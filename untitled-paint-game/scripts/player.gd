@@ -130,8 +130,9 @@ func _ready() -> void:
 	jumps_left = 1
 	default_speed_scale = sprite.speed_scale
 	current_hp = max_hp
-	z_index = 1  
-
+	if UISignals:
+		UISignals.player_hp_changed.emit(current_hp, max_hp)
+	z_index = 1
 
 func _physics_process(delta: float) -> void:
 	var was_on_floor := is_on_floor()
@@ -214,7 +215,7 @@ func apply_damage(amount: int, knockback: Vector2) -> void:
 	if is_invincible:
 		return
 
-	# Play hurt sound once at the moment damage is applied
+	# Play damage sound
 	if sfx_damage:
 		sfx_damage.play()
 
@@ -223,6 +224,10 @@ func apply_damage(amount: int, knockback: Vector2) -> void:
 	invincible_flash_accum = 0.0
 
 	current_hp -= amount
+
+	# Notify UI
+	if UISignals:
+		UISignals.player_hp_changed.emit(current_hp, max_hp)
 
 	# Apply knockback
 	horizontal_momentum += knockback.x
@@ -776,6 +781,12 @@ func _restore_checkpoint() -> void:
 	horizontal_momentum = 0.0
 	is_attacking = false
 	last_jump_was_double = false
+	
+	# Reset health on respawn
+	current_hp = max_hp
+	if UISignals:
+		UISignals.player_hp_changed.emit(current_hp, max_hp)
+	
 	_restore_inventory(_checkpoint_inventory)
 	if terrain_map != null:
 		_restore_room_paint_rect(_checkpoint_room_rect, _checkpoint_paint)
