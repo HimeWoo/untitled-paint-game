@@ -32,5 +32,5 @@ jobs:
           CHANNEL: html5
           ITCH_GAME: untitled-paint-game
           ITCH_USER: jx24
-          PACKAGE: ${{ steps.export.outputs.archive_directory }}/web
+          PACKAGE: ${{ steps.export.outputs.archive_directory }}/upgame-web.zip
           VERSION: ${{ github.sha }}
