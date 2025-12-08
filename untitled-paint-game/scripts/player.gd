@@ -403,7 +403,7 @@ func _handle_dash_input(current_dash_speed: float) -> void:
 		# if dash direction 0 use facing dir not fixed
 		if dash_direction == 0:
 			dash_direction = facing_dir
-		print("Dash Direction: ", dash_direction)
+		# print("Dash Direction: ", dash_direction)
 		start_dash()
 
 	if is_dashing:
