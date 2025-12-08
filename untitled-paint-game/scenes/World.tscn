@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=4 uid="uid://cqqs3koshw1te"]
+[gd_scene load_steps=33 format=4 uid="uid://cqqs3koshw1te"]
 
 [ext_resource type="PackedScene" uid="uid://b3rae3dafdwir" path="res://scenes/player.tscn" id="1_32lhk"]
 [ext_resource type="TileSet" uid="uid://cvaryx1sf0cl5" path="res://assets/tiles/tiles.tres" id="2_nthub"]
@@ -20,8 +20,8 @@
 [ext_resource type="Texture2D" uid="uid://2j5krva2pd3a" path="res://assets/bgs/bg-dust.png" id="17_44lqw"]
 [ext_resource type="PackedScene" uid="uid://ced6bjidq52ic" path="res://scenes/Door.tscn" id="17_nthub"]
 [ext_resource type="PackedScene" uid="uid://c0ueve5t7pkg7" path="res://scenes/pressure_pad.tscn" id="18_44lqw"]
-[ext_resource type="AudioStream" uid="uid://dj674lh4cwxq1" path="res://assets/music/soundtrack.mp3" id="19_44lqw"]
 [ext_resource type="Texture2D" uid="uid://r5q47i1wtxn6" path="res://assets/bgs/bg-dust2.png" id="18_dwmkc"]
+[ext_resource type="AudioStream" uid="uid://dj674lh4cwxq1" path="res://assets/music/soundtrack.mp3" id="19_44lqw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h1bdy"]
 size = Vector2(640, 360)
@@ -364,6 +364,7 @@ linked_door = NodePath("../Door")
 stream = ExtResource("19_44lqw")
 autoplay = true
 bus = &"Music"
+
 [node name="Player" parent="." node_paths=PackedStringArray("terrain_map") instance=ExtResource("1_32lhk")]
 position = Vector2(-256, 22)
 jump_velocity = -325.0
