@@ -111,6 +111,10 @@ func _pull_pushbox(box: Pushbox) -> void:
 	print("Pulled pushbox towards player with force: ", pull_force)
 
 func _check_platform_hits() -> void:
+	# If no paint selected, don't modify platforms at all
+	if _selected_color == PaintColor.Colors.NONE:
+		return
+		
 	# Manually check for platforms using physics query
 	var space_state = get_world_2d().direct_space_state
 	var query = PhysicsShapeQueryParameters2D.new()
@@ -140,6 +144,10 @@ func _check_platform_hits() -> void:
 func _paint_tiles_under_hitbox() -> void:
 	if _tilemap == null:
 		return
+		
+	if _selected_color == PaintColor.Colors.NONE:
+		return
+		
 	var shape: CollisionShape2D = $CollisionShape2D
 	var rect := shape.shape.get_rect()
 	
