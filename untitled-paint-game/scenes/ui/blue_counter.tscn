@@ -2,10 +2,11 @@
 
 [ext_resource type="PackedScene" uid="uid://ce1cpnhamaoqf" path="res://scenes/ui/paint_counter.tscn" id="1_bwpmj"]
 [ext_resource type="Resource" uid="uid://ca3r6vvyhon5k" path="res://resources/paint_blue.tres" id="2_13p42"]
-[ext_resource type="Texture2D" uid="uid://w3i1o53asmvi" path="res://assets/UI/tip-color-BLUE.png" id="3_ksrpy"]
+[ext_resource type="Texture2D" uid="uid://dnpqilgonhpq2" path="res://assets/UI/tip-key_O-blue.png" id="3_ksrpy"]
 
 [node name="BlueCounter" instance=ExtResource("1_bwpmj")]
 item = ExtResource("2_13p42")
 
 [node name="TextureRect" parent="LabelArea" index="0"]
 texture = ExtResource("3_ksrpy")
+stretch_mode = 3
