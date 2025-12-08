@@ -13,4 +13,5 @@ func _ready() -> void:
 func _pickup(player: Node2D):
 	if !player.inventory.is_full():
 		player.inventory.add_color(data.color)
+		player.play_paint_pickup_sfx()
 		queue_free()

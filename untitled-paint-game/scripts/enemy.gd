@@ -19,6 +19,12 @@ var facing_dir: int = -1
 @onready var contact_area: Area2D = $ContactDamageArea
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
+@onready var sfx_damage: AudioStreamPlayer2D = $SFX/Damage
+@onready var sfx_death: AudioStreamPlayer2D = $SFX/Death
+@onready var body_collision: CollisionShape2D = $CollisionShape2D
+
+var is_dying: bool = false
+
 func _ready() -> void:
 	add_to_group("enemy")
 	base_y = global_position.y
@@ -68,6 +74,11 @@ func _update_health_bar() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	
+	if is_dying:
+		velocity = Vector2.ZERO
+		return
+
 	t += delta
 
 	var dir := Vector2.ZERO
@@ -175,8 +186,31 @@ func _on_detect_exit(body: Node2D) -> void:
 
 
 func apply_damage(amount: int, knockback: Vector2) -> void:
+	if is_dying:
+		return
+		
 	hp -= amount
 	_update_health_bar()
 
+	if sfx_damage:
+		sfx_damage.play()
+
 	if hp <= 0:
-		queue_free()
+		_die()
+		
+func _die() -> void:
+	if is_dying:
+		return
+	is_dying = true
+
+	if body_collision:
+		body_collision.disabled = true
+	if contact_area:
+		contact_area.monitoring = false
+		contact_area.monitorable = false
+
+	if sfx_death:
+		sfx_death.play()
+		await sfx_death.finished
+
+	queue_free()

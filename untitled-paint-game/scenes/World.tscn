@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=4 uid="uid://cqqs3koshw1te"]
+[gd_scene load_steps=33 format=4 uid="uid://cqqs3koshw1te"]
 
 [ext_resource type="PackedScene" uid="uid://b3rae3dafdwir" path="res://scenes/player.tscn" id="1_32lhk"]
 [ext_resource type="TileSet" uid="uid://cvaryx1sf0cl5" path="res://assets/tiles/tiles.tres" id="2_nthub"]
@@ -21,6 +21,7 @@
 [ext_resource type="PackedScene" path="res://scenes/Door.tscn" id="17_nthub"]
 [ext_resource type="PackedScene" path="res://scenes/pressure_pad.tscn" id="18_44lqw"]
 [ext_resource type="Texture2D" uid="uid://r5q47i1wtxn6" path="res://assets/bgs/bg-dust2.png" id="18_dwmkc"]
+[ext_resource type="AudioStream" uid="uid://cb3n6alibjbd3" path="res://assets/music/Et Dominum.mp3" id="21_dgldv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h1bdy"]
 size = Vector2(640, 360)
@@ -348,13 +349,18 @@ position = Vector2(0, -80)
 texture = ExtResource("18_dwmkc")
 
 [node name="Door" parent="." instance=ExtResource("17_nthub")]
-position = Vector2(3431.9998, -199.99998)
-scale = Vector2(1.6448247, 2.3661675)
+position = Vector2(3432, -192)
 
 [node name="PressurePad" parent="." node_paths=PackedStringArray("linked_door") instance=ExtResource("18_44lqw")]
 position = Vector2(3117, -291)
 scale = Vector2(1, 1)
 linked_door = NodePath("../Door")
+
+[node name="Soundtrack" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("21_dgldv")
+autoplay = true
+bus = &"Music"
+parameters/looping = true
 
 [node name="Player" parent="." node_paths=PackedStringArray("terrain_map") instance=ExtResource("1_32lhk")]
 position = Vector2(-256, 22)
