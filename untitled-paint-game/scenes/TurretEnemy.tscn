@@ -1,9 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://byt3sjb16n237"]
+[gd_scene load_steps=10 format=3 uid="uid://byt3sjb16n237"]
 
 [ext_resource type="Script" uid="uid://e7xagyljh0qf" path="res://scripts/enemy.gd" id="1_nfe6d"]
 [ext_resource type="Resource" uid="uid://ly103fl3ctd3" path="res://data/TurretEnemy.tres" id="2_nfe6d"]
 [ext_resource type="PackedScene" uid="uid://d8m4hk2gtbvk" path="res://scenes/EnemyProjectile2.tscn" id="3_nfe6d"]
 [ext_resource type="Texture2D" uid="uid://cvo46mwsuck7c" path="res://assets/turret_enemy.png" id="4_6oka5"]
+[ext_resource type="AudioStream" uid="uid://c4nx14576yc0v" path="res://assets/music/enemy_damage.mp3" id="5_o86rb"]
+[ext_resource type="AudioStream" uid="uid://brlgp5tp8khn7" path="res://assets/music/enemy_death.mp3" id="6_i3hwf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y5xqv"]
 size = Vector2(130, 130.00003)
@@ -55,3 +57,13 @@ collision_mask = 2
 position = Vector2(2.8312202e-06, 2.8312202e-06)
 scale = Vector2(0.9999995, 0.9999995)
 shape = SubResource("RectangleShape2D_vtvda")
+
+[node name="SFX" type="Node2D" parent="."]
+
+[node name="Damage" type="AudioStreamPlayer2D" parent="SFX"]
+stream = ExtResource("5_o86rb")
+bus = &"SFX"
+
+[node name="Death" type="AudioStreamPlayer2D" parent="SFX"]
+stream = ExtResource("6_i3hwf")
+bus = &"SFX"

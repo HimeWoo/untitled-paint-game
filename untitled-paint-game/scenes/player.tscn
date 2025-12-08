@@ -271,6 +271,7 @@ bus = &"SFX"
 
 [node name="Land" type="AudioStreamPlayer2D" parent="SFX"]
 stream = ExtResource("13_jej6c")
+volume_db = 1.5
 bus = &"SFX"
 
 [node name="Damage" type="AudioStreamPlayer2D" parent="SFX"]
