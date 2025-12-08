@@ -2,10 +2,11 @@
 
 [ext_resource type="PackedScene" uid="uid://ce1cpnhamaoqf" path="res://scenes/ui/paint_counter.tscn" id="1_wm0h3"]
 [ext_resource type="Resource" uid="uid://c8kgjgfya5h34" path="res://resources/paint_yellow.tres" id="2_h2174"]
-[ext_resource type="Texture2D" uid="uid://6wnndfse25f3" path="res://assets/UI/tip-color-YELLOW.png" id="3_yb282"]
+[ext_resource type="Texture2D" uid="uid://cibdkpe4y26gv" path="res://assets/UI/tip-key_P-yellow.png" id="3_yb282"]
 
 [node name="YellowCounter" instance=ExtResource("1_wm0h3")]
 item = ExtResource("2_h2174")
 
 [node name="TextureRect" parent="LabelArea" index="0"]
 texture = ExtResource("3_yb282")
+stretch_mode = 3
