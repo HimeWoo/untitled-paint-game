@@ -110,4 +110,7 @@ func _on_body_entered(body: Node2D) -> void:
 
 func _on_area_entered(area: Area2D) -> void:
 	# Sometimes enemies are Areas (like hitboxes), sometimes Bodies
+	if area is PlatformPaintable:
+		var plat := area as PlatformPaintable
+		plat.set_color(_selected_color)
 	_hit(area)

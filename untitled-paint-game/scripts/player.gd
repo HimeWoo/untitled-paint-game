@@ -58,6 +58,11 @@ var coyote_timer: float = 0.0
 
 var post_dash_contact_timer: float = 0.0
 
+@export_group("Dash VFX")
+@export var dash_ghost_scene: PackedScene = preload("res://scenes/dash-effect.tscn")
+@export var dash_ghost_interval: float = 0.02
+
+var dash_ghost_timer: float = 0.0
 
 # MOVEMENT – ACCEL/DECEL
 @export_group("Movement - Accel / Decel")
@@ -85,6 +90,7 @@ var _checkpoint_inventory: Dictionary = {}
 var _checkpoint_paint: Dictionary = {} # Vector2i -> int (alt id)
 var _checkpoint_room_rect: Rect2 = Rect2()
 var _checkpoint_items: Array = [] # [{pos:Vector2, color:int}]
+var _checkpoint_platforms: Array = [] # [{path:String, alt:int}]
 var _respawn_grace_timer: float = 0.0
 var _last_checkpoint_time: float = -999.0
 
@@ -166,7 +172,7 @@ func _physics_process(delta: float) -> void:
 
 	# Dash and horizontal movement
 	# Now using the correctly modified dash/move speeds
-	_handle_dash_input(current_dash_speed)
+	_handle_dash_input(delta, current_dash_speed)
 	_handle_horizontal_movement(delta, current_speed)
 
 	# Paint queue input
@@ -278,13 +284,12 @@ func _calculate_terrain_stats(
 	if teleport_cooldown_timer > 0.0:
 		teleport_cooldown_timer -= delta
 
-	if terrain_map == null:
-		# If no map, return original stats
-		return {"speed": out_speed, "jump": out_jump, "dash": out_dash}
-
-	var floor_pos := global_position + Vector2(0, foot_check_offset_y)
-	var tile_coords := terrain_map.local_to_map(terrain_map.to_local(floor_pos))
-	var tile_data := terrain_map.get_cell_tile_data(tile_coords)
+	var tile_data = null
+	var tile_coords := Vector2i(-999, -999)
+	if terrain_map != null:
+		var floor_pos := global_position + Vector2(0, foot_check_offset_y)
+		tile_coords = terrain_map.local_to_map(terrain_map.to_local(floor_pos))
+		tile_data = terrain_map.get_cell_tile_data(tile_coords)
 
 	if tile_data:
 		# RED (Speed)
@@ -320,10 +325,40 @@ func _calculate_terrain_stats(
 				teleport_cooldown_timer = 1.0
 				var dest_coords := terrain_map.local_to_map(terrain_map.to_local(world_target))
 				last_frame_tile_coords = dest_coords
+	else:
+		# Only check platforms when not on a tile (player can't be on both)
+		var platform_mods := _platform_modifiers_under_foot()
+		out_speed *= platform_mods["speed_modifier"]
+		out_jump *= platform_mods["jump_modifier"]
+		out_dash *= platform_mods["dash_modifier"]
+
+		# Platform GREEN launch pad effect
+		var launch_force: float = 0.0
+		if platform_mods.has("launch_force"):
+			launch_force = float(platform_mods["launch_force"])
+		if launch_force != 0.0 and is_on_floor():
+			velocity.y = launch_force
+			jumps_left = 1
+	
 	last_frame_tile_coords = tile_coords
 	
 	# RETURN the calculated values instead of overwriting the class variables
 	return {"speed": out_speed, "jump": out_jump, "dash": out_dash}
+
+func _platform_modifiers_under_foot() -> Dictionary:
+	var shape := CircleShape2D.new()
+	shape.radius = 8.0
+	var sp := PhysicsShapeQueryParameters2D.new()
+	sp.shape = shape
+	sp.transform = Transform2D(0.0, global_position + Vector2(0, foot_check_offset_y))
+	sp.collide_with_areas = true
+	sp.collide_with_bodies = false
+	var hits := get_world_2d().direct_space_state.intersect_shape(sp, 8)
+	for h in hits:
+		var a = h.get("collider")
+		if a is PlatformPaintable:
+			return (a as PlatformPaintable).get_modifiers()
+	return {"speed_modifier": 1.0, "jump_modifier": 1.0, "dash_modifier": 1.0, "launch_force": 0.0}
 
 # INPUT HELPERS
 func _update_facing_from_input() -> void:
@@ -395,7 +430,7 @@ func _handle_jump_and_gravity(delta: float, current_jump_velocity: float) -> voi
 		sfx_jump.play()
 
 
-func _handle_dash_input(current_dash_speed: float) -> void:
+func _handle_dash_input(delta: float, current_dash_speed: float) -> void:
 	if Input.is_action_just_pressed("dash") and dash_cooldown_timer <= 0.0 and not is_dashing and is_on_floor():
 		var left := Input.is_action_pressed("move_left")
 		var right := Input.is_action_pressed("move_right")
@@ -408,7 +443,24 @@ func _handle_dash_input(current_dash_speed: float) -> void:
 
 	if is_dashing:
 		horizontal_momentum = dash_direction * current_dash_speed
+		
+		dash_ghost_timer -= delta
+		if dash_ghost_timer <= 0.0:
+			_spawn_dash_ghost()
+			dash_ghost_timer = dash_ghost_interval
 
+func _spawn_dash_ghost() -> void:
+	if dash_ghost_scene == null:
+		return
+		
+	var ghost: Sprite2D = dash_ghost_scene.instantiate()
+	get_parent().add_child(ghost)
+	
+	# Copy player's appearance
+	ghost.global_position = sprite.global_position
+	ghost.texture = sprite.sprite_frames.get_frame_texture(sprite.animation, sprite.frame)
+	ghost.flip_h = sprite.flip_h
+	ghost.scale = sprite.scale
 
 func _handle_horizontal_movement(delta: float, current_speed: float) -> void:
 	if not is_dashing:
@@ -708,6 +760,7 @@ func set_room_checkpoint(spawn_pos: Vector2, room_area: Area2D) -> void:
 	_checkpoint_inventory = _snapshot_inventory()
 	_checkpoint_paint = _snapshot_room_paint_rect(_checkpoint_room_rect)
 	_checkpoint_items = _snapshot_room_items(_checkpoint_room_rect)
+	_checkpoint_platforms = _snapshot_room_platforms(_checkpoint_room_rect)
 	_last_checkpoint_time = now
 
 func _restore_checkpoint() -> void:
@@ -722,6 +775,7 @@ func _restore_checkpoint() -> void:
 	if terrain_map != null:
 		_restore_room_paint_rect(_checkpoint_room_rect, _checkpoint_paint)
 	_restore_room_items(_checkpoint_room_rect, _checkpoint_items)
+	_restore_room_platforms(_checkpoint_platforms)
 	# Teleport to checkpoint
 	global_position = _checkpoint_pos
 	_respawn_grace_timer = 1.0
@@ -825,6 +879,18 @@ func _snapshot_room_paint_rect(rect: Rect2) -> Dictionary:
 			snap[cell] = alt
 	return snap
 
+func _snapshot_room_platforms(rect: Rect2) -> Array:
+	var arr: Array = []
+	var scene_root := get_tree().get_current_scene()
+	if scene_root == null:
+		return arr
+	var nodes: Array = scene_root.find_children("*", "PlatformPaintable", true, false)
+	for n in nodes:
+		var p := n as Node2D
+		if rect.has_point(p.global_position):
+			arr.append({"path": str(n.get_path()), "alt": int((n as PlatformPaintable).get_color_alt())})
+	return arr
+
 func _restore_room_paint_rect(rect: Rect2, snap: Dictionary) -> void:
 	if terrain_map == null:
 		return
@@ -840,6 +906,17 @@ func _restore_room_paint_rect(rect: Rect2, snap: Dictionary) -> void:
 				if snap.has(cell):
 					alt = int(snap[cell])
 				terrain_map.set_cell(cell, src, atlas, alt)
+
+func _restore_room_platforms(items: Array) -> void:
+	var scene_root := get_tree().get_current_scene()
+	if scene_root == null:
+		return
+	for it in items:
+		var path: String = it["path"]
+		var alt: int = it["alt"]
+		var node := scene_root.get_node_or_null(path)
+		if node is PlatformPaintable:
+				(node as PlatformPaintable).set_color_alt(alt)
 
 func _room_rect_global(area: Area2D) -> Rect2:
 	var shape_node: CollisionShape2D = area.get_node_or_null("CollisionShape2D")

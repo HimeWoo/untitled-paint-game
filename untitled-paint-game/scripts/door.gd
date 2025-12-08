@@ -1,11 +1,14 @@
 extends StaticBody2D
 
+
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+
 func open():
-	#$AnimationPlayer.play("open")
+	sprite.play("open")
 	print("door opened")
 	$CollisionShape2D.set_deferred("disabled", true)
 
 func close():
 	print("door closed")
-	#$AnimationPlayer.play("close")
+	sprite.play("close")
 	$CollisionShape2D.set_deferred("disabled", false)
