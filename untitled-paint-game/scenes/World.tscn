@@ -66,7 +66,7 @@ script = ExtResource("3_30fn3")
 
 [node name="Camera" type="Camera2D" parent="."]
 position = Vector2(0, -80)
-zoom = Vector2(1.6, 1.6)
+zoom = Vector2(2.7, 2.7)
 process_callback = 0
 position_smoothing_enabled = true
 position_smoothing_speed = 8.0
@@ -309,7 +309,7 @@ z_index = -101
 scroll_scale = Vector2(0, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="Parallax2D2"]
-position = Vector2(576, 324)
+position = Vector2(960, 540)
 texture = ExtResource("15_c0d7e")
 
 [node name="Parallax2D3" type="Parallax2D" parent="."]
