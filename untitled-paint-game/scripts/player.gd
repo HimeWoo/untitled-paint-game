@@ -111,6 +111,10 @@ var last_frame_tile_coords: Vector2i = Vector2i(-999, -999)
 @onready var sfx_dash: AudioStreamPlayer2D = $SFX/Dash
 @onready var sfx_shoot: AudioStreamPlayer2D = $SFX/Shoot
 @onready var sfx_melee: AudioStreamPlayer2D = $SFX/Melee
+@onready var sfx_land: AudioStreamPlayer2D = $SFX/Land
+@onready var sfx_damage: AudioStreamPlayer2D = $SFX/Damage 
+@onready var sfx_death: AudioStreamPlayer2D = $SFX/Death
+@onready var sfx_pickup_paint: AudioStreamPlayer2D = $SFX/Pickup
 
 # MISC
 var is_dying: bool = false 
@@ -124,6 +128,9 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	var was_on_floor := is_on_floor()
+	var prev_vy := velocity.y
+	
 	_update_invincibility(delta)
 	_update_post_dash_contact_grace(delta)
 
@@ -164,12 +171,17 @@ func _physics_process(delta: float) -> void:
 
 	# Paint queue input
 	_handle_paint_queue_input()
-
-	# Apply motion
-	_update_walk_sfx() 
-	move_and_slide()
 	
+	move_and_slide()
+
+	# SFX updates
+	_update_walk_sfx()
+	_update_landing_sfx(was_on_floor, prev_vy)
+
 	track_pushboxes(delta)
+
+	if _respawn_grace_timer <= 0.0:
+		_check_tile_collisions()
 
 	if _respawn_grace_timer <= 0.0:
 		_check_tile_collisions()
@@ -192,14 +204,21 @@ func track_pushboxes(delta: float):
 
 # DAMAGE
 func apply_damage(amount: int, knockback: Vector2) -> void:
+	# Ignore damage if invincible
 	if is_invincible:
 		return
+
+	# Play hurt sound once at the moment damage is applied
+	if sfx_damage:
+		sfx_damage.play()
+
 	is_invincible = true
 	invincible_timer = invincibility_duration
 	invincible_flash_accum = 0.0
 
 	current_hp -= amount
 
+	# Apply knockback
 	horizontal_momentum += knockback.x
 	velocity.y += knockback.y
 
@@ -643,12 +662,18 @@ func _die() -> void:
 	if is_dying:
 		return
 	is_dying = true
+
+	if sfx_death:
+		sfx_death.play()
+
 	print("Player died: hazard contact")
+
 	if enable_checkpoints and _checkpoint_active:
 		_restore_checkpoint()
 	else:
 		is_dying = false
 		get_tree().reload_current_scene()
+
 
 func _check_tile_collisions() -> void:
 	for i in get_slide_collision_count():
@@ -842,3 +867,19 @@ func _update_walk_sfx() -> void:
 	else:
 		if sfx_walk.playing:
 			sfx_walk.stop()
+
+func _update_landing_sfx(was_on_floor: bool, prev_vy: float) -> void:
+	if sfx_land == null:
+		return
+
+	var now_on_floor := is_on_floor()
+	var just_landed := (not was_on_floor) and now_on_floor
+	var HARD_LAND_VY_THRESHOLD := 250.0
+	var hard_enough := prev_vy > HARD_LAND_VY_THRESHOLD
+
+	if just_landed and hard_enough and not is_dying:
+		sfx_land.play()
+		
+func play_paint_pickup_sfx() -> void:
+	if sfx_pickup_paint:
+		sfx_pickup_paint.play()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://b3rae3dafdwir"]
+[gd_scene load_steps=43 format=3 uid="uid://b3rae3dafdwir"]
 
 [ext_resource type="Script" uid="uid://c40lun7bwqact" path="res://scripts/player.gd" id="1_g2els"]
 [ext_resource type="Texture2D" uid="uid://cknx0cbgr468d" path="res://assets/charas/player-idle.png" id="2_dqkch"]
@@ -12,6 +12,10 @@
 [ext_resource type="AudioStream" uid="uid://cbyu14v5go6kw" path="res://assets/music/jump.wav" id="9_d2wvv"]
 [ext_resource type="AudioStream" uid="uid://dlpxdmsiqo0pl" path="res://assets/music/dash.wav" id="10_3v2ag"]
 [ext_resource type="AudioStream" uid="uid://v5d4s6h4c44c" path="res://assets/music/melee2.mp3" id="11_d2wvv"]
+[ext_resource type="AudioStream" uid="uid://nwr5e4i866ac" path="res://assets/music/landing.mp3" id="13_jej6c"]
+[ext_resource type="AudioStream" uid="uid://5a5y14bua852" path="res://assets/music/damage.wav" id="14_oprun"]
+[ext_resource type="AudioStream" uid="uid://belql6s81iof5" path="res://assets/music/death.wav" id="15_a8ls1"]
+[ext_resource type="AudioStream" uid="uid://ddi5trd72f6df" path="res://assets/music/pickup.wav" id="16_a8ls1"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tuyoq"]
 atlas = ExtResource("2_dqkch")
@@ -263,4 +267,22 @@ bus = &"SFX"
 [node name="Melee" type="AudioStreamPlayer2D" parent="SFX"]
 stream = ExtResource("11_d2wvv")
 volume_db = -10.0
+bus = &"SFX"
+
+[node name="Land" type="AudioStreamPlayer2D" parent="SFX"]
+stream = ExtResource("13_jej6c")
+bus = &"SFX"
+
+[node name="Damage" type="AudioStreamPlayer2D" parent="SFX"]
+stream = ExtResource("14_oprun")
+volume_db = -3.0
+bus = &"SFX"
+
+[node name="Death" type="AudioStreamPlayer2D" parent="SFX"]
+stream = ExtResource("15_a8ls1")
+volume_db = -5.0
+bus = &"SFX"
+
+[node name="Pickup" type="AudioStreamPlayer2D" parent="SFX"]
+stream = ExtResource("16_a8ls1")
 bus = &"SFX"
