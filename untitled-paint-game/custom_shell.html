@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>$GODOT_PROJECT_NAME</title>
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+			background-color: black;
+		}
+		#canvas-container {
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+		}
+		#canvas {
+			display: block;
+		}
+	</style>
+</head>
+<body>
+	<div id="canvas-container">
+		<canvas id="canvas"></canvas>
+	</div>
+	<script src="$GODOT_URL"></script>
+	<script>
+		const GODOT_CONFIG = $GODOT_CONFIG;
+		new Engine(GODOT_CONFIG).init().then(engine => engine.start());
+	</script>
+</body>
+</html>
