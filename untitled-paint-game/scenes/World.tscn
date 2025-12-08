@@ -2,8 +2,8 @@
 
 [ext_resource type="PackedScene" uid="uid://b3rae3dafdwir" path="res://scenes/player.tscn" id="1_32lhk"]
 [ext_resource type="TileSet" uid="uid://cvaryx1sf0cl5" path="res://assets/tiles/tiles.tres" id="2_nthub"]
-[ext_resource type="Script" path="res://scripts/paintable.gd" id="3_30fn3"]
-[ext_resource type="Script" path="res://scripts/camera.gd" id="4_7c4bj"]
+[ext_resource type="Script" uid="uid://gv6nyjmp4ovt" path="res://scripts/paintable.gd" id="3_30fn3"]
+[ext_resource type="Script" uid="uid://kudiuvlc2ftp" path="res://scripts/camera.gd" id="4_7c4bj"]
 [ext_resource type="PackedScene" uid="uid://bco8vv41h18bo" path="res://scenes/items/blue_paint.tscn" id="4_d1c63"]
 [ext_resource type="PackedScene" uid="uid://byodqxwxmkf75" path="res://scenes/platform.tscn" id="5_0uv0p"]
 [ext_resource type="PackedScene" uid="uid://iydhjgar5iis" path="res://scenes/items/yellow_paint.tscn" id="6_b3faq"]
@@ -12,7 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://b8txfoox5y1qr" path="res://scenes/FloatingEnemy.tscn" id="9_pdh0q"]
 [ext_resource type="PackedScene" uid="uid://bj5po58m1bnam" path="res://scenes/pushbox.tscn" id="10_pdh0q"]
 [ext_resource type="PackedScene" uid="uid://bq5kxtjqomv3i" path="res://scenes/ui/interface.tscn" id="11_h1bdy"]
-[ext_resource type="Script" path="res://scripts/room_transition.gd" id="13_nrtoj"]
+[ext_resource type="Script" uid="uid://cg564iutjm3o8" path="res://scripts/room_transition.gd" id="13_nrtoj"]
 [ext_resource type="Texture2D" uid="uid://scr5ppigf6cy" path="res://assets/bgs/bg-tut1.png" id="14_i4b1j"]
 [ext_resource type="Texture2D" uid="uid://6kruuej5teyy" path="res://assets/bgs/bg-sky.png" id="15_c0d7e"]
 [ext_resource type="Texture2D" uid="uid://cmacpn3jaliar" path="res://assets/bgs/bg-tut2.png" id="15_o1tcx"]
@@ -66,7 +66,7 @@ script = ExtResource("3_30fn3")
 
 [node name="Camera" type="Camera2D" parent="."]
 position = Vector2(0, -80)
-zoom = Vector2(1.6, 1.6)
+zoom = Vector2(2.7, 2.7)
 process_callback = 0
 position_smoothing_enabled = true
 position_smoothing_speed = 8.0
