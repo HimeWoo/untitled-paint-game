@@ -1,10 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://cgwqao8miwc7e"]
+[gd_scene load_steps=4 format=3 uid="uid://cgwqao8miwc7e"]
 
 [ext_resource type="PackedScene" uid="uid://ce1cpnhamaoqf" path="res://scenes/ui/paint_counter.tscn" id="1_pxh5f"]
 [ext_resource type="Resource" uid="uid://dw064a8wqkfr2" path="res://resources/paint_red.tres" id="2_kmbav"]
+[ext_resource type="Texture2D" uid="uid://cpqhrt4r2f0sf" path="res://assets/UI/tip-color-RED.png" id="3_8xg2s"]
 
 [node name="RedCounter" instance=ExtResource("1_pxh5f")]
 item = ExtResource("2_kmbav")
 
-[node name="Label" parent="LabelArea" index="0"]
-text = "R"
+[node name="TextureRect" parent="LabelArea" index="0"]
+texture = ExtResource("3_8xg2s")

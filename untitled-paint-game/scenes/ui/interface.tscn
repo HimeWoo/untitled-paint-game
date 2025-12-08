@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bq5kxtjqomv3i"]
+[gd_scene load_steps=21 format=3 uid="uid://bq5kxtjqomv3i"]
 
 [ext_resource type="PackedScene" uid="uid://cakpr3adjairv" path="res://scenes/ui/empty_slots_counter.tscn" id="1_veyun"]
 [ext_resource type="PackedScene" uid="uid://cgwqao8miwc7e" path="res://scenes/ui/red_counter.tscn" id="2_veyun"]
@@ -13,7 +13,13 @@
 [ext_resource type="Texture2D" uid="uid://bbc2v8mxcfqm8" path="res://assets/item_slot_select.png" id="14_8srw3"]
 [ext_resource type="Texture2D" uid="uid://bbiepd7ie6c3g" path="res://assets/paint_purple.png" id="14_iykce"]
 [ext_resource type="Texture2D" uid="uid://cj1c7a06kf5yi" path="res://assets/paint_orange.png" id="15_1oo0c"]
+[ext_resource type="Texture2D" uid="uid://fko8uk8la1wu" path="res://assets/UI/tip-next_Q.png" id="15_8srw3"]
 [ext_resource type="Texture2D" uid="uid://w7o0ua6qg4vk" path="res://assets/item_slot.png" id="15_isiwi"]
+[ext_resource type="Texture2D" uid="uid://drlgwd15hgv5v" path="res://assets/UI/tip-next_E.png" id="16_isiwi"]
+[ext_resource type="Texture2D" uid="uid://doh1x2xr3fxco" path="res://assets/UI/tip-graphic_slash.png" id="17_ifsx0"]
+[ext_resource type="Texture2D" uid="uid://52ywvaxhi28t" path="res://assets/UI/tip-key_J.png" id="18_w8rl8"]
+[ext_resource type="Texture2D" uid="uid://bcjkupk0mjusu" path="res://assets/UI/tip-graphic_dash.png" id="19_iykce"]
+[ext_resource type="Texture2D" uid="uid://dxrbbs1jykvqg" path="res://assets/UI/tip-key_K.png" id="20_1oo0c"]
 
 [node name="Interface" type="MarginContainer"]
 anchors_preset = 15
@@ -62,3 +68,52 @@ paint_textures = Dictionary[int, Texture2D]({
 })
 selected_slot = ExtResource("14_8srw3")
 deselected_slot = ExtResource("15_isiwi")
+
+[node name="SelectorHint" type="VBoxContainer" parent="TopLeft"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+
+[node name="Q" type="TextureRect" parent="TopLeft/SelectorHint"]
+layout_mode = 2
+texture = ExtResource("15_8srw3")
+expand_mode = 5
+
+[node name="Buffer" type="Control" parent="TopLeft/SelectorHint"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+
+[node name="E" type="TextureRect" parent="TopLeft/SelectorHint"]
+layout_mode = 2
+texture = ExtResource("16_isiwi")
+expand_mode = 5
+
+[node name="TopRight" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+
+[node name="SwingHint" type="HBoxContainer" parent="TopRight"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="Swing" type="TextureRect" parent="TopRight/SwingHint"]
+layout_mode = 2
+texture = ExtResource("17_ifsx0")
+
+[node name="J" type="TextureRect" parent="TopRight/SwingHint"]
+layout_mode = 2
+texture = ExtResource("18_w8rl8")
+
+[node name="DashHint" type="HBoxContainer" parent="TopRight"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="Dash" type="TextureRect" parent="TopRight/DashHint"]
+layout_mode = 2
+texture = ExtResource("19_iykce")
+
+[node name="K" type="TextureRect" parent="TopRight/DashHint"]
+layout_mode = 2
+texture = ExtResource("20_1oo0c")
