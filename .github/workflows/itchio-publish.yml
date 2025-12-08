@@ -28,7 +28,7 @@ jobs:
       - name: Publish to Itch
         uses: Ayowel/butler-to-itch@v1.0.0
         with:
-          butler_key: ${{secrets.ITCHIO_TOKEN}}
+          butler_key: ${{secrets.ITCH_IO_TOKEN}}
           itch_user: jx24
           itch_game: untitled-paint-game
           version: ${{ github.sha }}
