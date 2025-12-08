@@ -9,12 +9,12 @@
 [ext_resource type="PackedScene" uid="uid://iydhjgar5iis" path="res://scenes/items/yellow_paint.tscn" id="5_sp2it"]
 [ext_resource type="Texture2D" uid="uid://b7l1vy3gvilhw" path="res://assets/tiles/tiles-concrete.png" id="8_sp2it"]
 [ext_resource type="Texture2D" uid="uid://ytknjfaps4nu" path="res://assets/tiles/tiles-canvas.png" id="9_bvmv3"]
-[ext_resource type="PackedScene" uid="uid://bj5po58m1bnam" path="res://scenes/pushbox.tscn" id="9_sp2it"]
+[ext_resource type="PackedScene" path="res://scenes/pushbox.tscn" id="9_sp2it"]
 [ext_resource type="PackedScene" uid="uid://byodqxwxmkf75" path="res://scenes/platform.tscn" id="11_5v2uq"]
 [ext_resource type="PackedScene" uid="uid://cglbrc1eaq6s8" path="res://scenes/hazards/water.tscn" id="12_auxfu"]
-[ext_resource type="PackedScene" uid="uid://c0ueve5t7pkg7" path="res://scenes/pressure_pad.tscn" id="13_auxfu"]
+[ext_resource type="PackedScene" path="res://scenes/pressure_pad.tscn" id="13_auxfu"]
 [ext_resource type="PackedScene" uid="uid://dffmuh4oa73qh" path="res://scenes/hazards/spike.tscn" id="13_vbh4c"]
-[ext_resource type="PackedScene" uid="uid://ced6bjidq52ic" path="res://scenes/Door.tscn" id="14_vbh4c"]
+[ext_resource type="PackedScene" path="res://scenes/Door.tscn" id="14_vbh4c"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_f3voe"]
 texture = ExtResource("8_sp2it")
