@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=4 uid="uid://cqqs3koshw1te"]
+[gd_scene load_steps=30 format=4 uid="uid://cqqs3koshw1te"]
 
 [ext_resource type="PackedScene" uid="uid://b3rae3dafdwir" path="res://scenes/player.tscn" id="1_32lhk"]
 [ext_resource type="PackedScene" uid="uid://csj3xhrhnrkgo" path="res://scenes/tiles.tscn" id="2_7g83o"]
@@ -18,6 +18,7 @@
 [ext_resource type="Texture2D" uid="uid://ctyw0k4spwmo1" path="res://assets/bgs/bg-tut3.png" id="16_rpuxp"]
 [ext_resource type="PackedScene" uid="uid://ced6bjidq52ic" path="res://scenes/Door.tscn" id="17_nthub"]
 [ext_resource type="PackedScene" uid="uid://c0ueve5t7pkg7" path="res://scenes/pressure_pad.tscn" id="18_44lqw"]
+[ext_resource type="AudioStream" uid="uid://dj674lh4cwxq1" path="res://assets/music/soundtrack.mp3" id="19_44lqw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h1bdy"]
 size = Vector2(640, 360)
@@ -345,3 +346,8 @@ scale = Vector2(1.6448247, 2.3661675)
 position = Vector2(3303, -174)
 scale = Vector2(1, 1)
 linked_door = NodePath("../Door")
+
+[node name="Soundtrack" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("19_44lqw")
+autoplay = true
+bus = &"Music"
