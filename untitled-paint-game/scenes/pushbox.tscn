@@ -9,7 +9,7 @@
 size = Vector2(136.58932, 126)
 
 [node name="Pushbox" type="RigidBody2D"]
-collision_layer = 32
+collision_layer = 33
 collision_mask = 35
 physics_material_override = SubResource("PhysicsMaterial_p8o3m")
 gravity_scale = 4.0

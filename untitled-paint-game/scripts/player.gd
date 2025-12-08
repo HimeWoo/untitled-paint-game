@@ -646,23 +646,26 @@ func _action_queue_prev() -> void:
 
 
 func _action_queue_color(color: PaintColor.Colors) -> void:
-	var total_amt: int = inventory.count(color)
-	var used_amt: int = selector.get_colors_used().count(color)
-	if used_amt < total_amt:
+	# Check if we have any of this color left in inventory
+	if inventory.has_color(color):
+		# Remove from inventory when picking it up
+		inventory.remove_color(color)
 		selector.add_color(color)
 
 
 func _action_queue_confirm() -> void:
-	if PaintColor.is_primary(selector.get_selection().color):
+	var selected = selector.get_selection()
+	
+	# Can't confirm primary colors or empty slots
+	if selected.is_blank() or PaintColor.is_primary(selected.color):
 		return
 
-	var palette: Array[PaintColor.Colors] = selector.get_colors_used()
-	if palette.is_empty():
-		return
-
-	for color in palette:
-		inventory.remove_color(color)
+	# Confirm the mix - this locks it and frees inventory space
 	selector.mix_selected()
+
+
+func use_paint_from_attack() -> void:
+	selector.use_selected_paint()
 
 
 func _action_queue_clear() -> void:
