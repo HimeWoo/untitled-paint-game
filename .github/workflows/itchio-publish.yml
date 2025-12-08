@@ -25,12 +25,35 @@ jobs:
         env:
           GITHUB_TOKEN: ${{secrets.GH_TOKEN}}
 
-      - name: Publish to Itch
-        uses: manleydev/butler-publish-itchio-action@master
+      - name: Install Butler
+        run: |
+          curl -L -o butler.zip https://broth.itch.zone/butler/linux-amd64/LATEST/archive/default
+          unzip butler.zip
+          chmod +x butler
+          ./butler -V
+
+      - name: Push to Itch.io
+        run: |
+          echo "=== Checking export outputs ==="
+          echo "Archive directory: ${{ steps.export.outputs.archive_directory }}"
+          echo "Build directory: ${{ steps.export.outputs.build_directory }}"
+          
+          echo "=== Listing archive_directory contents ==="
+          ls -la "${{ steps.export.outputs.archive_directory }}" || echo "archive_directory not found"
+          
+          echo "=== Listing build_directory contents ==="
+          ls -la "${{ steps.export.outputs.build_directory }}" || echo "build_directory not found"
+          
+          echo "=== Finding all zip files ==="
+          find "${{ steps.export.outputs.archive_directory }}" -name "*.zip" -type f || true
+          
+          echo "=== Pushing builds ==="
+          for file in "${{ steps.export.outputs.archive_directory }}"/*.zip; do
+            if [ -f "$file" ]; then
+              channel=$(basename "$file" .zip | sed 's/.*-//')
+              echo "Pushing $file to channel: $channel"
+              ./butler push "$file" jx24/untitled-paint-game:$channel --userversion ${{ github.sha }}
+            fi
+          done
         env:
-          BUTLER_CREDENTIALS: ${{secrets.ITCH_IO_TOKEN}}
-          CHANNEL: html5
-          ITCH_GAME: untitled-paint-game
-          ITCH_USER: jx24
-          PACKAGE: ${{ steps.export.outputs.archive_directory }}/upgame-web.zip
-          VERSION: ${{ github.sha }}
+          BUTLER_API_KEY: ${{secrets.ITCH_IO_TOKEN}}
