@@ -4,8 +4,11 @@ class_name Enemy
 @export var stats: EnemyStats
 @export var projectile_scene: PackedScene
 
-var hp: int
+@export_group("Knockback")
+@export var knockback_decel: float = 2000.0 
 
+var knockback_velocity: Vector2 = Vector2.ZERO
+var hp: int
 var player: Node2D = null
 var base_y: float
 var t: float = 0.0
@@ -118,14 +121,23 @@ func _physics_process(delta: float) -> void:
 	if stats.enable_bob:
 		var bob := sin(t * stats.bob_frequency) * stats.bob_amplitude
 		global_position.y = base_y + bob
+		
+	# Movement
+	var move_vec := dir * speed
+	velocity = move_vec + knockback_velocity
 
-	# Movement 
-	velocity = dir * speed
 	move_and_slide()
 
+	# Flip patrol direction if we bump into a wall
 	if is_on_wall():
 		patrol_dir *= -1
 
+	# Knockback
+	if knockback_velocity.length() > 0.0:
+		knockback_velocity = knockback_velocity.move_toward(
+			Vector2.ZERO,
+			knockback_decel * delta
+		)
 
 func _on_contact_body_entered(body: Node2D) -> void:
 	if stats == null or not stats.enable_contact_damage:
@@ -194,6 +206,11 @@ func apply_damage(amount: int, knockback: Vector2) -> void:
 
 	if sfx_damage:
 		sfx_damage.play()
+		
+	if knockback.length() > 0.0:
+		var kb := knockback
+		kb.y = 0.0
+		knockback_velocity = kb
 
 	if hp <= 0:
 		_die()
