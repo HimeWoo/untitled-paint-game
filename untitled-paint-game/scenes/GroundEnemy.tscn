@@ -1,9 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://bsxqk7a26x7o2"]
+[gd_scene load_steps=13 format=3 uid="uid://bsxqk7a26x7o2"]
 
 [ext_resource type="Script" uid="uid://e7xagyljh0qf" path="res://scripts/enemy.gd" id="1_qunq5"]
 [ext_resource type="Resource" uid="uid://ddqsy055qs7i0" path="res://data/GroundEnemy.tres" id="2_qunq5"]
 [ext_resource type="PackedScene" uid="uid://dh6488mkbfq22" path="res://scenes/EnemyProjectile.tscn" id="3_5qxhf"]
 [ext_resource type="Texture2D" uid="uid://berth500rujsp" path="res://assets/charas/enemies/snail-def.png" id="4_qunq5"]
+[ext_resource type="AudioStream" uid="uid://c4nx14576yc0v" path="res://assets/music/enemy_damage.mp3" id="5_5qxhf"]
+[ext_resource type="AudioStream" uid="uid://brlgp5tp8khn7" path="res://assets/music/enemy_death.mp3" id="6_lij6f"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bj4rl"]
 atlas = ExtResource("4_qunq5")
@@ -79,3 +81,14 @@ collision_mask = 2
 position = Vector2(-4.1723247e-06, 2.533197e-06)
 scale = Vector2(0.9999994, 0.9999994)
 shape = SubResource("RectangleShape2D_vtvda")
+
+[node name="SFX" type="Node2D" parent="."]
+
+[node name="Damage" type="AudioStreamPlayer2D" parent="SFX"]
+stream = ExtResource("5_5qxhf")
+bus = &"SFX"
+
+[node name="Death" type="AudioStreamPlayer2D" parent="SFX"]
+stream = ExtResource("6_lij6f")
+volume_db = -5.0
+bus = &"SFX"

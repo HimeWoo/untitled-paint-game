@@ -111,6 +111,17 @@ var last_frame_tile_coords: Vector2i = Vector2i(-999, -999)
 # NODES
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
+# SFX
+@onready var sfx_walk: AudioStreamPlayer2D = $SFX/Walk
+@onready var sfx_jump: AudioStreamPlayer2D = $SFX/Jump
+@onready var sfx_dash: AudioStreamPlayer2D = $SFX/Dash
+@onready var sfx_shoot: AudioStreamPlayer2D = $SFX/Shoot
+@onready var sfx_melee: AudioStreamPlayer2D = $SFX/Melee
+@onready var sfx_land: AudioStreamPlayer2D = $SFX/Land
+@onready var sfx_damage: AudioStreamPlayer2D = $SFX/Damage 
+@onready var sfx_death: AudioStreamPlayer2D = $SFX/Death
+@onready var sfx_pickup_paint: AudioStreamPlayer2D = $SFX/Pickup
+
 # MISC
 var is_dying: bool = false 
 
@@ -123,6 +134,9 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	var was_on_floor := is_on_floor()
+	var prev_vy := velocity.y
+	
 	_update_invincibility(delta)
 	_update_post_dash_contact_grace(delta)
 
@@ -163,11 +177,17 @@ func _physics_process(delta: float) -> void:
 
 	# Paint queue input
 	_handle_paint_queue_input()
-
-	# Apply motion
-	move_and_slide()
 	
+	move_and_slide()
+
+	# SFX updates
+	_update_walk_sfx()
+	_update_landing_sfx(was_on_floor, prev_vy)
+
 	track_pushboxes(delta)
+
+	if _respawn_grace_timer <= 0.0:
+		_check_tile_collisions()
 
 	if _respawn_grace_timer <= 0.0:
 		_check_tile_collisions()
@@ -190,14 +210,21 @@ func track_pushboxes(delta: float):
 
 # DAMAGE
 func apply_damage(amount: int, knockback: Vector2) -> void:
+	# Ignore damage if invincible
 	if is_invincible:
 		return
+
+	# Play hurt sound once at the moment damage is applied
+	if sfx_damage:
+		sfx_damage.play()
+
 	is_invincible = true
 	invincible_timer = invincibility_duration
 	invincible_flash_accum = 0.0
 
 	current_hp -= amount
 
+	# Apply knockback
 	horizontal_momentum += knockback.x
 	velocity.y += knockback.y
 
@@ -238,6 +265,7 @@ func _update_post_dash_contact_grace(delta: float) -> void:
 		post_dash_contact_timer -= delta
 	if _respawn_grace_timer > 0.0:
 		_respawn_grace_timer -= delta
+		
 
 # TERRAIN EFFECTS
 # Returns a Dictionary with keys: speed, jump, dash
@@ -379,19 +407,13 @@ func _handle_jump_and_gravity(delta: float, current_jump_velocity: float) -> voi
 	if not is_on_floor() and not is_dashing:
 		velocity += get_gravity() * delta
 
-	# Allow player to drop down through platforms by temporarily ignoring platform layer
-
 	var jumped_this_frame := false
 	
 	if Input.is_action_just_pressed("jump"):
 		if is_on_floor() or is_dashing or coyote_timer > 0.0:
 			jumped_this_frame = true
-			# If jumping out of a dash, mark that we're carrying momentum
 			if is_dashing:
-				print("Performed Dash Jump")
-				# print("Current momentum: ", horizontal_momentum)
-				# is_carrying_dash_momentum = true
-				end_dash()  # End dash but keep the momentum
+				end_dash()
 			velocity.y = current_jump_velocity
 			last_jump_was_double = false
 			coyote_timer = 0.0
@@ -403,6 +425,10 @@ func _handle_jump_and_gravity(delta: float, current_jump_velocity: float) -> voi
 	elif Input.is_action_just_released("jump") and velocity.y < 0 and not last_jump_was_double:
 		velocity.y *= 0.5
 
+	# PLAY JUMP SFX HERE
+	if jumped_this_frame and sfx_jump:
+		sfx_jump.play()
+
 
 func _handle_dash_input(delta: float, current_dash_speed: float) -> void:
 	if Input.is_action_just_pressed("dash") and dash_cooldown_timer <= 0.0 and not is_dashing and is_on_floor():
@@ -412,7 +438,7 @@ func _handle_dash_input(delta: float, current_dash_speed: float) -> void:
 		# if dash direction 0 use facing dir not fixed
 		if dash_direction == 0:
 			dash_direction = facing_dir
-		print("Dash Direction: ", dash_direction)
+		# print("Dash Direction: ", dash_direction)
 		start_dash()
 
 	if is_dashing:
@@ -474,10 +500,13 @@ func _handle_horizontal_movement(delta: float, current_speed: float) -> void:
 
 	# After movement, check overlaps/collisions with hazards (nodes in groups: hazard/water/spike)
 	_check_hazard_contact_and_die()
-
+	
 func start_dash():
 	is_dashing = true
 	dash_timer = dash_time
+
+	if sfx_dash:
+		sfx_dash.play()
 
 	sprite.play("dash")
 
@@ -510,6 +539,9 @@ func perform_slash() -> void:
 	elif attack_dir.y > 0.0:
 		attack_anim = "slash_down"
 	sprite.play(attack_anim)
+	
+	if sfx_melee:
+		sfx_melee.play()
 
 	is_attacking = true
 	can_attack = false
@@ -682,12 +714,18 @@ func _die() -> void:
 	if is_dying:
 		return
 	is_dying = true
+
+	if sfx_death:
+		sfx_death.play()
+
 	print("Player died: hazard contact")
+
 	if enable_checkpoints and _checkpoint_active:
 		_restore_checkpoint()
 	else:
 		is_dying = false
 		get_tree().reload_current_scene()
+
 
 func _check_tile_collisions() -> void:
 	for i in get_slide_collision_count():
@@ -894,3 +932,31 @@ func _room_rect_or_fallback(area: Area2D, around_pos: Vector2) -> Rect2:
 		return _room_rect_global(area)
 	# Fallback to a local rect around the spawn position
 	return Rect2(around_pos - Vector2(512, 384), Vector2(1024, 768))
+
+func _update_walk_sfx() -> void:
+	if sfx_walk == null:
+		return
+	var is_walking = is_on_floor() and abs(velocity.x) > 3.0 and not is_dashing and not is_dying
+
+	if is_walking:
+		if not sfx_walk.playing:
+			sfx_walk.play()
+	else:
+		if sfx_walk.playing:
+			sfx_walk.stop()
+
+func _update_landing_sfx(was_on_floor: bool, prev_vy: float) -> void:
+	if sfx_land == null:
+		return
+
+	var now_on_floor := is_on_floor()
+	var just_landed := (not was_on_floor) and now_on_floor
+	var HARD_LAND_VY_THRESHOLD := 250.0
+	var hard_enough := prev_vy > HARD_LAND_VY_THRESHOLD
+
+	if just_landed and hard_enough and not is_dying:
+		sfx_land.play()
+		
+func play_paint_pickup_sfx() -> void:
+	if sfx_pickup_paint:
+		sfx_pickup_paint.play()
