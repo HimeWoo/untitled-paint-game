@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bad8c3bj4x0xr"]
 
-[ext_resource type="Script" uid="uid://dcdwfytvc6cdj" path="res://scripts/main_menu.gd" id="1_yqorp"]
-[ext_resource type="Texture2D" uid="uid://b5xt7dhcmf23s" path="res://assets/Pixelate_effect_image.png" id="2_0ykhv"]
+[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_yqorp"]
+[ext_resource type="Texture2D" uid="uid://7knj403k8o0c" path="res://assets/bgs/menu-art.png" id="2_0ykhv"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0ykhv"]
 texture = ExtResource("2_0ykhv")
@@ -26,6 +26,7 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_0ykhv")
 
 [node name="Label" type="Label" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -51,7 +52,7 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -308.5
-offset_top = -201.25
+offset_top = 64.0
 offset_right = 308.5
 offset_bottom = 201.25
 grow_horizontal = 2
@@ -60,11 +61,11 @@ theme_override_constants/separation = 30
 
 [node name="StartGame" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 3
 theme_override_font_sizes/font_size = 30
 text = "Start Game"
 
 [node name="Controls" type="Button" parent="VBoxContainer"]
+visible = false
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 30
@@ -73,7 +74,6 @@ text = "Options
 
 [node name="Exit" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 3
 theme_override_font_sizes/font_size = 30
 text = "Exit
 "
