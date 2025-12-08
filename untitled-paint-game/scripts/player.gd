@@ -646,11 +646,13 @@ func _action_queue_prev() -> void:
 
 
 func _action_queue_color(color: PaintColor.Colors) -> void:
-	# Check if we have any of this color left in inventory
-	if inventory.has_color(color):
-		# Remove from inventory when picking it up
+	# Only try if we actually have this color in inventory
+	if not inventory.has_color(color):
+		return
+	# Ask the selector to apply/mix the color.
+	if selector.add_color(color):
+		# Only consume from inventory when the selector accepted the color
 		inventory.remove_color(color)
-		selector.add_color(color)
 
 
 func _action_queue_confirm() -> void:

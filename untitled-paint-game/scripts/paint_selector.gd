@@ -20,28 +20,42 @@ func _init() -> void:
 		_queue.push_back(QueueElement.new(PaintColor.Colors.NONE, false))
 
 ## Adds the color to selected slot or mixes if different color already exists
-func add_color(color: PaintColor.Colors) -> void:
+func add_color(color: PaintColor.Colors) -> bool:
 	var selected: QueueElement = get_selection()
-	
+
+	# Do not modify locked slots at all
+	if selected.is_locked:
+		return false
+
+	# If this slot already has this exact color, reject (do nothing)
+	if not selected.is_blank() and selected.color == color:
+		print("Rejected adding ", PaintColor.Colors.find_key(color),
+			" to slot ", selected_index, " (same color already there)")
+		return false
+
 	# If slot is blank, add the color
 	if selected.is_blank():
 		selected.color = color
 		selected.is_mixed = false
 		selected.is_locked = false
-		# Track the colors used in THIS slot
 		selected.colors_used.push_back(color)
 		UISignals.queue_changed.emit(self)
 		print("Added ", PaintColor.Colors.find_key(color), " to slot ", selected_index)
+		return true
+
 	# If slot has a primary color that's different, mix them
-	elif PaintColor.is_primary(selected.color) and selected.color != color and not selected.is_locked:
+	if PaintColor.is_primary(selected.color) and selected.color != color and not selected.is_locked:
 		var new_color: PaintColor.Colors = PaintColor.mix_colors(color, selected.color)
 		selected.color = new_color
 		selected.is_mixed = false
 		selected.is_locked = false
-		# Track this new color as used in THIS slot
 		selected.colors_used.push_back(color)
 		UISignals.queue_changed.emit(self)
 		print("Mixed to ", PaintColor.Colors.find_key(new_color), " in slot ", selected_index)
+		return true
+
+	# Any other case: no change
+	return false
 
 ## Returns the element in the selected slot
 func get_selection() -> QueueElement:
