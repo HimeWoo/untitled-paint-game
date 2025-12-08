@@ -1,18 +1,38 @@
-[gd_scene load_steps=4 format=3 uid="uid://ced6bjidq52ic"]
+[gd_scene load_steps=6 format=3 uid="uid://ced6bjidq52ic"]
 
 [ext_resource type="Script" uid="uid://bobuh2ej4ug8v" path="res://scripts/door.gd" id="1_yfgsh"]
-[ext_resource type="Texture2D" uid="uid://bs5elx113sajt" path="res://assets/tiles/icon.svg" id="2_eyv6f"]
+[ext_resource type="Texture2D" uid="uid://s1c7xcreq1ym" path="res://assets/tiles/door-shut.png" id="2_mg2as"]
+[ext_resource type="Texture2D" uid="uid://28snq21xbpxi" path="res://assets/tiles/door-open.png" id="3_1ebfc"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ao1jx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_mg2as")
+}],
+"loop": true,
+"name": &"close",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_1ebfc")
+}],
+"loop": true,
+"name": &"open",
+"speed": 5.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_eyv6f"]
 
 [node name="Door" type="StaticBody2D"]
 script = ExtResource("1_yfgsh")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.1578145, 0.15592974)
-texture = ExtResource("2_eyv6f")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_ao1jx")
+animation = &"close"
+autoplay = "close"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(0.49708253, 1.5940876)
 shape = SubResource("RectangleShape2D_eyv6f")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
