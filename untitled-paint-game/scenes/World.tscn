@@ -21,7 +21,7 @@
 [ext_resource type="PackedScene" uid="uid://ced6bjidq52ic" path="res://scenes/Door.tscn" id="17_nthub"]
 [ext_resource type="PackedScene" uid="uid://c0ueve5t7pkg7" path="res://scenes/pressure_pad.tscn" id="18_44lqw"]
 [ext_resource type="Texture2D" uid="uid://r5q47i1wtxn6" path="res://assets/bgs/bg-dust2.png" id="18_dwmkc"]
-[ext_resource type="AudioStream" uid="uid://dj674lh4cwxq1" path="res://assets/music/soundtrack.mp3" id="19_44lqw"]
+[ext_resource type="AudioStream" uid="uid://cb3n6alibjbd3" path="res://assets/music/Et Dominum.mp3" id="21_dgldv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h1bdy"]
 size = Vector2(640, 360)
@@ -360,9 +360,10 @@ scale = Vector2(1, 1)
 linked_door = NodePath("../Door")
 
 [node name="Soundtrack" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("19_44lqw")
+stream = ExtResource("21_dgldv")
 autoplay = true
 bus = &"Music"
+parameters/looping = true
 
 [node name="Player" parent="." node_paths=PackedStringArray("terrain_map") instance=ExtResource("1_32lhk")]
 position = Vector2(-256, 22)

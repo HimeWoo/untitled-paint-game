@@ -9,6 +9,7 @@ extends Area2D
 @export_group("Pushbox Pull")
 @export var pushbox_pull_horizontal: float = 400.0
 @export var pushbox_pull_vertical: float = -300.0
+@export var pushbox_check_radius: float = 50.0
 
 var _tilemap: TileMapLayer
 var _selected_color: PaintColor.Colors
@@ -37,9 +38,32 @@ func start_attack(attacker: Node2D, attack_dir: Vector2, terrain: TileMapLayer, 
 	monitoring = true
 	
 	_paint_tiles_under_hitbox()
+	_check_pushbox_hits()  # Manual check for pushboxes
 	
 	await get_tree().create_timer(active_time).timeout
 	queue_free()
+
+func _check_pushbox_hits() -> void:
+	# Manually check for pushboxes in range using physics query
+	var space_state = get_world_2d().direct_space_state
+	var query = PhysicsShapeQueryParameters2D.new()
+	
+	# Use our collision shape
+	var shape_node: CollisionShape2D = $CollisionShape2D
+	if shape_node == null or shape_node.shape == null:
+		return
+	
+	query.shape = shape_node.shape
+	query.transform = shape_node.global_transform
+	query.collide_with_bodies = true
+	query.collide_with_areas = false
+	
+	var results = space_state.intersect_shape(query, 32)
+	
+	for result in results:
+		var body = result["collider"]
+		if body is Pushbox and body != owner_body:
+			_pull_pushbox(body)
 
 func _hit(target: Node) -> void:
 	if target == owner_body: 
@@ -66,6 +90,10 @@ func _hit(target: Node) -> void:
 		print("Melee hit ", target.name, " for ", damage)
 
 func _pull_pushbox(box: Pushbox) -> void:
+	if box in hit_objects:
+		return
+	hit_objects.append(box)
+	
 	# Get direction from box to player (pull towards player)
 	var pull_dir = (owner_body.global_position - box.global_position).normalized()
 	
@@ -79,7 +107,7 @@ func _pull_pushbox(box: Pushbox) -> void:
 	box.freeze = false
 	box.apply_central_impulse(pull_force)
 	
-	print("Pulled pushbox towards player")
+	print("Pulled pushbox towards player with force: ", pull_force)
 
 func _paint_tiles_under_hitbox() -> void:
 	if _tilemap == null:
