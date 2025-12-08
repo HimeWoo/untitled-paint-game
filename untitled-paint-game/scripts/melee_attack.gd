@@ -37,8 +37,9 @@ func start_attack(attacker: Node2D, attack_dir: Vector2, terrain: TileMapLayer, 
 	visible = true
 	monitoring = true
 	
-	_paint_tiles_under_hitbox()
+	_paint_tiles_under_hitbox()  # This now handles paint consumption
 	_check_pushbox_hits()  # Manual check for pushboxes
+	_check_platform_hits()  # Check for platforms too
 	
 	await get_tree().create_timer(active_time).timeout
 	queue_free()
@@ -109,6 +110,33 @@ func _pull_pushbox(box: Pushbox) -> void:
 	
 	print("Pulled pushbox towards player with force: ", pull_force)
 
+func _check_platform_hits() -> void:
+	# Manually check for platforms using physics query
+	var space_state = get_world_2d().direct_space_state
+	var query = PhysicsShapeQueryParameters2D.new()
+	
+	var shape_node: CollisionShape2D = $CollisionShape2D
+	if shape_node == null or shape_node.shape == null:
+		return
+	
+	query.shape = shape_node.shape
+	query.transform = shape_node.global_transform
+	query.collide_with_bodies = false
+	query.collide_with_areas = true
+	
+	var results = space_state.intersect_shape(query, 32)
+	var painted_platform := false
+	
+	for result in results:
+		var area = result["collider"]
+		if area is PlatformPaintable and area != owner_body:
+			(area as PlatformPaintable).set_color(_selected_color)
+			painted_platform = true
+	
+	# Use paint if we painted any platforms
+	if painted_platform and owner_body.has_method("use_paint_from_attack"):
+		owner_body.use_paint_from_attack()
+
 func _paint_tiles_under_hitbox() -> void:
 	if _tilemap == null:
 		return
@@ -124,6 +152,8 @@ func _paint_tiles_under_hitbox() -> void:
 	var y_min = min(map_coord_1.y, map_coord_2.y)
 	var y_max = max(map_coord_1.y, map_coord_2.y)
 	var alt_id = _color_to_alt(_selected_color)
+	var painted_any := false
+	
 	for x in range(x_min, x_max + 1):
 		for y in range(y_min, y_max + 1):
 			var cell := Vector2i(x, y)
@@ -132,10 +162,16 @@ func _paint_tiles_under_hitbox() -> void:
 			if data and data.get_custom_data("can_paint"):
 				if _selected_color == PaintColor.Colors.PURPLE and _tilemap.has_method("paint_purple"):
 					_tilemap.paint_purple(cell)
+					painted_any = true
 				else:
 					var src = _tilemap.get_cell_source_id(cell)
 					var atlas = _tilemap.get_cell_atlas_coords(cell)
 					_tilemap.set_cell(cell, src, atlas, alt_id)
+					painted_any = true
+	
+	# Only use paint if we actually painted something
+	if painted_any and owner_body.has_method("use_paint_from_attack"):
+		owner_body.use_paint_from_attack()
 
 func _color_to_alt(color: PaintColor.Colors) -> int:
 	match color:
@@ -155,4 +191,7 @@ func _on_area_entered(area: Area2D) -> void:
 	if area is PlatformPaintable:
 		var plat := area as PlatformPaintable
 		plat.set_color(_selected_color)
+		# Use paint when successfully painting a platform
+		if owner_body.has_method("use_paint_from_attack"):
+			owner_body.use_paint_from_attack()
 	_hit(area)
