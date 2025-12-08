@@ -32,4 +32,4 @@ jobs:
           itch_user: jx24
           itch_game: untitled-paint-game
           version: ${{ github.ref_name }}
-          files: "${{ steps.export.outputs.archive_directory }}/upgame-web.zip"
+          files: "${{ steps.export.outputs.archive_path }}"
