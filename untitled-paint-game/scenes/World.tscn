@@ -522,7 +522,8 @@ camera = NodePath("../Camera")
 camera_target = Vector2(3840, -970)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Transition10to9"]
-position = Vector2(-0.046343595, -0.00044250488)
+position = Vector2(-0.04638672, 0)
+scale = Vector2(0.99999994, 0.99999994)
 shape = SubResource("RectangleShape2D_dwmkc")
 debug_color = Color(1, 1, 1, 0.41960785)
 
@@ -546,7 +547,7 @@ position = Vector2(3200, -240)
 texture = ExtResource("15_dgldv")
 
 [node name="Sprite2D4" type="Sprite2D" parent="Parallax2D"]
-position = Vector2(4359, -738)
+position = Vector2(4357, -918)
 texture = ExtResource("16_rm3lh")
 offset = Vector2(-517, 138)
 
