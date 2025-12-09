@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://bjsj7hx0ac6yf" path="res://assets/paint_yellow.png" id="3_qn4og"]
 
 [node name="YellowPaint" instance=ExtResource("1_f1n3l")]
+collision_mask = 3
 data = ExtResource("2_d6kga")
 
 [node name="Sprite2D" parent="." index="1"]
