@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ctyw0k4spwmo1"
-path="res://.godot/imported/bg-tut3.png-1812f2c80df78fe0a34d15ff56254d62.ctex"
+uid="uid://n0hqodac3vwm"
+path="res://.godot/imported/bg-sky-taller.png-126d374bf3bd9583fbce5c5a2bc3c49f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/bgs/bg-tut3.png"
-dest_files=["res://.godot/imported/bg-tut3.png-1812f2c80df78fe0a34d15ff56254d62.ctex"]
+source_file="res://assets/bgs/bg-sky-taller.png"
+dest_files=["res://.godot/imported/bg-sky-taller.png-126d374bf3bd9583fbce5c5a2bc3c49f.ctex"]
 
 [params]
 
