@@ -16,7 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://scr5ppigf6cy" path="res://assets/bgs/bg-tut1.png" id="14_i4b1j"]
 [ext_resource type="Texture2D" uid="uid://6kruuej5teyy" path="res://assets/bgs/bg-sky.png" id="15_c0d7e"]
 [ext_resource type="Texture2D" uid="uid://cmacpn3jaliar" path="res://assets/bgs/bg-tut2.png" id="15_o1tcx"]
-[ext_resource type="Texture2D" uid="uid://ctyw0k4spwmo1" path="res://assets/bgs/bg-tut3.png" id="16_rpuxp"]
+[ext_resource type="Texture2D" uid="uid://cx8db35kc7med" path="res://assets/bgs/bg-tut3.png" id="16_rpuxp"]
 [ext_resource type="Texture2D" uid="uid://2j5krva2pd3a" path="res://assets/bgs/bg-dust.png" id="17_44lqw"]
 [ext_resource type="PackedScene" uid="uid://ced6bjidq52ic" path="res://scenes/Door.tscn" id="17_nthub"]
 [ext_resource type="PackedScene" uid="uid://c0ueve5t7pkg7" path="res://scenes/pressure_pad.tscn" id="18_44lqw"]
@@ -55,32 +55,13 @@ size = Vector2(32, 64)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dwmkc"]
 resource_local_to_scene = true
-size = Vector2(32, 68.983475)
+size = Vector2(35.256226, 68.983475)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rm3lh"]
 resource_local_to_scene = true
-size = Vector2(32, 72.844864)
+size = Vector2(36.72339, 74.20636)
 
 [node name="World" type="Node2D"]
-
-[node name="Parallax2D" type="Parallax2D" parent="."]
-z_index = -100
-scroll_scale = Vector2(0, 0)
-follow_viewport = false
-ignore_camera_scroll = true
-
-[node name="Sprite2D" type="Sprite2D" parent="Parallax2D"]
-position = Vector2(640, -80)
-texture = ExtResource("14_i4b1j")
-
-[node name="Sprite2D2" type="Sprite2D" parent="Parallax2D"]
-position = Vector2(1764, -206)
-texture = ExtResource("15_o1tcx")
-offset = Vector2(156, 46)
-
-[node name="Sprite2D3" type="Sprite2D" parent="Parallax2D"]
-position = Vector2(2880, -240)
-texture = ExtResource("16_rpuxp")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -191,6 +172,7 @@ collision_mask = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Room6"]
 shape = SubResource("RectangleShape2D_o1tcx")
 disabled = true
+debug_color = Color(1, 1, 1, 0.25490198)
 
 [node name="Room7" type="Area2D" parent="."]
 position = Vector2(3828, -241)
@@ -200,6 +182,7 @@ scale = Vector2(-30.677011, 18.78526)
 position = Vector2(0, 8.940697e-08)
 scale = Vector2(0.9999999, 1)
 shape = SubResource("RectangleShape2D_dgldv")
+disabled = true
 
 [node name="Room8" type="Area2D" parent="."]
 position = Vector2(3828, -602)
@@ -209,6 +192,8 @@ scale = Vector2(-30.677011, 18.78526)
 position = Vector2(7.6293945e-06, -3.8146973e-06)
 scale = Vector2(0.99999976, 1)
 shape = SubResource("RectangleShape2D_dgldv")
+disabled = true
+debug_color = Color(1, 1, 1, 0.2)
 
 [node name="Room9" type="Area2D" parent="."]
 position = Vector2(3828, -971)
@@ -218,6 +203,8 @@ scale = Vector2(-30.677011, 18.78526)
 position = Vector2(0, 0.3953228)
 scale = Vector2(0.9999999, 1)
 shape = SubResource("RectangleShape2D_dgldv")
+disabled = true
+debug_color = Color(1, 1, 1, 0.15294118)
 
 [node name="Room10" type="Area2D" parent="."]
 position = Vector2(3356, -1309)
@@ -227,6 +214,8 @@ scale = Vector2(-30.677011, 18.78526)
 position = Vector2(0, 0.3953228)
 scale = Vector2(0.9999999, 1)
 shape = SubResource("RectangleShape2D_dgldv")
+disabled = true
+debug_color = Color(0.41568628, 0.41568628, 0.41568628, 0.19607843)
 
 [node name="Room11" type="Area2D" parent="."]
 position = Vector2(4883, -1308)
@@ -378,8 +367,8 @@ camera = NodePath("../Camera")
 camera_target = Vector2(3840, -240)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Transition6to7"]
-position = Vector2(0, 4.4224243)
-scale = Vector2(1, 0.9999999)
+position = Vector2(0, 5.1031723)
+scale = Vector2(1, 0.9999998)
 shape = SubResource("RectangleShape2D_rm3lh")
 
 [node name="Transition7to6" type="Area2D" parent="." node_paths=PackedStringArray("camera")]
@@ -393,7 +382,7 @@ camera = NodePath("../Camera")
 camera_target = Vector2(3200, -240)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Transition7to6"]
-position = Vector2(0, 2.4917374)
+position = Vector2(0, 3.863944)
 scale = Vector2(1, 1.0000002)
 shape = SubResource("RectangleShape2D_dwmkc")
 
@@ -408,7 +397,8 @@ camera = NodePath("../Camera")
 camera_target = Vector2(3840, -625)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Transition7to8"]
-position = Vector2(-0.48963916, 20.955275)
+position = Vector2(-1.2241211, 20.955322)
+scale = Vector2(0.9999998, 0.9999999)
 shape = SubResource("RectangleShape2D_rm3lh")
 
 [node name="Transition8to7" type="Area2D" parent="." node_paths=PackedStringArray("camera")]
@@ -422,6 +412,8 @@ camera = NodePath("../Camera")
 camera_target = Vector2(3840, -240)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Transition8to7"]
+position = Vector2(1.6282959, 0)
+scale = Vector2(1, 0.99999994)
 shape = SubResource("RectangleShape2D_dwmkc")
 
 [node name="Transition8to9" type="Area2D" parent="." node_paths=PackedStringArray("camera")]
@@ -482,6 +474,26 @@ camera_target = Vector2(3840, -970)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Transition10to9"]
 position = Vector2(-0.046343595, -0.00044250488)
 shape = SubResource("RectangleShape2D_dwmkc")
+debug_color = Color(1, 1, 1, 0.41960785)
+
+[node name="Parallax2D" type="Parallax2D" parent="."]
+z_index = -100
+scroll_scale = Vector2(0, 0)
+follow_viewport = false
+ignore_camera_scroll = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallax2D"]
+position = Vector2(640, -80)
+texture = ExtResource("14_i4b1j")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Parallax2D"]
+position = Vector2(1764, -206)
+texture = ExtResource("15_o1tcx")
+offset = Vector2(156, 46)
+
+[node name="Sprite2D3" type="Sprite2D" parent="Parallax2D"]
+position = Vector2(3200, -240)
+texture = ExtResource("16_rpuxp")
 
 [node name="Transition10to11" type="Area2D" parent="." node_paths=PackedStringArray("camera")]
 position = Vector2(3687, -1327)

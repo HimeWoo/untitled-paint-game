@@ -2,16 +2,12 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ctyw0k4spwmo1"
-path="res://.godot/imported/bg-tut3.png-1812f2c80df78fe0a34d15ff56254d62.ctex"
-metadata={
-"vram_texture": false
-}
+uid="uid://cx8db35kc7med"
+valid=false
 
 [deps]
 
 source_file="res://assets/bgs/bg-tut3.png"
-dest_files=["res://.godot/imported/bg-tut3.png-1812f2c80df78fe0a34d15ff56254d62.ctex"]
 
 [params]
 
