@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=4 uid="uid://cqqs3koshw1te"]
+[gd_scene load_steps=35 format=4 uid="uid://cqqs3koshw1te"]
 
 [ext_resource type="PackedScene" uid="uid://b3rae3dafdwir" path="res://scenes/player.tscn" id="1_32lhk"]
 [ext_resource type="TileSet" uid="uid://cvaryx1sf0cl5" path="res://assets/tiles/tiles.tres" id="2_nthub"]
@@ -41,6 +41,9 @@ size = Vector2(640, 360)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o1tcx"]
 size = Vector2(640, 360)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dgldv"]
+size = Vector2(20, 19.20935)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rpuxp"]
 size = Vector2(32, 64)
 
@@ -51,9 +54,33 @@ size = Vector2(32, 64)
 size = Vector2(32, 64)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dwmkc"]
+resource_local_to_scene = true
+size = Vector2(32, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rm3lh"]
+resource_local_to_scene = true
 size = Vector2(32, 64)
 
 [node name="World" type="Node2D"]
+
+[node name="Parallax2D" type="Parallax2D" parent="."]
+z_index = -100
+scroll_scale = Vector2(0, 0)
+follow_viewport = false
+ignore_camera_scroll = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallax2D"]
+position = Vector2(640, -80)
+texture = ExtResource("14_i4b1j")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Parallax2D"]
+position = Vector2(1764, -206)
+texture = ExtResource("15_o1tcx")
+offset = Vector2(156, 46)
+
+[node name="Sprite2D3" type="Sprite2D" parent="Parallax2D"]
+position = Vector2(2880, -240)
+texture = ExtResource("16_rpuxp")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -164,6 +191,15 @@ collision_mask = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Room6"]
 shape = SubResource("RectangleShape2D_o1tcx")
 disabled = true
+
+[node name="Room7" type="Area2D" parent="."]
+position = Vector2(3828, -248)
+scale = Vector2(-30.677011, 18.78526)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Room7"]
+position = Vector2(0, 0.3953228)
+scale = Vector2(0.9999999, 1)
+shape = SubResource("RectangleShape2D_dgldv")
 
 [node name="Transition1to2" type="Area2D" parent="." node_paths=PackedStringArray("camera")]
 position = Vector2(386, -160)
@@ -285,24 +321,32 @@ camera_target = Vector2(2560, -240)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Transition6to5"]
 shape = SubResource("RectangleShape2D_dwmkc")
 
-[node name="Parallax2D" type="Parallax2D" parent="."]
-z_index = -100
-scroll_scale = Vector2(0, 0)
-follow_viewport = false
-ignore_camera_scroll = true
+[node name="Transition6to7" type="Area2D" parent="." node_paths=PackedStringArray("camera")]
+position = Vector2(3506, -295)
+scale = Vector2(0.3247462, 3.6724331)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("13_nrtoj")
+enter_directions = Array[int]([0])
+camera = NodePath("../Camera")
+camera_target = Vector2(3840, -240)
 
-[node name="Sprite2D" type="Sprite2D" parent="Parallax2D"]
-position = Vector2(640, -80)
-texture = ExtResource("14_i4b1j")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Transition6to7"]
+position = Vector2(-0.0002323389, -5.1259995e-06)
+shape = SubResource("RectangleShape2D_rm3lh")
 
-[node name="Sprite2D2" type="Sprite2D" parent="Parallax2D"]
-position = Vector2(1764, -206)
-texture = ExtResource("15_o1tcx")
-offset = Vector2(156, 46)
+[node name="Transition7to6" type="Area2D" parent="." node_paths=PackedStringArray("camera")]
+position = Vector2(3527.0002, -296.99997)
+scale = Vector2(0.35601994, 3.6232388)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("13_nrtoj")
+enter_directions = Array[int]([2])
+camera = NodePath("../Camera")
+camera_target = Vector2(3200, -240)
 
-[node name="Sprite2D3" type="Sprite2D" parent="Parallax2D"]
-position = Vector2(2880, -240)
-texture = ExtResource("16_rpuxp")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Transition7to6"]
+shape = SubResource("RectangleShape2D_dwmkc")
 
 [node name="Parallax2D2" type="Parallax2D" parent="."]
 z_index = -101
@@ -343,7 +387,6 @@ linked_door = NodePath("../Door")
 [node name="Soundtrack" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("21_dgldv")
 autoplay = true
-bus = &"Music"
 parameters/looping = true
 
 [node name="Player" parent="." node_paths=PackedStringArray("terrain_map") instance=ExtResource("1_32lhk")]
