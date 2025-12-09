@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=4 uid="uid://cqqs3koshw1te"]
+[gd_scene load_steps=36 format=4 uid="uid://cqqs3koshw1te"]
 
 [ext_resource type="PackedScene" uid="uid://b3rae3dafdwir" path="res://scenes/player.tscn" id="1_32lhk"]
 [ext_resource type="TileSet" uid="uid://cvaryx1sf0cl5" path="res://assets/tiles/tiles.tres" id="2_nthub"]
@@ -15,8 +15,9 @@
 [ext_resource type="Script" uid="uid://cg564iutjm3o8" path="res://scripts/room_transition.gd" id="13_nrtoj"]
 [ext_resource type="Texture2D" uid="uid://scr5ppigf6cy" path="res://assets/bgs/bg-tut1.png" id="14_i4b1j"]
 [ext_resource type="Texture2D" uid="uid://6kruuej5teyy" path="res://assets/bgs/bg-sky.png" id="15_c0d7e"]
+[ext_resource type="Texture2D" uid="uid://birprc05kwfwe" path="res://assets/bgs/bg-tut3-bug.png" id="15_dgldv"]
 [ext_resource type="Texture2D" uid="uid://cmacpn3jaliar" path="res://assets/bgs/bg-tut2.png" id="15_o1tcx"]
-[ext_resource type="Texture2D" uid="uid://cx8db35kc7med" path="res://assets/bgs/bg-tut3.png" id="16_rpuxp"]
+[ext_resource type="Texture2D" uid="uid://bp1hbdj5875n3" path="res://assets/bgs/bg-tut4.png" id="16_rm3lh"]
 [ext_resource type="Texture2D" uid="uid://2j5krva2pd3a" path="res://assets/bgs/bg-dust.png" id="17_44lqw"]
 [ext_resource type="PackedScene" uid="uid://ced6bjidq52ic" path="res://scenes/Door.tscn" id="17_nthub"]
 [ext_resource type="PackedScene" uid="uid://c0ueve5t7pkg7" path="res://scenes/pressure_pad.tscn" id="18_44lqw"]
@@ -179,8 +180,7 @@ position = Vector2(3828, -241)
 scale = Vector2(-30.677011, 18.78526)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Room7"]
-position = Vector2(0, 8.940697e-08)
-scale = Vector2(0.9999999, 1)
+scale = Vector2(0.9999997, 1)
 shape = SubResource("RectangleShape2D_dgldv")
 disabled = true
 
@@ -493,7 +493,12 @@ offset = Vector2(156, 46)
 
 [node name="Sprite2D3" type="Sprite2D" parent="Parallax2D"]
 position = Vector2(3200, -240)
-texture = ExtResource("16_rpuxp")
+texture = ExtResource("15_dgldv")
+
+[node name="Sprite2D4" type="Sprite2D" parent="Parallax2D"]
+position = Vector2(4359, -738)
+texture = ExtResource("16_rm3lh")
+offset = Vector2(-517, 138)
 
 [node name="Transition10to11" type="Area2D" parent="." node_paths=PackedStringArray("camera")]
 position = Vector2(3687, -1327)
@@ -607,7 +612,7 @@ position = Vector2(0, -118)
 zoom = Vector2(3, 3)
 
 [node name="YellowPaint3" parent="." instance=ExtResource("6_b3faq")]
-position = Vector2(3691, -380)
+position = Vector2(3686, -355)
 collision_mask = 3
 
 [node name="BluePaint2" parent="." instance=ExtResource("4_d1c63")]
