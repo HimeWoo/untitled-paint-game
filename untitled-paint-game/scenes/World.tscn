@@ -432,6 +432,7 @@ linked_door = NodePath("../Door")
 [node name="Soundtrack" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("21_dgldv")
 autoplay = true
+bus = &"Music"
 parameters/looping = true
 
 [node name="Player" parent="." node_paths=PackedStringArray("terrain_map") instance=ExtResource("1_32lhk")]
