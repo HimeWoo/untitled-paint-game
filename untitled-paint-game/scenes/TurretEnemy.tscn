@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://e7xagyljh0qf" path="res://scripts/enemy.gd" id="1_nfe6d"]
 [ext_resource type="Resource" uid="uid://ly103fl3ctd3" path="res://data/TurretEnemy.tres" id="2_nfe6d"]
 [ext_resource type="PackedScene" uid="uid://d8m4hk2gtbvk" path="res://scenes/EnemyProjectile2.tscn" id="3_nfe6d"]
-[ext_resource type="Texture2D" uid="uid://cvo46mwsuck7c" path="res://assets/turret_enemy.png" id="4_6oka5"]
+[ext_resource type="Texture2D" uid="uid://dqx4jloe0gx7g" path="res://assets/charas/enemies/turret-def.png" id="4_o86rb"]
 [ext_resource type="AudioStream" uid="uid://c4nx14576yc0v" path="res://assets/music/enemy_damage.mp3" id="5_o86rb"]
 [ext_resource type="AudioStream" uid="uid://brlgp5tp8khn7" path="res://assets/music/enemy_death.mp3" id="6_i3hwf"]
 
@@ -24,7 +24,9 @@ stats = ExtResource("2_nfe6d")
 projectile_scene = ExtResource("3_nfe6d")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("4_6oka5")
+position = Vector2(5.722046e-06, 5.722046e-06)
+scale = Vector2(7.4999995, 7.4999995)
+texture = ExtResource("4_o86rb")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(6.1094725e-06, 2.9802317e-07)
