@@ -193,10 +193,28 @@ shape = SubResource("RectangleShape2D_o1tcx")
 disabled = true
 
 [node name="Room7" type="Area2D" parent="."]
-position = Vector2(3828, -248)
+position = Vector2(3828, -241)
 scale = Vector2(-30.677011, 18.78526)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Room7"]
+position = Vector2(0, 8.940697e-08)
+scale = Vector2(0.9999999, 1)
+shape = SubResource("RectangleShape2D_dgldv")
+
+[node name="Room8" type="Area2D" parent="."]
+position = Vector2(3828, -602)
+scale = Vector2(-30.677011, 18.78526)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Room8"]
+position = Vector2(7.958423e-06, -4.7683716e-06)
+scale = Vector2(0.9999999, 1)
+shape = SubResource("RectangleShape2D_dgldv")
+
+[node name="Room9" type="Area2D" parent="."]
+position = Vector2(3828, -971)
+scale = Vector2(-30.677011, 18.78526)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Room9"]
 position = Vector2(0, 0.3953228)
 scale = Vector2(0.9999999, 1)
 shape = SubResource("RectangleShape2D_dgldv")
@@ -336,7 +354,7 @@ position = Vector2(-0.0002323389, -5.1259995e-06)
 shape = SubResource("RectangleShape2D_rm3lh")
 
 [node name="Transition7to6" type="Area2D" parent="." node_paths=PackedStringArray("camera")]
-position = Vector2(3527.0002, -296.99997)
+position = Vector2(3473, -295)
 scale = Vector2(0.35601994, 3.6232388)
 collision_layer = 0
 collision_mask = 2
@@ -346,6 +364,33 @@ camera = NodePath("../Camera")
 camera_target = Vector2(3200, -240)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Transition7to6"]
+shape = SubResource("RectangleShape2D_dwmkc")
+
+[node name="Transition7to8" type="Area2D" parent="." node_paths=PackedStringArray("camera")]
+position = Vector2(4035, -413)
+scale = Vector2(2.042292, 0.19088267)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("13_nrtoj")
+enter_directions = Array[int]([3])
+camera = NodePath("../Camera")
+camera_target = Vector2(3840, -625)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Transition7to8"]
+position = Vector2(-0.0002323389, -5.1259995e-06)
+shape = SubResource("RectangleShape2D_rm3lh")
+
+[node name="Transition8to7" type="Area2D" parent="." node_paths=PackedStringArray("camera")]
+position = Vector2(4035, -437.00003)
+scale = Vector2(-2.1291866, 0.13948253)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("13_nrtoj")
+enter_directions = Array[int]([1])
+camera = NodePath("../Camera")
+camera_target = Vector2(3200, -240)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Transition8to7"]
 shape = SubResource("RectangleShape2D_dwmkc")
 
 [node name="Parallax2D2" type="Parallax2D" parent="."]
@@ -403,7 +448,8 @@ position = Vector2(3562, -384)
 collision_mask = 3
 
 [node name="RedPaint3" parent="." instance=ExtResource("7_ygioq")]
-position = Vector2(3534, -194)
+position = Vector2(3550, -192)
+scale = Vector2(0.7109294, 0.9850479)
 collision_mask = 3
 
 [node name="BluePaint3" parent="." instance=ExtResource("4_d1c63")]
