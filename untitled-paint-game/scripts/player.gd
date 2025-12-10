@@ -676,7 +676,49 @@ func _action_queue_confirm() -> void:
 
 
 func use_paint_from_attack() -> void:
-	selector.use_selected_paint()
+	var sel= selector.get_selection()
+	if sel == null:
+		return
+	if sel.color == PaintColor.Colors.RED:
+		_spawn_red_paint_projectile()
+		selector.use_selected_paint()
+		return
+	elif sel.color == PaintColor.Colors.ORANGE:
+		_spawn_orange_wave()
+		selector.use_selected_paint()
+		return
+	else:
+		selector.use_selected_paint()
+
+
+func _spawn_red_paint_projectile() -> void:
+	if projectile_scene == null:
+		return
+	var proj = projectile_scene.instantiate()
+	if proj == null:
+		return
+	get_parent().add_child(proj)
+	var spawn_pos := _get_projectile_spawn_pos()
+	proj.global_position = spawn_pos
+	var sprite_node := proj.get_node_or_null("Sprite2D")
+	if sprite_node is Sprite2D:
+		(sprite_node as Sprite2D).texture = preload("res://assets/charas/abilities/paint-red_projectile.png")
+	var dir := _get_aim_dir()
+	if dir == Vector2.ZERO:
+		dir = Vector2(facing_dir,0.0)
+	if proj.has_method("setup"):
+		proj.setup(dir, 10)
+
+
+func _spawn_orange_wave() -> void:
+	if terrain_map == null:
+		return
+	var rollout := OrangeWave.new()
+	get_parent().add_child(rollout)
+	var y_offset := foot_check_offset_y-rollout.floor_check_distance
+	var start_pos := global_position + Vector2(0, y_offset)
+	var dir := facing_dir
+	rollout.setup(start_pos,dir,terrain_map)
 
 
 func _action_queue_clear() -> void:
