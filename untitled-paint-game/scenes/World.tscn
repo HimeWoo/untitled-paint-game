@@ -523,30 +523,6 @@ scale = Vector2(1, 4.41)
 shape = SubResource("RectangleShape2D_dwmkc")
 debug_color = Color(1, 1, 1, 0.41960785)
 
-[node name="Parallax2D" type="Parallax2D" parent="."]
-z_index = -100
-scroll_scale = Vector2(0, 0)
-follow_viewport = false
-ignore_camera_scroll = true
-
-[node name="Sprite2D" type="Sprite2D" parent="Parallax2D"]
-position = Vector2(640, -80)
-texture = ExtResource("14_i4b1j")
-
-[node name="Sprite2D2" type="Sprite2D" parent="Parallax2D"]
-position = Vector2(1764, -206)
-texture = ExtResource("15_o1tcx")
-offset = Vector2(156, 46)
-
-[node name="Sprite2D3" type="Sprite2D" parent="Parallax2D"]
-position = Vector2(3200, -240)
-texture = ExtResource("15_dgldv")
-
-[node name="Sprite2D4" type="Sprite2D" parent="Parallax2D"]
-position = Vector2(4357, -918)
-texture = ExtResource("16_rm3lh")
-offset = Vector2(-517, 138)
-
 [node name="Transition10to11" type="Area2D" parent="." node_paths=PackedStringArray("camera")]
 position = Vector2(3687, -1327)
 scale = Vector2(1.0621873, -4.958627)
@@ -728,6 +704,30 @@ camera_target = Vector2(6580, -932)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Transition15to14-2"]
 position = Vector2(-4.343235, 16.91345)
 shape = SubResource("RectangleShape2D_dwmkc")
+
+[node name="Map BGs" type="Parallax2D" parent="."]
+z_index = -100
+scroll_scale = Vector2(0, 0)
+follow_viewport = false
+ignore_camera_scroll = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Map BGs"]
+position = Vector2(640, -80)
+texture = ExtResource("14_i4b1j")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Map BGs"]
+position = Vector2(1764, -206)
+texture = ExtResource("15_o1tcx")
+offset = Vector2(156, 46)
+
+[node name="Sprite2D3" type="Sprite2D" parent="Map BGs"]
+position = Vector2(3200, -240)
+texture = ExtResource("15_dgldv")
+
+[node name="Sprite2D4" type="Sprite2D" parent="Map BGs"]
+position = Vector2(4357, -918)
+texture = ExtResource("16_rm3lh")
+offset = Vector2(-517, 138)
 
 [node name="Parallax2D2" type="Parallax2D" parent="."]
 z_index = -101
