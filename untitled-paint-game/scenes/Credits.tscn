@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://q0yryhoadbgb"]
+
+[ext_resource type="Texture2D" uid="uid://68a55wa67nn1" path="res://assets/bgs/credits.png" id="1_hi4w3"]
+[ext_resource type="Texture2D" uid="uid://ble7itpn4vrcd" path="res://assets/bgs/menu-btns/back-btn.png" id="2_spvsy"]
+[ext_resource type="Script" uid="uid://u26d455ax2s0" path="res://scripts/back-to-menu.gd" id="3_gw1d4"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_spvsy"]
+texture = ExtResource("1_hi4w3")
+
+[node name="Credits" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("3_gw1d4")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_spvsy")
+
+[node name="TextureButton" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 1757.0
+offset_top = 910.0
+offset_right = 1877.0
+offset_bottom = 1030.0
+texture_normal = ExtResource("2_spvsy")
+texture_pressed = ExtResource("2_spvsy")
+texture_hover = ExtResource("2_spvsy")
+script = ExtResource("3_gw1d4")
+
+[connection signal="pressed" from="TextureButton" to="TextureButton" method="_on_back_pressed"]
