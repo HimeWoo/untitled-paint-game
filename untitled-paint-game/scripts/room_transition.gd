@@ -64,18 +64,7 @@ func _on_body_entered(body: CharacterBody2D) -> void:
 					spawn_pos = checkpoint_spawn.global_position
 				print("RoomTransition name=", name, " Position=", spawn_pos, " room_area=",area_name)
 				body.set_room_checkpoint(spawn_pos, room_area_for_checkpoint)
-		else:
-			# Switch to the assigned Follow Camera
-			print("Switched to player follow camera")
-			if camera:
-				camera.make_current()
-				# Optional: Apply zoom settings if you set them on this transition
-				if not camera_zoom.is_zero_approx():
-					# Check if your camera script uses 'target_zoom' (custom) or standard 'zoom'
-					if "target_zoom" in camera:
-						camera.target_zoom = camera_zoom
-					else:
-						camera.zoom = camera_zoom
+
 
 ## Returns true if the body entered from a direction in enter_directions
 func _entered_from_valid_direction(body: Node2D) -> bool:

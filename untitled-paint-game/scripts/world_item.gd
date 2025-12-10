@@ -10,8 +10,9 @@ func _ready() -> void:
 	body_entered.connect(_pickup)
 
 
-func _pickup(player: Node2D):
-	if !player.inventory.is_full():
-		player.inventory.add_color(data.color)
-		player.play_paint_pickup_sfx()
-		queue_free()
+func _pickup(body: Node2D):
+	if body.is_in_group("player"):
+		if !body.inventory.is_full():
+			body.inventory.add_color(data.color)
+			body.play_paint_pickup_sfx()
+			queue_free()
