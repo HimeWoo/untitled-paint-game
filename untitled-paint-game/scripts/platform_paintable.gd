@@ -11,7 +11,7 @@ signal yellow_painted
 	Color(1,1,1,1), # NONE
 	Color(1,0,0,1), # RED
 	Color(0,0,1,1), # BLUE
-	Color(1,1,0,1), # YELLOW
+	Color(1.825, 1.825, 0.0), # YELLOW
 	Color(0,1,0,1), # GREEN
 	Color(0.6,0,0.6,1), # PURPLE
 	Color(1,0.5,0,1)  # ORANGE
