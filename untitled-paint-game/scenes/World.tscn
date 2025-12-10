@@ -1,6 +1,7 @@
-[gd_scene load_steps=38 format=4 uid="uid://cqqs3koshw1te"]
+[gd_scene load_steps=42 format=4 uid="uid://cqqs3koshw1te"]
 
 [ext_resource type="PackedScene" uid="uid://b3rae3dafdwir" path="res://scenes/player.tscn" id="1_32lhk"]
+[ext_resource type="Script" uid="uid://bq1gec2kakrsi" path="res://scripts/world-bg.gd" id="1_aqlsr"]
 [ext_resource type="TileSet" uid="uid://cvaryx1sf0cl5" path="res://assets/tiles/tiles.tres" id="2_nthub"]
 [ext_resource type="Script" path="res://scripts/paintable.gd" id="3_30fn3"]
 [ext_resource type="Script" path="res://scripts/camera.gd" id="4_7c4bj"]
@@ -24,7 +25,10 @@
 [ext_resource type="PackedScene" uid="uid://c0ueve5t7pkg7" path="res://scenes/pressure_pad.tscn" id="18_44lqw"]
 [ext_resource type="Texture2D" uid="uid://r5q47i1wtxn6" path="res://assets/bgs/bg-dust2.png" id="18_dwmkc"]
 [ext_resource type="Texture2D" uid="uid://n0hqodac3vwm" path="res://assets/bgs/bg-sky-taller.png" id="18_yncth"]
+[ext_resource type="Texture2D" uid="uid://dxsfn271js2jk" path="res://assets/bgs/bg-para-city1.png" id="20_lawxi"]
 [ext_resource type="AudioStream" uid="uid://cb3n6alibjbd3" path="res://assets/music/Et Dominum.mp3" id="21_dgldv"]
+[ext_resource type="Texture2D" uid="uid://b1p7tsini4nec" path="res://assets/bgs/bg-para-city2.png" id="21_uni40"]
+[ext_resource type="Texture2D" uid="uid://cb0wl6t3qw1hk" path="res://assets/bgs/bg-para-city3.png" id="22_uni40"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h1bdy"]
 size = Vector2(640, 360)
@@ -65,6 +69,7 @@ resource_local_to_scene = true
 size = Vector2(36.72339, 96.85416)
 
 [node name="World" type="Node2D"]
+script = ExtResource("1_aqlsr")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -473,6 +478,7 @@ script = ExtResource("13_nrtoj")
 enter_directions = Array[int]([3])
 camera = NodePath("../Camera")
 camera_target = Vector2(3840, -970)
+show_background = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Transition8to9"]
 position = Vector2(-3.912719e-07, -0.0003681183)
@@ -503,6 +509,7 @@ script = ExtResource("13_nrtoj")
 enter_directions = Array[int]([3])
 camera = NodePath("../Camera")
 camera_target = Vector2(3350, -1325)
+show_background = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Transition9to10"]
 position = Vector2(-3.912719e-07, 0.00018501282)
@@ -518,6 +525,7 @@ script = ExtResource("13_nrtoj")
 enter_directions = Array[int]([1])
 camera = NodePath("../Camera")
 camera_target = Vector2(3840, -970)
+show_background = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Transition10to9"]
 position = Vector2(-1.610443e-05, -129.83359)
@@ -535,6 +543,7 @@ enter_directions = Array[int]([0])
 camera = NodePath("../Player/PlayerFollowCamera")
 camera_target = Vector2(3350, -1325)
 follow_player = true
+show_background = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Transition10to11"]
 position = Vector2(-3.912719e-07, 0.00018501282)
@@ -550,6 +559,7 @@ script = ExtResource("13_nrtoj")
 enter_directions = Array[int]([2])
 camera = NodePath("../Camera")
 camera_target = Vector2(3350, -1325)
+show_background = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Transition11to10"]
 position = Vector2(-29.840565, 1.9775162)
@@ -564,6 +574,7 @@ script = ExtResource("13_nrtoj")
 enter_directions = Array[int]([0])
 camera = NodePath("../Camera")
 camera_target = Vector2(5800, -1325)
+show_background = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Transition11to12"]
 position = Vector2(14.121801, -0.40334934)
@@ -580,6 +591,7 @@ enter_directions = Array[int]([2])
 camera = NodePath("../Player/PlayerFollowCamera")
 camera_target = Vector2(3350, -1325)
 follow_player = true
+show_background = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Transition12to11"]
 position = Vector2(40.221474, 1.3842671)
@@ -596,11 +608,11 @@ camera = NodePath("../Camera")
 camera_target = Vector2(5940, -932)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Transition12to13"]
-position = Vector2(-3.912719e-07, 0.00018501282)
+position = Vector2(1.0395293, -59.20268)
 shape = SubResource("RectangleShape2D_rm3lh")
 
 [node name="Transition13to12" type="Area2D" parent="." node_paths=PackedStringArray("camera")]
-position = Vector2(5937.9995, -1103.9999)
+position = Vector2(5938, -1066.96)
 rotation = 3.1415925
 scale = Vector2(4.664022, -0.18734127)
 collision_layer = 0
@@ -612,7 +624,7 @@ camera_target = Vector2(5800, -1325)
 follow_player = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Transition13to12"]
-position = Vector2(0.00022125244, -0.19776535)
+position = Vector2(1.086669e-05, -165.68683)
 shape = SubResource("RectangleShape2D_dwmkc")
 
 [node name="Transition13to14" type="Area2D" parent="." node_paths=PackedStringArray("camera")]
@@ -708,7 +720,7 @@ position = Vector2(-4.343235, 16.91345)
 shape = SubResource("RectangleShape2D_dwmkc")
 
 [node name="Map BGs" type="Parallax2D" parent="."]
-z_index = -100
+z_index = -80
 scroll_scale = Vector2(0, 0)
 follow_viewport = false
 ignore_camera_scroll = true
@@ -732,7 +744,7 @@ texture = ExtResource("16_rm3lh")
 offset = Vector2(-517, 138)
 
 [node name="Sprite2D5" type="Sprite2D" parent="Map BGs"]
-position = Vector2(2817, -1529)
+position = Vector2(3496, -1529)
 texture = ExtResource("17_jgbtq")
 offset = Vector2(553, 227)
 
@@ -744,14 +756,45 @@ scroll_scale = Vector2(0, 0)
 position = Vector2(960, 540)
 texture = ExtResource("15_c0d7e")
 
-[node name="SkyPara" type="Parallax2D" parent="."]
-visible = false
+[node name="ParallaxSection" type="Node2D" parent="."]
+
+[node name="SkyPara" type="Parallax2D" parent="ParallaxSection"]
 z_index = -101
 scroll_scale = Vector2(0, 0.05)
 
-[node name="Sprite2D" type="Sprite2D" parent="SkyPara"]
-position = Vector2(960, 350)
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxSection/SkyPara"]
+position = Vector2(960, 320)
 texture = ExtResource("18_yncth")
+
+[node name="City1" type="Parallax2D" parent="ParallaxSection"]
+z_index = -97
+scroll_scale = Vector2(0.1, 0.1)
+repeat_size = Vector2(720, 0)
+repeat_times = 6
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxSection/City1"]
+position = Vector2(0, 240)
+texture = ExtResource("20_lawxi")
+
+[node name="City2" type="Parallax2D" parent="ParallaxSection"]
+z_index = -96
+scroll_scale = Vector2(0.2, 0.2)
+repeat_size = Vector2(720, 0)
+repeat_times = 6
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxSection/City2"]
+position = Vector2(0, 80)
+texture = ExtResource("21_uni40")
+
+[node name="City3" type="Parallax2D" parent="ParallaxSection"]
+z_index = -95
+scroll_scale = Vector2(0.4, 0.4)
+repeat_size = Vector2(1536, 0)
+repeat_times = 6
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxSection/City3"]
+position = Vector2(0, -200)
+texture = ExtResource("22_uni40")
 
 [node name="Dust1" type="Parallax2D" parent="."]
 z_index = -101
@@ -846,7 +889,7 @@ position = Vector2(6901, -952)
 scale = Vector2(1, 2.560788)
 
 [node name="PressurePad3" parent="." node_paths=PackedStringArray("linked_door") instance=ExtResource("18_44lqw")]
-position = Vector2(6419, -769)
+position = Vector2(6419, -771)
 scale = Vector2(1, 1)
 linked_door = NodePath("../Door3")
 
