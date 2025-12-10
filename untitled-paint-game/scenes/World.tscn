@@ -333,6 +333,7 @@ collision_mask = 2
 script = ExtResource("12_4q8dg")
 camera = NodePath("../Camera")
 target = NodePath("../Player")
+cam_smoothing = 1.5
 camera_area = NodePath("CameraRegion")
 lock_y = true
 locked_y_value = -1320.0
@@ -637,6 +638,7 @@ script = ExtResource("13_nrtoj")
 enter_directions = Array[int]([2])
 camera = NodePath("../Camera")
 camera_target = Vector2(3400, -1320)
+cam_smoothing = 8.0
 show_background = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Transition11to10"]
@@ -650,6 +652,7 @@ script = ExtResource("13_nrtoj")
 enter_directions = Array[int]([0])
 camera = NodePath("../Camera")
 camera_target = Vector2(5800, -1325)
+cam_smoothing = 8.0
 show_background = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Transition11to12"]
