@@ -652,12 +652,12 @@ scale = Vector2(3.3882055, 0.13388929)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("13_nrtoj")
-enter_directions = Array[int]([1])
+enter_directions = Array[int]([3])
 camera = NodePath("../Camera")
 camera_target = Vector2(6580, -625)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Transition14to15"]
-position = Vector2(0.88544893, 134.43953)
+position = Vector2(3.836865, -104.56389)
 scale = Vector2(0.99999994, 1)
 shape = SubResource("RectangleShape2D_rm3lh")
 
@@ -683,12 +683,12 @@ scale = Vector2(3.5000675, 0.22314604)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("13_nrtoj")
-enter_directions = Array[int]([3])
+enter_directions = Array[int]([1])
 camera = NodePath("../Camera")
 camera_target = Vector2(6580, -932)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Transition15to14"]
-position = Vector2(2.8570673, 44.81361)
+position = Vector2(3.7141924, 152.3665)
 scale = Vector2(1, 0.99999994)
 shape = SubResource("RectangleShape2D_dwmkc")
 
