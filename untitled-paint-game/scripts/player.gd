@@ -518,7 +518,8 @@ func start_dash():
 	horizontal_momentum = dash_speed * dash_direction
 
 	await sprite.animation_finished
-	end_dash()
+	if is_dashing:
+		end_dash()
 
 
 func end_dash() -> void:
@@ -532,6 +533,9 @@ func perform_slash() -> void:
 	# Do not allow melee while invincible or on cooldown
 	if not can_attack or is_invincible:
 		return
+		
+	if is_dashing:
+		end_dash()
 
 	var attack_dir := _get_attack_direction()
 	if attack_dir == Vector2.ZERO:
