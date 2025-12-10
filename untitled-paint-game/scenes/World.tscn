@@ -438,7 +438,7 @@ scale = Vector2(2.042292, 0.19088267)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("13_nrtoj")
-enter_directions = Array[int]([3])
+enter_directions = Array[int]([1])
 camera = NodePath("../Camera")
 camera_target = Vector2(3840, -625)
 
@@ -453,7 +453,7 @@ scale = Vector2(-2.1291866, 0.13948253)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("13_nrtoj")
-enter_directions = Array[int]([1])
+enter_directions = Array[int]([3])
 camera = NodePath("../Camera")
 camera_target = Vector2(3840, -240)
 
@@ -519,7 +519,7 @@ camera_target = Vector2(3840, -970)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Transition10to9"]
 position = Vector2(-0.04638672, 0)
-scale = Vector2(0.99999994, 0.99999994)
+scale = Vector2(1, 4.41)
 shape = SubResource("RectangleShape2D_dwmkc")
 debug_color = Color(1, 1, 1, 0.41960785)
 
