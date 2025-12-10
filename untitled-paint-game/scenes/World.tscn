@@ -1,5 +1,6 @@
-[gd_scene load_steps=38 format=4 uid="uid://cqqs3koshw1te"]
+[gd_scene load_steps=39 format=4 uid="uid://cqqs3koshw1te"]
 
+[ext_resource type="Script" uid="uid://bf01s4mws2e8m" path="res://scenes/world-ctrl.gd" id="1_4q8dg"]
 [ext_resource type="PackedScene" uid="uid://b3rae3dafdwir" path="res://scenes/player.tscn" id="1_32lhk"]
 [ext_resource type="TileSet" uid="uid://cvaryx1sf0cl5" path="res://assets/tiles/tiles.tres" id="2_nthub"]
 [ext_resource type="Script" path="res://scripts/paintable.gd" id="3_30fn3"]
@@ -65,6 +66,7 @@ resource_local_to_scene = true
 size = Vector2(36.72339, 96.85416)
 
 [node name="World" type="Node2D"]
+script = ExtResource("1_4q8dg")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -745,6 +747,7 @@ position = Vector2(960, 540)
 texture = ExtResource("15_c0d7e")
 
 [node name="SkyPara" type="Parallax2D" parent="."]
+visible = false
 z_index = -101
 scroll_scale = Vector2(0, 0.05)
 
