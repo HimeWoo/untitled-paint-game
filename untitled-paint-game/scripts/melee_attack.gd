@@ -36,10 +36,14 @@ func start_attack(attacker: Node2D, attack_dir: Vector2, terrain: TileMapLayer, 
 	scale.x = sign(_attack_dir.x) if abs(_attack_dir.x) > 0.0 else 1.0
 	visible = true
 	monitoring = true
-	
-	_paint_tiles_under_hitbox()  # This now handles paint consumption
-	_check_pushbox_hits()  # Manual check for pushboxes
-	_check_platform_hits()  # Check for platforms too
+
+	if _selected_color == PaintColor.Colors.RED or _selected_color == PaintColor.Colors.ORANGE:
+		owner_body.use_paint_from_attack()
+		_check_pushbox_hits()
+	else:
+		_paint_tiles_under_hitbox()
+		_check_pushbox_hits()
+		_check_platform_hits()
 	
 	await get_tree().create_timer(active_time).timeout
 	queue_free()
