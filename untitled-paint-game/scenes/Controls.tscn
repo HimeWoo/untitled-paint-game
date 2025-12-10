@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://corhwgy5v8ynb"]
+
+[ext_resource type="Texture2D" uid="uid://ble7itpn4vrcd" path="res://assets/bgs/menu-btns/back-btn.png" id="2_6qa8m"]
+[ext_resource type="Texture2D" uid="uid://dwwmsg1kifcbq" path="res://assets/bgs/controls.png" id="2_hvbup"]
+[ext_resource type="Script" uid="uid://u26d455ax2s0" path="res://scripts/back-to-menu.gd" id="3_lqn12"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6qa8m"]
+texture = ExtResource("2_hvbup")
+
+[node name="Controls" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("3_lqn12")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_6qa8m")
+
+[node name="TextureButton" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 1757.0
+offset_top = 910.0
+offset_right = 1877.0
+offset_bottom = 1030.0
+texture_normal = ExtResource("2_6qa8m")
+texture_pressed = ExtResource("2_6qa8m")
+texture_hover = ExtResource("2_6qa8m")
+script = ExtResource("3_lqn12")
+
+[connection signal="pressed" from="TextureButton" to="TextureButton" method="_on_back_pressed"]

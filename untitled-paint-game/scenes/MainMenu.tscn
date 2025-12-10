@@ -1,9 +1,17 @@
-[gd_scene load_steps=4 format=3 uid="uid://bad8c3bj4x0xr"]
+[gd_scene load_steps=12 format=3 uid="uid://bad8c3bj4x0xr"]
 
-[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_yqorp"]
-[ext_resource type="Texture2D" uid="uid://7knj403k8o0c" path="res://assets/bgs/menu-art.png" id="2_0ykhv"]
+[ext_resource type="Script" uid="uid://dcdwfytvc6cdj" path="res://scripts/main_menu.gd" id="1_yqorp"]
+[ext_resource type="Texture2D" uid="uid://b1g5trecp711p" path="res://assets/bgs/menu-art-2.png" id="2_0ykhv"]
+[ext_resource type="Texture2D" uid="uid://blvt6hc26o6bv" path="res://assets/bgs/menu-btns/menu-start.png" id="3_ow34m"]
+[ext_resource type="Texture2D" uid="uid://cu65qdhl65mu3" path="res://assets/bgs/menu-btns/menu-start-pick.png" id="4_l72w3"]
+[ext_resource type="Texture2D" uid="uid://bngk10lxqtxd0" path="res://assets/bgs/menu-btns/menu-ctrls.png" id="5_826wr"]
+[ext_resource type="Texture2D" uid="uid://daqjoknx4obrb" path="res://assets/bgs/menu-btns/menu-ctrls-pick.png" id="6_ucygd"]
+[ext_resource type="Texture2D" uid="uid://dywn55xjrunva" path="res://assets/bgs/menu-btns/menu-creds.png" id="7_mipys"]
+[ext_resource type="Texture2D" uid="uid://tf7nk1wmvvqe" path="res://assets/bgs/menu-btns/menu-creds-pick.png" id="8_8a8k8"]
+[ext_resource type="Texture2D" uid="uid://csjrlp8qiesth" path="res://assets/bgs/menu-btns/menu-exit.png" id="9_7la6k"]
+[ext_resource type="Texture2D" uid="uid://sx10otra42lu" path="res://assets/bgs/menu-btns/menu-exit-pick.png" id="10_2nypq"]
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0ykhv"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2wh52"]
 texture = ExtResource("2_0ykhv")
 
 [node name="MainMenu" type="Control"]
@@ -16,14 +24,13 @@ grow_vertical = 2
 script = ExtResource("1_yqorp")
 
 [node name="Panel" type="Panel" parent="."]
-modulate = Color(0.4506483, 0.4506483, 0.45064825, 1)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxTexture_0ykhv")
+theme_override_styles/panel = SubResource("StyleBoxTexture_2wh52")
 
 [node name="Label" type="Label" parent="."]
 visible = false
@@ -45,6 +52,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -78,6 +86,54 @@ theme_override_font_sizes/font_size = 30
 text = "Exit
 "
 
+[node name="VBoxContainer2" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 236.0
+offset_top = 330.0
+offset_right = 627.0
+offset_bottom = 975.0
+theme_override_constants/separation = 40
+
+[node name="start" type="TextureButton" parent="VBoxContainer2"]
+custom_minimum_size = Vector2(0, 130)
+layout_mode = 2
+texture_normal = ExtResource("3_ow34m")
+texture_pressed = ExtResource("4_l72w3")
+texture_hover = ExtResource("4_l72w3")
+ignore_texture_size = true
+stretch_mode = 4
+
+[node name="ctrls" type="TextureButton" parent="VBoxContainer2"]
+custom_minimum_size = Vector2(0, 130)
+layout_mode = 2
+texture_normal = ExtResource("5_826wr")
+texture_pressed = ExtResource("6_ucygd")
+texture_hover = ExtResource("6_ucygd")
+ignore_texture_size = true
+stretch_mode = 4
+
+[node name="creds" type="TextureButton" parent="VBoxContainer2"]
+custom_minimum_size = Vector2(0, 130)
+layout_mode = 2
+texture_normal = ExtResource("7_mipys")
+texture_pressed = ExtResource("8_8a8k8")
+texture_hover = ExtResource("8_8a8k8")
+ignore_texture_size = true
+stretch_mode = 4
+
+[node name="exit" type="TextureButton" parent="VBoxContainer2"]
+custom_minimum_size = Vector2(0, 130)
+layout_mode = 2
+texture_normal = ExtResource("9_7la6k")
+texture_pressed = ExtResource("10_2nypq")
+texture_hover = ExtResource("10_2nypq")
+ignore_texture_size = true
+stretch_mode = 4
+
 [connection signal="pressed" from="VBoxContainer/StartGame" to="." method="_on_start_game_pressed"]
 [connection signal="pressed" from="VBoxContainer/Controls" to="." method="_on_controls_pressed"]
 [connection signal="pressed" from="VBoxContainer/Exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="VBoxContainer2/start" to="." method="_on_start_game_pressed"]
+[connection signal="pressed" from="VBoxContainer2/ctrls" to="." method="_on_controls_pressed"]
+[connection signal="pressed" from="VBoxContainer2/creds" to="." method="_on_credits_pressed"]
+[connection signal="pressed" from="VBoxContainer2/exit" to="." method="_on_exit_pressed"]

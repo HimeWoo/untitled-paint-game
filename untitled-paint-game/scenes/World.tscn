@@ -1,7 +1,7 @@
 [gd_scene load_steps=73 format=4 uid="uid://cqqs3koshw1te"]
 
 [ext_resource type="PackedScene" uid="uid://b3rae3dafdwir" path="res://scenes/player.tscn" id="1_32lhk"]
-[ext_resource type="Script" path="res://scripts/world-bg.gd" id="1_aqlsr"]
+[ext_resource type="Script" uid="uid://bq1gec2kakrsi" path="res://scripts/world-bg.gd" id="1_aqlsr"]
 [ext_resource type="TileSet" uid="uid://cvaryx1sf0cl5" path="res://assets/tiles/tiles.tres" id="2_nthub"]
 [ext_resource type="Script" path="res://scripts/paintable.gd" id="3_30fn3"]
 [ext_resource type="Script" path="res://scripts/camera.gd" id="4_7c4bj"]
@@ -204,7 +204,7 @@ zoom_speed = 8.0
 position = Vector2(1088, -64)
 
 [node name="Platform" parent="." instance=ExtResource("5_0uv0p")]
-position = Vector2(1760, -100)
+position = Vector2(1760, -85)
 movement_mode = 6
 target_global = Vector2(1760, -185)
 yellow_paint_enable_motion = true
@@ -264,6 +264,7 @@ collision_layer = 0
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Room4"]
+position = Vector2(0, 12)
 shape = SubResource("RectangleShape2D_e5gcb")
 disabled = true
 
@@ -637,8 +638,8 @@ collision_mask = 2
 script = ExtResource("13_nrtoj")
 enter_directions = Array[int]([2])
 camera = NodePath("../Camera")
-camera_target = Vector2(3400, -1320)
 cam_smoothing = 8.0
+camera_target = Vector2(3400, -1320)
 show_background = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Transition11to10"]
@@ -651,8 +652,8 @@ collision_mask = 2
 script = ExtResource("13_nrtoj")
 enter_directions = Array[int]([0])
 camera = NodePath("../Camera")
-camera_target = Vector2(5800, -1325)
 cam_smoothing = 8.0
+camera_target = Vector2(5800, -1325)
 show_background = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Transition11to12"]
