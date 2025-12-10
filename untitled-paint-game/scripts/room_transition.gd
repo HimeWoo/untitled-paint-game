@@ -14,9 +14,13 @@ enum Direction {
 ## Velocity given to the player when the transition is triggered
 @export var scripted_velocity: Vector2
 ## The camera to move when triggered
-@export var camera: Camera2D
+@export var camera: Camera
+## Updated smoothing value for [member camera]
+@export_custom(PROPERTY_HINT_NONE, "suffix:px/s") var cam_smoothing: float = 0
 ## New zoom of the camera when triggered
 @export_custom(PROPERTY_HINT_LINK, "suffix:") var camera_zoom: Vector2 = Vector2.ZERO
+## New zoom speed of the camera when triggered
+@export var zoom_speed: float = 0
 ## New position the camera moves toward when triggered
 @export var camera_target: Vector2 = Vector2.ZERO
 ## If true, entering sets a player checkpoint at entry
@@ -47,10 +51,13 @@ func _on_body_entered(body: CharacterBody2D) -> void:
 		if not follow_player:
 			if camera:
 				camera.make_current()
-			if not camera_target == null:
-				camera.position = camera_target
+			camera.position = camera_target
 			if not camera_zoom.is_zero_approx():
 				camera.target_zoom = camera_zoom
+			if not is_zero_approx(zoom_speed):
+				camera.zoom_speed = zoom_speed
+			if not is_zero_approx(cam_smoothing):
+				camera.position_smoothing_speed = cam_smoothing
 			# Apply scripted velocity here
 
 			var allow_checkpoint := true
@@ -64,18 +71,7 @@ func _on_body_entered(body: CharacterBody2D) -> void:
 					spawn_pos = checkpoint_spawn.global_position
 				print("RoomTransition name=", name, " Position=", spawn_pos, " room_area=",area_name)
 				body.set_room_checkpoint(spawn_pos, room_area_for_checkpoint)
-		else:
-			# Switch to the assigned Follow Camera
-			print("Switched to player follow camera")
-			if camera:
-				camera.make_current()
-				# Optional: Apply zoom settings if you set them on this transition
-				if not camera_zoom.is_zero_approx():
-					# Check if your camera script uses 'target_zoom' (custom) or standard 'zoom'
-					if "target_zoom" in camera:
-						camera.target_zoom = camera_zoom
-					else:
-						camera.zoom = camera_zoom
+
 
 ## Returns true if the body entered from a direction in enter_directions
 func _entered_from_valid_direction(body: Node2D) -> bool:
