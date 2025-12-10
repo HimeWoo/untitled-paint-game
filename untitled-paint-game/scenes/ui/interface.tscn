@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://b4b66xg8fewd8" path="res://assets/paint_grey.png" id="3_mfcci"]
 [ext_resource type="PackedScene" uid="uid://6mku3vrr131o" path="res://scenes/ui/blue_counter.tscn" id="3_qn6p3"]
 [ext_resource type="PackedScene" uid="uid://sdad863vae5e" path="res://scenes/ui/yellow_counter.tscn" id="4_8pw40"]
-[ext_resource type="Script" uid="uid://b06qasux5vfhk" path="res://scripts/ui/paint_selector_ui.gd" id="7_vs7kj"]
+[ext_resource type="Script" path="res://scripts/ui/paint_selector_ui.gd" id="7_vs7kj"]
 [ext_resource type="Texture2D" uid="uid://fbh3rjtaopxf" path="res://assets/paint_red.png" id="10_8srw3"]
 [ext_resource type="Texture2D" uid="uid://cm66b8mn5r63i" path="res://assets/paint_blue.png" id="11_isiwi"]
 [ext_resource type="Texture2D" uid="uid://bjsj7hx0ac6yf" path="res://assets/paint_yellow.png" id="12_ifsx0"]
@@ -98,6 +98,7 @@ script = ExtResource("17_1oo0c")
 custom_minimum_size = Vector2(240, 34)
 layout_mode = 2
 value = 100.0
+show_percentage = false
 
 [node name="HP" type="Label" parent="TopLeft/HealthBar"]
 visible = false
