@@ -66,12 +66,13 @@ func _update_health_bar() -> void:
 		ratio = float(hp) / float(stats.max_hp)
 
 	var col: Color
+	# overwritten this part for the aesthetic
 	if ratio <= 0.25:
-		col = Color(1, 0, 0)
+		col = Color(1.0, 1.0, 1.0, 1.0)
 	elif ratio <= 0.5:
-		col = Color(1, 1, 0)
+		col = Color(1.0, 1.0, 1.0, 1.0)
 	else:
-		col = Color(0, 1, 0)
+		col = Color(1.0, 1.0, 1.0, 1.0)
 
 	health_bar.modulate = col
 

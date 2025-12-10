@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://bq5kxtjqomv3i"]
+[gd_scene load_steps=24 format=3 uid="uid://bq5kxtjqomv3i"]
 
 [ext_resource type="PackedScene" uid="uid://cakpr3adjairv" path="res://scenes/ui/empty_slots_counter.tscn" id="1_veyun"]
 [ext_resource type="PackedScene" uid="uid://cgwqao8miwc7e" path="res://scenes/ui/red_counter.tscn" id="2_veyun"]
@@ -21,6 +21,12 @@
 [ext_resource type="Texture2D" uid="uid://52ywvaxhi28t" path="res://assets/UI/tip-key_J.png" id="18_w8rl8"]
 [ext_resource type="Texture2D" uid="uid://bcjkupk0mjusu" path="res://assets/UI/tip-graphic_dash.png" id="19_iykce"]
 [ext_resource type="Texture2D" uid="uid://dxrbbs1jykvqg" path="res://assets/UI/tip-key_K.png" id="20_1oo0c"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1oo0c"]
+bg_color = Color(0.16565639, 0.16565642, 0.1656563, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7c7gm"]
+bg_color = Color(1, 1, 1, 1)
 
 [node name="Interface" type="MarginContainer"]
 anchors_preset = 15
@@ -97,6 +103,8 @@ script = ExtResource("17_1oo0c")
 [node name="Bar" type="ProgressBar" parent="TopLeft/HealthBar"]
 custom_minimum_size = Vector2(240, 34)
 layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_1oo0c")
+theme_override_styles/fill = SubResource("StyleBoxFlat_7c7gm")
 value = 100.0
 show_percentage = false
 

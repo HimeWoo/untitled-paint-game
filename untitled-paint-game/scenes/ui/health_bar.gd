@@ -24,9 +24,9 @@ func _on_player_hp_changed(current_hp: int, max_hp: int) -> void:
 		ratio = float(current_hp) / float(max_hp)
 	var col: Color
 	if ratio <= 0.25:
-		col = Color(1, 0, 0)
+		col = Color(0.393, 0.393, 0.393, 1.0)
 	elif ratio <= 0.75:
-		col = Color(1, 1, 0)
+		col = Color(0.601, 0.601, 0.601, 1.0)
 	else:
-		col = Color(0, 1, 0)
+		col = Color(1.0, 1.0, 1.0, 1.0)
 	bar.modulate = col

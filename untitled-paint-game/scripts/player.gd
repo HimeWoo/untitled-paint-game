@@ -146,7 +146,11 @@ func _physics_process(delta: float) -> void:
 		velocity = Vector2.ZERO
 		move_and_slide()
 		return
-
+	
+	if Input.is_action_just_pressed("quick_reset"):
+		_die()
+		return
+	
 	# 1. Initialize stats using the BASE export variables
 	var current_speed := move_speed
 	var current_jump_velocity := jump_velocity
@@ -254,7 +258,7 @@ func _update_invincibility(delta: float) -> void:
 		if invincible_flash_accum >= invincible_flash_interval:
 			invincible_flash_accum = 0.0
 			if sprite.modulate == Color(1, 1, 1, 1):
-				sprite.modulate = Color(0.893, 0.0, 0.085, 1.0)
+				sprite.modulate = Color(0.0, 0.0, 0.0, 1.0)
 			else:
 				sprite.modulate = Color(1, 1, 1, 1)
 
@@ -461,7 +465,6 @@ func _spawn_dash_ghost() -> void:
 	var ghost: Sprite2D = dash_ghost_scene.instantiate()
 	get_parent().add_child(ghost)
 	
-	# Copy player's appearance
 	ghost.global_position = sprite.global_position
 	ghost.texture = sprite.sprite_frames.get_frame_texture(sprite.animation, sprite.frame)
 	ghost.flip_h = sprite.flip_h
