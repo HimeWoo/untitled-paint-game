@@ -18,6 +18,7 @@ var start_direction: int = 0  # 0 = right, 1 = left
 @export var speed: float = 50.0     # Movement speed
 @export var target_global: Vector2 = Vector2.ZERO  # Destination for GO_TO_TARGET_RETURN_START
 @export var reach_threshold: float = 1.0           # Threshold to consider destination reached
+@export var yellow_paint_enable_motion: bool = false
 
 @onready var ray_left: RayCast2D = $RayCastWallHitLeft
 @onready var ray_right: RayCast2D = $RayCastWallHitRight
@@ -27,6 +28,7 @@ var start_position: Vector2
 var travel_distance := 0.0
 var base_dir := 1  # Remember initial horizontal direction for bounded oscillation
 var to_target := true  # For GO_TO_TARGET_RETURN_START mode
+var _yellow_unlocked: bool = false
 
 func _ready():
 	# Convert to kinematic mode
@@ -35,8 +37,18 @@ func _ready():
 	direction = 1 if start_direction == 0 else -1
 	base_dir = direction
 
+	var paintable := get_node("PlatformPaintable")
+	if paintable is PlatformPaintable:
+		paintable.yellow_painted.connect(_on_platform_painted_yellow)
+		if (paintable as PlatformPaintable).color == PaintColor.Colors.YELLOW:
+			_yellow_unlocked = true
+
 func _physics_process(delta):
 	var motion := Vector2.ZERO
+
+	# keep platform stationary until unlocked by yellow paint
+	if yellow_paint_enable_motion and not _yellow_unlocked:
+		return
 			
 	#if ray_left.is_colliding():
 		#print("left colliding")
@@ -123,3 +135,5 @@ func _physics_process(delta):
 				motion = to_vec.normalized() * speed * delta
 				global_position += motion
 	
+func _on_platform_painted_yellow() -> void:
+	_yellow_unlocked = true

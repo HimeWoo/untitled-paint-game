@@ -34,10 +34,10 @@ collision_mask = 16
 target_position = Vector2(17, 0)
 collision_mask = 16
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="PlatformPaintable" type="Area2D" parent="."]
 collision_mask = 3
 script = ExtResource("3_507ja")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlatformPaintable"]
 position = Vector2(0, -2)
 shape = SubResource("RectangleShape2D_507ja")
