@@ -144,7 +144,7 @@ My main responsibility was to design and implement the combat game logic: how th
 
 **Files:** `player.gd`, `MeleeAttack.gd`, `enemy_stats.gd`, `enemy.gd`, enemy scenes
 
-To avoid hard-coding the same enemy behavior, I moved all of their similar attributes into the `EnemyStats` resources:
+To avoid hard-coding the same enemy behavior, I moved all of their [similar attributes](https://github.com/HimeWoo/untitled-paint-game/blob/f83768fa4e733b2182e703960211e51d1b1cc4c6/untitled-paint-game/scripts/enemy_stats.gd) into the `EnemyStats` resources:
 
 <img width="397" height="189" alt="Screenshot 2025-12-10 at 5 14 21 PM" src="https://github.com/user-attachments/assets/5d2b922b-4534-40ce-a786-00093a0e4fe4" />
 
@@ -152,7 +152,7 @@ To avoid hard-coding the same enemy behavior, I moved all of their similar attri
 - **Behavior toggles:** `enable_patrol`, `enable_chase`, `enable_bob`, `enable_shooting`, `enable_contact_damage`, `is_grounded`, etc.
 - **Combat stats:** contact damage amount, contact knockback force, projectile speed, fire cooldown, homing strength, etc.
 
-In `enemy.gd`, I then wrote a single auto-target script that reads those stats and behaves accordingly:
+In `enemy.gd`, I then wrote an [auto-target script](https://github.com/HimeWoo/untitled-paint-game/blob/f83768fa4e733b2182e703960211e51d1b1cc4c6/untitled-paint-game/scripts/enemy.gd) that reads those stats and behaves accordingly:
 
 - **Patrol baseline:** if `enable_patrol`, the enemy walks horizontally using `patrol_dir`.
 - **Chase override:** if `enable_chase` and the player is in `detection_area`, the enemy moves directly toward the player at `chase_speed`.
@@ -162,7 +162,7 @@ In `enemy.gd`, I then wrote a single auto-target script that reads those stats a
   - Spawns `projectile_scene` and initializes direction/homing using `EnemyProjectile.gd`.
 - **Grounded vs floating:** grounded enemies zero out vertical movement (`is_grounded`) so they don't drift, while floating enemies are allowed to bob and slide.
 
-This essentially gives us a blueprint where new enemy types (turrets, floating shooters, walkers, hybrids) are created by making new `.tres` resources instead of duplicating the same logic.
+This essentially gives us a [blueprint where new enemy types](https://github.com/HimeWoo/untitled-paint-game/blob/f83768fa4e733b2182e703960211e51d1b1cc4c6/untitled-paint-game/data/GroundEnemy.tres) (turrets, floating shooters, walkers, hybrids) are created by making new `.tres` resources instead of duplicating the same logic.
 
 
 <img width="866" height="248" alt="Screenshot 2025-12-10 at 5 05 43 PM" src="https://github.com/user-attachments/assets/a0865176-01ab-42c6-aa56-ec7e169d7f83" />
@@ -195,7 +195,7 @@ This essentially gives us a blueprint where new enemy types (turrets, floating s
 
 **Files:** `enemy.gd`, `enemy_stats.gd`
 
-I rewrote the enemy damage handling to be more consistent and intuitive:
+I rewrote the [enemy damage handling](https://github.com/HimeWoo/untitled-paint-game/blob/f83768fa4e733b2182e703960211e51d1b1cc4c6/untitled-paint-game/scripts/enemy.gd#L141) to be more consistent and intuitive:
 
 - **`apply_damage(amount, knockback)`:**
   - Early-outs if `is_dying` to avoid double-death bugs.
@@ -213,7 +213,7 @@ I rewrote the enemy damage handling to be more consistent and intuitive:
 <img width="413" height="216" alt="Screenshot 2025-12-10 at 5 26 30 PM" src="https://github.com/user-attachments/assets/7d22508a-facb-4cd7-99db-d62443f39f25" />
 
 
-I wanted to streamline how the enemy behaves, and it would make my life easier when I wanted to implement more elements to it, such as loot or other animation effects.
+I wanted to [streamline how the enemy behaves](https://github.com/HimeWoo/untitled-paint-game/tree/f83768fa4e733b2182e703960211e51d1b1cc4c6/untitled-paint-game/data), and it would make my life easier when I wanted to implement more elements to it, such as loot or other animation effects.
 
 ---
 
@@ -224,8 +224,8 @@ I wanted to streamline how the enemy behaves, and it would make my life easier w
 I wanted to avoid those frustrating "cheap hits" and make damage rules more fun:
 
 - **Contact damage:**
-  - In `enemy.gd`, `_on_contact_body_entered` only damages bodies in the player group and uses a direction-based knockback.
-  - In `player.gd`, `apply_contact_damage()` ignores contact while:
+  - In `enemy.gd`, `_on_contact_body_entered` only damages bodies in the player group and uses a [direction-based knockback](https://github.com/HimeWoo/untitled-paint-game/blob/f83768fa4e733b2182e703960211e51d1b1cc4c6/untitled-paint-game/scripts/enemy.gd#L141).
+  - In `player.gd`, [apply_contact_damage()](https://github.com/HimeWoo/untitled-paint-game/blob/f83768fa4e733b2182e703960211e51d1b1cc4c6/untitled-paint-game/scripts/enemy.gd#L198) ignores contact while:
     - The player is dashing (`is_dashing`).
     - The post-dash grace timer (`post_dash_contact_timer`) is active.
 
@@ -234,15 +234,14 @@ I wanted to avoid those frustrating "cheap hits" and make damage rules more fun:
   - Invincibility uses a timer and visual flashing (soft red color) with proper reset when the timer ends.
 
 - **Hazard handling:**
-  - `_check_hazard_contact_and_die()` uses both slide collisions and a radius overlap query to detect hazards/water/spikes.
+  - `_check_hazard_contact_and_die()` uses both slide collisions and a [radius overlap query](https://github.com/HimeWoo/untitled-paint-game/blob/f83768fa4e733b2182e703960211e51d1b1cc4c6/untitled-paint-game/scripts/enemy.gd#L216) to detect water or spikes.
   - Immediate death calls `_die()`, which then respawns or reloads appropriately.
 
 - **Projectile collisions:**
   - **Player projectiles:**
-    - Damage enemies but ignore the player, detection areas, and platforms that shouldn't eat shots.
+    - Damage enemies but ignore the player, detection areas, and platforms that shouldn't take any shots.
   - **Enemy projectiles:**
-    - Damage the player and despawn on world or player collision.
-    - Despawn on world collision prevents infinite projectiles and improves performance.
+    - [Damage the player](https://github.com/HimeWoo/untitled-paint-game/blob/f83768fa4e733b2182e703960211e51d1b1cc4c6/untitled-paint-game/scripts/enemy_projectile.gd#L24) and despawn on world collision.
    
 
 <img width="246" height="161" alt="Screenshot 2025-12-10 at 5 31 50 PM" src="https://github.com/user-attachments/assets/c1bef06f-c6c9-4649-86ad-792377615fc7" />
@@ -256,7 +255,7 @@ These rules make combat feel much fairer by helping the player understand why th
 
 **Files:** `player.gd`, `enemy.gd`, `MeleeAttack.gd`, projectile scripts
 
-To get a nicer combat feedback, I also rewrote the knockback logic:
+To get a nicer combat feedback, I also [rewrote the knockback logic](https://github.com/HimeWoo/untitled-paint-game/blob/f83768fa4e733b2182e703960211e51d1b1cc4c6/untitled-paint-game/scripts/melee_attack.gd#L27):
 
 - Introduced exported knockback strengths (`melee_knockback_force`, `stats.contact_knockback_force`, projectile knockback) so each interaction can be tuned without depending on each other.
 
@@ -275,7 +274,7 @@ To get a nicer combat feedback, I also rewrote the knockback logic:
 <img width="165" height="143" alt="Screenshot 2025-12-10 at 5 34 03 PM" src="https://github.com/user-attachments/assets/54b0619e-aa9a-45d9-8964-b42d522090a8" />
 <img width="161" height="83" alt="Screenshot 2025-12-10 at 5 33 01 PM" src="https://github.com/user-attachments/assets/b0ddae72-659f-45b6-ad87-717ebdda1382" />
 
-As you can see, this makes the gameplay a lot more reusable, and each parameter can be tuned without having to dig inside the codebase itself. 
+As you can see, this makes the gameplay a lot more reusable, and [each parameter can be tuned](https://github.com/HimeWoo/untitled-paint-game/blob/f83768fa4e733b2182e703960211e51d1b1cc4c6/untitled-paint-game/scripts/enemy.gd#L135) without having to dig inside the codebase itself. 
 
 ---
 
@@ -315,7 +314,7 @@ This reduced a large class of bugs (projectiles hitting the wrong things, melee 
 **Role:** Game Sound Design (secondary)  
 **Key files:** `player.gd`, `enemy.gd`, SFX nodes in `Player.tscn` and enemy scenes
 
-Although my main focus was game logic, I also implemented the sound design architecture and all gameplay-triggered SFX.
+Although my main focus was game logic, I also implemented the sound design architecture and [all gameplay-triggered SFX](https://github.com/HimeWoo/untitled-paint-game/blob/f83768fa4e733b2182e703960211e51d1b1cc4c6/untitled-paint-game/scripts/player.gd#L118).
 
 ---
 
@@ -359,8 +358,8 @@ For enemies, I added:
 
 And connected them in `enemy.gd`:
 
-- `apply_damage()` plays the damage sound whenever HP is reduced and the enemy is still alive.
-- `_die()` plays the death sound, disables collisions, and waits for the sound to finish before removing the enemy from the scene. This allows future pairing with a death animation.
+- `apply_damage()` plays the damage sound whenever [HP is reduced](https://github.com/HimeWoo/untitled-paint-game/blob/f83768fa4e733b2182e703960211e51d1b1cc4c6/untitled-paint-game/scripts/enemy.gd#L205) and the enemy is still alive.
+- `_die()` plays the death sound, disables collisions, and [waits for the sound to finish before removing the enemy](https://github.com/HimeWoo/untitled-paint-game/blob/f83768fa4e733b2182e703960211e51d1b1cc4c6/untitled-paint-game/scripts/enemy.gd#L227) from the scene. This allows future pairing with a death animation.
 
 ---
 
@@ -374,16 +373,13 @@ Key improvements I made for smoother feel and fewer frustrating edge cases:
 
 - **Dash Breathing Room:**
   - Added `post_dash_contact_grace` and `post_dash_contact_timer`.
-  - After a dash ends, the player has a short window where contact damage is ignored to avoid "frame-perfect" hits.
+  - After a dash ends, the player has a short window where [contact damage is ignored](https://github.com/HimeWoo/untitled-paint-game/blob/f83768fa4e733b2182e703960211e51d1b1cc4c6/untitled-paint-game/scripts/player.gd#L196) to avoid "frame-perfect" hits.
 
 - **Horizontal movement model:**
-  - Implemented `horizontal_momentum` plus separate acceleration/deceleration rates for ground vs air.
+  - Implemented `horizontal_momentum` plus [separate acceleration/deceleration rates for ground vs air](https://github.com/HimeWoo/untitled-paint-game/blob/f83768fa4e733b2182e703960211e51d1b1cc4c6/untitled-paint-game/scripts/player.gd#L480).
   - Added a `dash_decel` override during dash wind-down.
 
-- **Projectile despawn logic:**
-  - Made sure both player and enemy projectiles despawn cleanly on world collision or after hitting a target.
-
-Together, these changes make movement feel responsive while keeping the physics system stable.
+These changes make the movement feel responsive while still keeping the physics system clean.
 
 ---
 
@@ -391,7 +387,7 @@ Together, these changes make movement feel responsive while keeping the physics 
 
 **Files:** `player.gd`, `HealthBar.gd`, UI scene (Interface → TopLeft → HealthBar)
 
-I implemented a responsive player health UI and integrated it with the respawn system:
+I implemented a [responsive player health UI](https://github.com/HimeWoo/untitled-paint-game/blob/f83768fa4e733b2182e703960211e51d1b1cc4c6/untitled-paint-game/scenes/ui/health_bar.gd) and integrated it with the respawn system:
 
 - **Health model:**
   - `max_hp` and `current_hp` defined in `player.gd`.
