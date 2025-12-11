@@ -219,7 +219,7 @@ This gives clean, predictable enemy destruction and makes it easy to bolt on mor
 
 ---
 
-### 3. Player–Enemy Interaction & Damage Rules
+### 3. Player-Enemy Interaction & Damage Rules
 
 **Files:** `player.gd`, `enemy.gd`, `EnemyProjectile.gd`, `PlayerProjectile.gd`
 
@@ -273,79 +273,7 @@ The result is a reusable knockback pipeline shared across all damage sources, wi
 
 ---
 
-### Physics & Collision Improvements
-
-**Files:** `player.gd`, input/collision settings, projectile scenes
-
-Key improvements I made for smoother feel and fewer frustrating edge cases:
-
-- **Dash Breathing Room:**
-  - Added `post_dash_contact_grace` and `post_dash_contact_timer`.
-  - After a dash ends, the player has a short window where contact damage is ignored to avoid "frame-perfect" hits.
-
-- **Horizontal movement model:**
-  - Implemented `horizontal_momentum` plus separate acceleration/deceleration rates for ground vs air.
-  - Added a `dash_decel` override during dash wind-down.
-
-- **Projectile despawn logic:**
-  - Ensured both player and enemy projectiles despawn cleanly on world collision or after hitting a target.
-
-Together, these changes make movement feel responsive while keeping the physics system stable.
-
----
-
-### 6. Health Bar UI, HP Logic, and Respawn
-
-**Files:** `player.gd`, `HealthBar.gd`, UI scene (Interface → TopLeft → HealthBar)
-
-I implemented a responsive player health UI and ensured it integrates correctly with the respawn system:
-
-- **Health model:**
-  - `max_hp` and `current_hp` defined in `player.gd`.
-  - `current_hp` initialized to `max_hp` in `_ready()` and reset to full on respawn.
-
-- **HealthBar UI:**
-  - Created a `HealthBar` container in the top-left UI with:
-    - A `ProgressBar` configured to show a full bar instead of a percentage label.
-    - Dynamic color changes based on HP ratio.
-  - The health bar subscribes to HP update signals via `UISignals`.
-  - Updates `value`, `max_value` whenever HP changes.
-  - Changes bar color dynamically:
-    - Green at high HP.
-    - Yellow at mid HP.
-    - Red at low HP.
-
-- **Respawn flow:**
-  - `_die()` handles either checkpoint restoration or scene reload.
-  - `_restore_checkpoint()` resets motion state, clears dash/attack flags, restores inventory/paint, teleports the player, and brings HP back to `max_hp`, then emits UI signals so the health bar and inventory display stay in sync.
-
-This gives a clear, readable health display that always matches the underlying game state.
-
----
-
-### 7. Input Mapping & Accessibility
-
-**Files:** `player.gd`, project input settings
-
-I reworked the input mapping to support multiple layouts and controllers:
-
-- Defined separate actions for:
-  - **Movement:** `move_left`, `move_right` (mapped to A/D and arrow keys).
-  - **Aiming:** `aim_left`, `aim_right`, `aim_up`, `aim_down`.
-  - **Looking:** `look_up`, `look_down`.
-  - **Combat:** `shoot`, `melee_attack`.
-  - **Utility:** `dash`, queue controls for paint selection, etc.
-
-- In `player.gd`, I read from these actions instead of hard-coding keys, which:
-  - Allows controller bindings.
-  - Supports players who prefer arrow keys vs WASD.
-  - Makes it straightforward to add/remap inputs via the project settings.
-
-This work makes the game more accessible and easier to maintain.
-
----
-
-### 8. Collision & Masking System
+### 5. Collision & Masking System
 
 **Files:** physics layer/mask settings, `player.gd`, `enemy.gd`, projectile scenes, `MeleeAttack.gd`, world scenes
 
@@ -436,6 +364,78 @@ The sound system is:
 
 ## Other Contributions ##
 
+### Physics & Collision Improvements
+
+**Files:** `player.gd`, input/collision settings, projectile scenes
+
+Key improvements I made for smoother feel and fewer frustrating edge cases:
+
+- **Dash Breathing Room:**
+  - Added `post_dash_contact_grace` and `post_dash_contact_timer`.
+  - After a dash ends, the player has a short window where contact damage is ignored to avoid "frame-perfect" hits.
+
+- **Horizontal movement model:**
+  - Implemented `horizontal_momentum` plus separate acceleration/deceleration rates for ground vs air.
+  - Added a `dash_decel` override during dash wind-down.
+
+- **Projectile despawn logic:**
+  - Ensured both player and enemy projectiles despawn cleanly on world collision or after hitting a target.
+
+Together, these changes make movement feel responsive while keeping the physics system stable.
+
+---
+
+### 5. Health Bar UI, HP Logic, and Respawn
+
+**Files:** `player.gd`, `HealthBar.gd`, UI scene (Interface → TopLeft → HealthBar)
+
+I implemented a responsive player health UI and ensured it integrates correctly with the respawn system:
+
+- **Health model:**
+  - `max_hp` and `current_hp` defined in `player.gd`.
+  - `current_hp` initialized to `max_hp` in `_ready()` and reset to full on respawn.
+
+- **HealthBar UI:**
+  - Created a `HealthBar` container in the top-left UI with:
+    - A `ProgressBar` configured to show a full bar instead of a percentage label.
+    - Dynamic color changes based on HP ratio.
+  - The health bar subscribes to HP update signals via `UISignals`.
+  - Updates `value`, `max_value` whenever HP changes.
+  - Changes bar color dynamically:
+    - Green at high HP.
+    - Yellow at mid HP.
+    - Red at low HP.
+
+- **Respawn flow:**
+  - `_die()` handles either checkpoint restoration or scene reload.
+  - `_restore_checkpoint()` resets motion state, clears dash/attack flags, restores inventory/paint, teleports the player, and brings HP back to `max_hp`, then emits UI signals so the health bar and inventory display stay in sync.
+
+This gives a clear, readable health display that always matches the underlying game state.
+
+---
+
+### Input Mapping & Accessibility
+
+**Files:** `player.gd`, project input settings
+
+I reworked the input mapping to support multiple layouts and controllers:
+
+- Defined separate actions for:
+  - **Movement:** `move_left`, `move_right` (mapped to A/D and arrow keys).
+  - **Aiming:** `aim_left`, `aim_right`, `aim_up`, `aim_down`.
+  - **Looking:** `look_up`, `look_down`.
+  - **Combat:** `shoot`, `melee_attack`.
+  - **Utility:** `dash`, queue controls for paint selection, etc.
+
+- In `player.gd`, I read from these actions instead of hard-coding keys, which:
+  - Allows controller bindings.
+  - Supports players who prefer arrow keys vs WASD.
+  - Makes it straightforward to add/remap inputs via the project settings.
+
+This work makes the game more accessible and easier to maintain.
+
+---
+
 Collectively, my Game Logic and Sound Design work transformed the project from a set of disconnected prototypes into a cohesive combat and interaction system:
 
 - **Combat** (melee + ranged) is directional, responsive, and tied to knockback and paint mechanics.
@@ -445,7 +445,7 @@ Collectively, my Game Logic and Sound Design work transformed the project from a
 - **Sound feedback** is tightly integrated with every major interaction, greatly improving feel and readability.
 - **Input mapping, collision layers, and UI health display** all work together so the game is playable, clear, and extensible.
 
-This foundation should make it much easier for future team members to add content (new levels, enemies, weapons, and mechanics) while staying within a well-structured and documented system.
+Overall, this was a really fun project, and I'd love to continue working on this game!
 
 ---
 
