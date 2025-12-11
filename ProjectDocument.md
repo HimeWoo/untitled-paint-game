@@ -1,4 +1,4 @@
-# The title of your game #
+# Untitled Paint Game #
 
 ## Summary ##
 
@@ -101,71 +101,21 @@ My main responsibility was to design and implement the core game logic: how the 
 
 ---
 
-### 1. Player Combat System
-
-#### Ranged Combat & Projectile System
-
-**Files:** `player.gd`, `PlayerProjectile.gd`, `Player.tscn`
-
-I implemented the full-range combat pipeline:
-
-- Added an exported `projectile_scene` and a `ProjectileSpawn` marker in `Player.tscn`, then wrote spawn mirroring logic in `player.gd` so projectiles always spawn on the correct side based on `facing_dir`.
-
-- Implemented `_get_aim_dir()` to support directional aiming (left/right/up/down) while still defaulting to facing direction when no aim keys are pressed.
-
-- Wrote `_shoot_projectile()` to:
-  - Instantiate the projectile scene.
-  - Place it at the mirrored `ProjectileSpawn` position.
-  - Initialize its direction and speed via `proj.setup(...)`.
-  - Enforce a configurable cooldown (`shoot_cooldown`) and a slower cadence while invincible (`invincible_shoot_cooldown_mult`).
-
-- In `PlayerProjectile.gd`, I handled:
-  - Forward movement based on the initial direction.
-  - Collision callbacks that damage enemies but ignore the player and world triggers that should not block projectiles.
-  - Despawning behavior when hitting the world, an enemy, or leaving the intended play space.
-
-This work formed the basis of the ranged combat loop and is used by all scenes where the player can shoot.
-
-#### Melee Combat & Hitbox Logic
-
-**Files:** `player.gd`, `MeleeAttack.gd`
-
-I implemented a data-driven melee system:
-
-- In `player.gd`, I added:
-  - `attack_scene`, `attack_cooldown`, and `melee_knockback_force` as exported values so we can tune feel without touching code.
-  - `perform_slash()` which:
-    - Computes an attack direction from look inputs (up/down) or facing direction.
-    - Chooses the appropriate animation (`slash_side`, `slash_up`, `slash_down`).
-    - Spawns a `MeleeAttack` Area2D offset slightly from the player.
-    - Wires it with `attack_dir`, the terrain TileMap (`terrain_map`), and the selected paint color.
-    - Enforces attack cooldown and prevents attacking while invincible or already mid-attack.
-
-- In `MeleeAttack.gd`, I handled:
-  - Collision filtering via physics layers/masks so melee only interacts with enemies, paintable platforms, and the tilemap—not the player.
-  - A `hit_objects` array so each enemy or platform is only hit once per swing.
-  - Knockback computation based on `_attack_dir`, giving consistent horizontal push and optional vertical component.
-  - Integration with the paint system:
-    - Painting tiles inside the hitbox.
-    - Painting `PlatformPaintable` areas and consuming paint from the player only when something was actually painted.
-
-This system supports directional melee, knockback, and paint application in a single unified action.
-
----
-
-### 2. Modular Enemy Architecture
+### 1. Modular Enemy Architecture
 
 #### EnemyStats Resource & Enemy Factory Behavior
 
-**Files:** `enemy_stats.gd`, `enemy.gd`, enemy scenes
+**Files:** `player.gd`, `MeleeAttack.gd`, `enemy_stats.gd`, `enemy.gd`, enemy scenes
 
 To avoid hard-coding enemy behavior, I moved all configurable parameters into `EnemyStats` resources:
+
+<img width="397" height="189" alt="Screenshot 2025-12-10 at 5 14 21 PM" src="https://github.com/user-attachments/assets/5d2b922b-4534-40ce-a786-00093a0e4fe4" />
 
 - **Core stats:** `max_hp`, movement speeds (`patrol`, `chase`), starting patrol direction, grounded vs floating behavior.
 - **Behavior toggles:** `enable_patrol`, `enable_chase`, `enable_bob`, `enable_shooting`, `enable_contact_damage`, `is_grounded`, etc.
 - **Combat stats:** contact damage amount, contact knockback force, projectile speed, fire cooldown, homing strength, etc.
 
-In `enemy.gd`, I then wrote a single AI script that reads those stats and behaves accordingly:
+In `enemy.gd`, I then wrote a single auto-target script that reads those stats and behaves accordingly:
 
 - **Patrol baseline:** if `enable_patrol`, the enemy walks horizontally using `patrol_dir`.
 - **Chase override:** if `enable_chase` and the player is in `detection_area`, the enemy moves directly toward the player at `chase_speed`.
@@ -176,6 +126,10 @@ In `enemy.gd`, I then wrote a single AI script that reads those stats and behave
 - **Grounded vs floating:** grounded enemies zero out vertical movement (`is_grounded`) so they don't drift, while floating enemies are allowed to bob and slide.
 
 This gives us a "factory" model: new enemy types (turrets, floating shooters, walkers, hybrids) are created by making new `.tres` resources and scenes, not by duplicating logic.
+
+
+<img width="866" height="248" alt="Screenshot 2025-12-10 at 5 05 43 PM" src="https://github.com/user-attachments/assets/a0865176-01ab-42c6-aa56-ec7e169d7f83" />
+
 
 **Example Enemy Configurations:**
 
@@ -195,6 +149,10 @@ This gives us a "factory" model: new enemy types (turrets, floating shooters, wa
   - 30 HP, stationary (no patrol/chase)
   - Shoots homing projectiles every 3 seconds
   - No contact damage
+    
+<img width="370" height="500" alt="Screenshot 2025-12-10 at 5 21 17 PM" src="https://github.com/user-attachments/assets/f155ee39-8ed4-43d2-96ee-990518efe29f" />
+<img width="412" height="410" alt="Screenshot 2025-12-10 at 5 16 59 PM" src="https://github.com/user-attachments/assets/5bd6866a-64a4-4c19-b6a1-51afb86a42db" />
+
 
 #### Enemy Knockback & Health Handling
 
@@ -219,7 +177,7 @@ This gives clean, predictable enemy destruction and makes it easy to bolt on mor
 
 ---
 
-### 3. Player-Enemy Interaction & Damage Rules
+### 2. Player-Enemy Interaction & Damage Rules
 
 **Files:** `player.gd`, `enemy.gd`, `EnemyProjectile.gd`, `PlayerProjectile.gd`
 
@@ -250,7 +208,7 @@ These rules make combat feel fair: the player understands why they were hit and 
 
 ---
 
-### 4. Knockback System Rewrite
+### 3. Knockback System Rewrite
 
 **Files:** `player.gd`, `enemy.gd`, `MeleeAttack.gd`, projectile scripts
 
@@ -273,7 +231,7 @@ The result is a reusable knockback pipeline shared across all damage sources, wi
 
 ---
 
-### 5. Collision & Masking System
+### 4. Collision & Masking System
 
 **Files:** physics layer/mask settings, `player.gd`, `enemy.gd`, projectile scenes, `MeleeAttack.gd`, world scenes
 
@@ -287,9 +245,9 @@ To prevent unintended interactions, I helped define and enforce a clear collisio
   - **Layer 5:** EnemyProjectile
   - **Additional layers:** Hazards, Platform/pushbox/paintable elements
 
-- Ensured each node has:
-  - Appropriate collision layer (what it "is").
-  - Appropriate collision mask (what it collides with).
+- Adjusted each node so that it has:
+  - Right number of collision layers (what it "is").
+  - Right number of collision masks (what it collides with).
 
 - Adjusted scripts so that:
   - Player projectiles only collide with enemies/world.
@@ -298,6 +256,9 @@ To prevent unintended interactions, I helped define and enforce a clear collisio
   - Paintable platforms are detected by the player's terrain queries but don't interfere with regular movement collisions.
 
 This reduced a large class of bugs (projectiles hitting the wrong things, melee hitting player, detection areas blocking movement) and made future additions safer.
+
+<img width="614" height="232" alt="Screenshot 2025-12-10 at 4 55 35 PM" src="https://github.com/user-attachments/assets/3b88e5a6-6b80-49e7-9a45-c77428eacf26" />
+
 
 ---
 
@@ -335,6 +296,9 @@ Then I wired sound playback to precise gameplay events in `player.gd`:
 - **Damage** – `apply_damage()` plays `sfx_damage` exactly when HP is reduced.
 - **Death** – `_die()` plays `sfx_death` and ensures respawn/scene reload respects the audio.
 - **Paint Pickup** – centralized in `play_paint_pickup_sfx()` and hooked into paint pickup events so every inventory paint pickup feels responsive.
+
+<img width="229" height="494" alt="Screenshot 2025-12-10 at 4 54 22 PM" src="https://github.com/user-attachments/assets/6685f84e-7abf-4b3e-a38d-c7022662e164" />
+<img width="444" height="399" alt="Screenshot 2025-12-10 at 4 52 06 PM" src="https://github.com/user-attachments/assets/c0128162-1fb0-4c34-b3f1-8924a16326bf" />
 
 ---
 
