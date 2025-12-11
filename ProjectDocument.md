@@ -9,8 +9,6 @@
 ## Project Resources ##
 
 - [Web-playable version of your game.](https://jx24.itch.io/untitled-paint-game)
-- [Trailor](https://youtube.com)
-- [Press Kit](https://dopresskit.com/)
 - [Proposal](https://docs.google.com/document/d/19xoqTyzlg7cBafAxgOEeZynd305ouQaau-FxPLQ7cZo/edit?usp=sharing)
 
 ## Gameplay Explanation ##
