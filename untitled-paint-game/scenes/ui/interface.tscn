@@ -23,7 +23,7 @@
 [ext_resource type="Texture2D" uid="uid://dxrbbs1jykvqg" path="res://assets/UI/tip-key_K.png" id="20_1oo0c"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1oo0c"]
-bg_color = Color(0.16565639, 0.16565642, 0.1656563, 1)
+bg_color = Color(0.3779187, 0.3779189, 0.37791875, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7c7gm"]
 bg_color = Color(1, 1, 1, 1)

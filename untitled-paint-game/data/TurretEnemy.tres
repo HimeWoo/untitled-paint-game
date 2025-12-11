@@ -4,12 +4,11 @@
 
 [resource]
 script = ExtResource("1_563jy")
-max_hp = 30
 enable_patrol = false
 enable_chase = false
 enable_bob = false
 enable_contact_damage = false
-fire_cooldown = 3.0
+fire_cooldown = 4.5
 use_homing = true
 homing_strength = 2.0
 contact_damage = 0

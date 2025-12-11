@@ -251,11 +251,12 @@ func apply_damage(amount: int, knockback: Vector2) -> void:
 		_die()
 
 # While dashing, ignore contact damage entirely
-func apply_contact_damage(amount: int, knockback: Vector2) -> void:
+func apply_contact_damage(amount: int, knockback: Vector2) -> bool: # adding a bool for the sake of enemy projectiles
 	if is_dashing or post_dash_contact_timer > 0.0:
-		return
-
+		return false
+		
 	apply_damage(amount, knockback)
+	return true
 
 # INVINCIBILITY 
 func _update_invincibility(delta: float) -> void:
@@ -435,7 +436,6 @@ func _handle_jump_and_gravity(delta: float, current_jump_velocity: float) -> voi
 			jumped_this_frame = true
 			if is_dashing:
 				jumped_from_dash = true
-				end_dash()
 			velocity.y = current_jump_velocity
 			last_jump_was_double = false
 			coyote_timer = 0.0
@@ -547,6 +547,7 @@ func end_dash() -> void:
 	dash_decel_timer = dash_decel_duration
 	post_dash_contact_timer = post_dash_contact_grace
 	dash_jump_timer = dash_jump_window
+	dash_cooldown_timer = dash_cooldown
 
 
 # COMBAT: MELEE

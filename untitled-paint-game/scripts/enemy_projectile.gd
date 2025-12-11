@@ -33,9 +33,10 @@ func _hit_player(p: Node) -> void:
 	var dir = (p.global_position - global_position).normalized()
 	var knockback = dir * knockback_force
 
-	if p.has_method("apply_damage"):
-		p.apply_damage(damage, knockback)
-	queue_free()
+	if p.has_method("apply_contact_damage"):
+		var did_damage: bool = p.apply_contact_damage(damage, knockback)
+		if did_damage:
+			queue_free()  # destroy only if damage applied
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
