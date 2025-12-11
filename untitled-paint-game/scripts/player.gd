@@ -51,7 +51,7 @@ var coyote_timer: float = 0.0
 @export var dash_time: float = 0.10
 @export var dash_cooldown: float = 0.5
 @export var dash_decel: float = 2000.0
-@export var dash_decel_duration: float = 0.25
+@export var dash_decel_duration: float = 0.4
 
 @export_group("Contact / Dash Grace")
 @export var post_dash_contact_grace: float = 0.25
@@ -570,16 +570,21 @@ func perform_slash() -> void:
 	can_attack = true
 
 
+# COMBAT: POGO BOUNCE
+func pogo_bounce() -> void:
+	velocity.y = jump_velocity * 0.8
+
+
 # COMBAT: RANGED
 func _get_aim_dir() -> Vector2:
 	var dir := Vector2.ZERO
-	if Input.is_action_pressed("aim_left"):
+	if Input.is_action_pressed("move_left"):
 		dir.x -= 1.0
-	if Input.is_action_pressed("aim_right"):
+	if Input.is_action_pressed("move_right"):
 		dir.x += 1.0
-	if Input.is_action_pressed("aim_up"):
+	if Input.is_action_pressed("look_up"):
 		dir.y -= 1.0
-	if Input.is_action_pressed("aim_down"):
+	if Input.is_action_pressed("look_down"):
 		dir.y += 1.0
 
 	if dir == Vector2.ZERO:
