@@ -193,24 +193,39 @@ Github username: `jx24`
 ## Main Roles ##
 **Animation and Visuals**
 
-1. *Visual Style and Assets* - Nearly all of the assets (95%), sprites, and illustrations in the game were created by me with the exception of the inventory and UI, much of which was done by Alex. Otherwise, using Photoshop CS6, I created assets with a pixelated art style inspired by some of our favorite games, such as Rain World, Hollow Knight, and Hyper Light Drifter. We wanted color to pop so I made the call to make the rest of the world monochrome. All of the assets and illustrations can be found in this [Assets Folder](https://github.com/HimeWoo/untitled-paint-game/tree/a692f7e20e49cf7854cffb63fdc69ca3e223e444/untitled-paint-game/assets), sorted into such folders as charas, tiles, and bgs. 
-- I created all characters, AKA the player and enemies, as well as animation sheets for each.
+*Visual Style and Assets* - Nearly all of the assets (95%), sprites, and illustrations in the game were created by me with the exception of the inventory and UI, much of which was done by Alex (by the end, the only visual assets I didn't make were the paint orbs and the upper left UI). Otherwise, using Photoshop CS6, I created assets with a pixelated art style inspired by some of our favorite games, such as Rain World, Hollow Knight, and Hyper Light Drifter. It was a lengthy process but I wanted to make the game as polished and atmospheric as possible. We wanted color to pop so I made the call to make the rest of the world monochrome. All of the assets and illustrations can be found in this [Assets Folder](https://github.com/HimeWoo/untitled-paint-game/tree/a692f7e20e49cf7854cffb63fdc69ca3e223e444/untitled-paint-game/assets), sorted into such folders as charas, tiles, and bgs. 
+- I created all characters, AKA the player and enemies, as well as animation sheets for each. Animations were done using Photoshop's primitive built-in timeline tool. Atticus helped a lot with figuring out hitboxes and framerates.
 - I created tilesets (many of which are unused) that highlighted which blocks were or weren't paintable.
 - I created all backgrounds, background elements, and misc elements such as the keys in the UI, the boxes and pressure plates, etc.
-<img height="394" alt="Title screen" src="untitled-paint-game/assets/jason-pics/title-screen.png" />
-<img height="394" alt="Backgrounds" src="untitled-paint-game/assets/jason-pics//backgrounds-example.png" />
-<img height="394" alt="Character spritesheet" src="untitled-paint-game/assets/jason-pics/chara-idle.png" />
-<img height="394" alt="Tilesets" src="untitled-paint-game/assets/jason-pics/tiles-example.png" />
+- I avoided open source artwork because I wanted the art to be wholly our own.
+<img height="250" alt="Title screen" src="untitled-paint-game/assets/jason-pics/title-screen.png" />
+<img height="250" alt="Backgrounds" src="untitled-paint-game/assets/jason-pics//backgrounds-example.png" />
+<img height="250" alt="Character spritesheet" src="untitled-paint-game/assets/jason-pics/chara-idle.png" />
+<img height="250" alt="Tilesets" src="untitled-paint-game/assets/jason-pics/tiles-example.png" />
 (Some tilesets I made; the one on the left constituted the majority of our game, while the bricks on the right were unused)
-<img height="394" alt="Early concept art" src="untitled-paint-game/assets/jason-pics/sketch-of-paintguy.jpg" />
+
+<img height="250" alt="Early concept art" src="untitled-paint-game/assets/jason-pics/sketch-of-paintguy.jpg" />
 (Concept sketches I did as we solidified the setting and concept)
 
+*Title and Menu Pages* - Atticus created the original menu and taught me the logic, so I used that to create the title screen (with the "press any key to play") as well as the main menu, which also leads to a Controls and a Credits page that I designed. I wanted to give the game a polished yet simple and somewhat sci-fi feel, so I took inspiration from games like Nier: Automata and MGSV for the menus (small palettes, blocky shapes, high contrast, readable font).
 
 ## Sub-Roles ##
 **Technical Artist**
+*Parallaxing* - In the middle of the game, there is a section where we wanted to immerse the player in the environment and atmosphere, so I decided to create a long scrolling parallax section. In general, the background utilizes Parallax2D's to create a dynamic and alive-feeling world. An image of the section can be seen below.
+
+<img height="250" alt="Parallax sequence" src="untitled-paint-game/assets/jason-pics/parallax-scene" />
+This section involves several Parallax2D with textures I created scrolling at different speeds to give a sense of depth, while the sky in the far distance is static. There are also two layers of autoscrolling dust I implemented to make the world feel windy, which ignore the camera and simply parallax forever.
 
 ## Other Contributions ##
 **Quality of Life**
+I made several changes to the codebase aimed to improve quality-of-life and general gameplay experience.
+[Direction Restriction during Slash]()
+[Box Slashing]
+[Dash Jump Window]
+[Dash Ghost Effect]
+[Hollow Knight Pogo Bounce]
+*Modifications to Enemies* - These were minimal but pretty impactful changes. With playtesting, I realized it was a good idea to (A) have enemies collide with one another and (B) have the normal Mosquito enemies' projectiles vanish upon hitting a surface (the turrets' projectiles could still pass through). These made gameplay feel more fair.
+
 **Map Design**
 
 # Adrean Cajigas
