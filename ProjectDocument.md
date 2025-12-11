@@ -173,6 +173,9 @@ I rewrote the enemy damage handling to be consistent and extensible:
   - Marks `is_dying`, disables collision (main body and contact area), and plays the death SFX.
   - Waits for the sound (and optionally an animation) to finish before calling `queue_free()`.
 
+<img width="413" height="216" alt="Screenshot 2025-12-10 at 5 26 30 PM" src="https://github.com/user-attachments/assets/7d22508a-facb-4cd7-99db-d62443f39f25" />
+
+
 This gives clean, predictable enemy destruction and makes it easy to bolt on more behavior (loot, animations, effects) later.
 
 ---
@@ -203,6 +206,10 @@ I focused heavily on avoiding "cheap" hits and making damage rules consistent:
   - **Enemy projectiles:**
     - Damage the player and despawn on world or player collision.
     - Despawn on world collision prevents infinite projectiles and improves performance.
+   
+
+<img width="246" height="161" alt="Screenshot 2025-12-10 at 5 31 50 PM" src="https://github.com/user-attachments/assets/c1bef06f-c6c9-4649-86ad-792377615fc7" />
+<img width="297" height="133" alt="Screenshot 2025-12-10 at 5 34 51 PM" src="https://github.com/user-attachments/assets/40e6993b-33fc-48e1-ad84-0367b8cdb937" />
 
 These rules make combat feel fair: the player understands why they were hit and has clear tools (dash, invincibility, spacing) to avoid damage.
 
@@ -226,6 +233,11 @@ To get satisfying combat feedback, I rewrote knockback logic:
 - **Enemy damage:**
   - `apply_damage()` receives knockback vectors from melee and projectiles and applies them to the enemy's velocity.
   - Knockback velocity decays over time using `knockback_decel` to prevent enemies from sliding forever.
+ 
+<img width="223" height="124" alt="Screenshot 2025-12-10 at 5 33 32 PM" src="https://github.com/user-attachments/assets/c155bac8-d511-4c14-8176-e34a5f31820c" />
+<img width="165" height="143" alt="Screenshot 2025-12-10 at 5 34 03 PM" src="https://github.com/user-attachments/assets/54b0619e-aa9a-45d9-8964-b42d522090a8" />
+<img width="161" height="83" alt="Screenshot 2025-12-10 at 5 33 01 PM" src="https://github.com/user-attachments/assets/b0ddae72-659f-45b6-ad87-717ebdda1382" />
+
 
 The result is a reusable knockback pipeline shared across all damage sources, with parameters that can be tuned without refactoring code.
 
