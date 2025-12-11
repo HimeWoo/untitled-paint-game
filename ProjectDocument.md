@@ -1,9 +1,10 @@
 # Untitled Paint Game #
 
 ## Summary ##
+A color based metroidvania style puzzle game, where you have to use colors, their special effects and their combined effects to solve puzzles, platforming puzzles, and defeat enemies. You have to travel inbetween different rooms and sometimes even have to backtrack to make progress.  While being mechanic and puzzle based, it creates an environment for everybody to have their enjoyment.
 
 **A paragraph-length pitch for your game.**
-
+You find yourself in a desolate land, where all color was eradicated from all your most loved things.  Your job as a painter is to traverse this deserted city to see what caused it, and to use the tools at your disposal to get through anything in your way, whether that be puzzles or enemies.  You learn that these colors that you know of so fondly have developed special effects that might aid you towards your goal of recovering color to the rest of the world.  You progress through this large and eerie metroidvania style game, solving puzzles, platforming and slaying enemies along the way.
 ## Project Resources ##
 
 [Web-playable version of your game.](https://jx24.itch.io/untitled-paint-game)
@@ -62,8 +63,23 @@ You should replay any **bold text** with your relevant information. Liberally us
 Add addition contributions int he Other Contributions section.
 
 # Long Phanguyen
+## Main Roles ##
+Producer
+
+1. Gantt Chart and Google Drive - I created and updated the team ![Gantt chart.](https://media.discordapp.net/attachments/434922500770627594/1448553904576004327/image.png?ex=693bae73&is=693a5cf3&hm=b1597e4b794fa0574ca01986f0d773f116ebf48e4ceda03222b5a020bf49896f&=&format=webp&quality=lossless&width=2820&height=1630)  I changed the Gantt chart depending on who was busy with what and who was free for a certain period of time.  Shuffling around jobs and having people do things that were not necessarily in their role description helped this project actually get out in time, if everything was more rigid, it would probably not be possible.  I also made a shared google drive where ideas and files could be stored in a better way as compared to discord, and managed that as well. 
+2. Communication - I created and organized a [discord](https://media.discordapp.net/attachments/434922500770627594/1448559210248933396/image.png?ex=693bb364&is=693a61e4&hm=a4e87b364026aff0ef679ed5010d013ee9b4effdc14349b5dfb5f7d60a896c83&=&format=webp&quality=lossless&width=3080&height=1632) for everybody to communicate with each other with the help from Atticus, we had a threads [1](https://media.discordapp.net/attachments/434922500770627594/1448559608997085235/image.png?ex=693bb3c3&is=693a6243&hm=ec495e4208c10e41a0e1374628972f703c02f093765811ea6c4e5475c8dd1cc3&=&format=webp&quality=lossless&width=1298&height=1632) [2](https://media.discordapp.net/attachments/434922500770627594/1448559609320050778/image.png?ex=693bb3c3&is=693a6243&hm=9143c37a3642c11e85341451533b5afedd7dd05c5b63defc3cbad0de752c15ac&=&format=webp&quality=lossless&width=1392&height=1632) system where we could iron out specific parts of the game without crowding up the main chats.  I also had check-ups with every team member to see how far along they were with their work, and helped them either adjust their schedule accordingly or split their work up if it was too much to get done by the deadline.
+3. Meetings - I made [when2meets](https://media.discordapp.net/attachments/434922500770627594/1448558197072859177/image.png?ex=693bb273&is=693a60f3&hm=ff69430374ff5a18d7d593ae0a5ef77afe819d3ef114830abdb30c6befb4a90d&=&format=webp&quality=lossless&width=954&height=1838) and arranged times for everybody to both meet up in person and sometimes had sessions where I or others were in call and working on the project together.
+4. Planning and Designing - I made the sketches, game mechanics, and core gameplay features in the [design document](https://docs.google.com/document/d/1_01WVi9LyknC3uUWp8ekMJeQVb6G6bn0vBEymOViQMo/edit?usp=sharing) and communicated with the rest of the team during meetings or during one-on-ones what needed to be done relative to the game to develop the game in as smooth of a way as possible. 
 ## Sub-Roles ##
+Narrative Design
+
+1. Level Design - I developed the first 7 levels of the game/tutorial and helped aid in the development of the other rooms by making level balancing tweaks to make the game seem more fair, fun, and challenging without making the game too upsetting for the players.
+2. Color Design - I designed the colors and what they [did](https://docs.google.com/spreadsheets/d/1s4GcrbFlyW6NmWVLXTrQ1Y94ZoVW9mbxUFmqRA0MoFs/edit?usp=sharing) and helped balance the numbers behind the colors, as well as communicated with Atticus and Jason about how they were to work and implemented.
+3. Balancing and Tweaks - I worked with the team to find the proper numbers and mechanics to make the player feel both in control and powerful, while making the platforming in the game both challenging and fun to do.
+4. Mechanics Design - I planned out what needed to be finished in a [mechanics document](https://docs.google.com/spreadsheets/d/1YP51TprJ4L26OtVvsxmiOFyZGhg1En4rrSjJTZeERzs/edit?usp=sharing) and communicated with the programmers what the priority of these mechanics were, as well as tweaked them when the goals for the current project changed.
 ## Other Contributions ##
+
+1. I worked with Jason to get the main art style of the game, and worked with Adrean to have the SFX match the game feel.
 
 # Atticus Wong
 ## Main Roles ##
