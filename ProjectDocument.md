@@ -375,7 +375,7 @@ Together, these changes make movement feel responsive while keeping the physics 
 
 ---
 
-### Health Bar UI, HP Logic, and Respawn
+### Health Bar UI and HP Logic
 
 **Files:** `player.gd`, `HealthBar.gd`, UI scene (Interface → TopLeft → HealthBar)
 
@@ -396,33 +396,7 @@ I implemented a responsive player health UI and ensured it integrates correctly 
     - Yellow at mid HP.
     - Red at low HP.
 
-- **Respawn flow:**
-  - `_die()` handles either checkpoint restoration or scene reload.
-  - `_restore_checkpoint()` resets motion state, clears dash/attack flags, restores inventory/paint, teleports the player, and brings HP back to `max_hp`, then emits UI signals so the health bar and inventory display stay in sync.
-
 This gives a clear, readable health display that always matches the underlying game state.
-
----
-
-### Input Mapping & Accessibility
-
-**Files:** `player.gd`, project input settings
-
-I reworked the input mapping to support multiple layouts and controllers:
-
-- Defined separate actions for:
-  - **Movement:** `move_left`, `move_right` (mapped to A/D and arrow keys).
-  - **Aiming:** `aim_left`, `aim_right`, `aim_up`, `aim_down`.
-  - **Looking:** `look_up`, `look_down`.
-  - **Combat:** `shoot`, `melee_attack`.
-  - **Utility:** `dash`, queue controls for paint selection, etc.
-
-- In `player.gd`, I read from these actions instead of hard-coding keys, which:
-  - Allows controller bindings.
-  - Supports players who prefer arrow keys vs WASD.
-  - Makes it straightforward to add/remap inputs via the project settings.
-
-This work makes the game more accessible and easier to maintain.
 
 ---
 
@@ -431,7 +405,6 @@ Collectively, my Game Logic and Sound Design work transformed the project from a
 - **Combat** (melee + ranged) is directional, responsive, and tied to knockback and paint mechanics.
 - **Enemies** are defined by data (`EnemyStats`) and can scale to new types without script duplication.
 - **Player–enemy interactions** obey clear rules about damage, invincibility, and dashing.
-- **The world** (tiles + platforms) participates in gameplay via paint modifiers and teleports, with bugs around repainting and purple tiles resolved.
 - **Sound feedback** is tightly integrated with every major interaction, greatly improving feel and readability.
 - **Input mapping, collision layers, and UI health display** all work together so the game is playable, clear, and extensible.
 
