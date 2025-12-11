@@ -52,6 +52,9 @@ var coyote_timer: float = 0.0
 @export var dash_cooldown: float = 0.5
 @export var dash_decel: float = 2000.0
 @export var dash_decel_duration: float = 0.25
+@export var dash_jump_window: float = 0.25
+
+var dash_jump_timer: float = 0.0 
 
 @export_group("Contact / Dash Grace")
 @export var post_dash_contact_grace: float = 0.25
@@ -140,13 +143,21 @@ func _physics_process(delta: float) -> void:
 	
 	_update_invincibility(delta)
 	_update_post_dash_contact_grace(delta)
+	
+	# decrement dash jump timer
+	if dash_jump_timer > 0.0:
+		dash_jump_timer -= delta
 
 	# If in a death/respawn phase, ignore inputs and movement
 	if is_dying:
 		velocity = Vector2.ZERO
 		move_and_slide()
 		return
-
+	
+	if Input.is_action_just_pressed("quick_reset"):
+		_die()
+		return
+	
 	# 1. Initialize stats using the BASE export variables
 	var current_speed := move_speed
 	var current_jump_velocity := jump_velocity
@@ -254,7 +265,7 @@ func _update_invincibility(delta: float) -> void:
 		if invincible_flash_accum >= invincible_flash_interval:
 			invincible_flash_accum = 0.0
 			if sprite.modulate == Color(1, 1, 1, 1):
-				sprite.modulate = Color(0.893, 0.0, 0.085, 1.0)
+				sprite.modulate = Color(0.0, 0.0, 0.0, 1.0)
 			else:
 				sprite.modulate = Color(1, 1, 1, 1)
 
@@ -413,15 +424,19 @@ func _handle_jump_and_gravity(delta: float, current_jump_velocity: float) -> voi
 		velocity += get_gravity() * delta
 
 	var jumped_this_frame := false
+	var jumped_from_dash := false
 	
 	if Input.is_action_just_pressed("jump"):
-		if is_on_floor() or is_dashing or coyote_timer > 0.0:
+		if is_on_floor() or is_dashing or coyote_timer > 0.0 or dash_jump_timer > 0.0:
 			jumped_this_frame = true
 			if is_dashing:
+				jumped_from_dash = true
 				end_dash()
 			velocity.y = current_jump_velocity
 			last_jump_was_double = false
 			coyote_timer = 0.0
+			if jumped_from_dash:
+				dash_decel_timer = 0.0
 		elif jumps_left > 0:
 			jumped_this_frame = true
 			velocity.y = current_jump_velocity
@@ -461,7 +476,6 @@ func _spawn_dash_ghost() -> void:
 	var ghost: Sprite2D = dash_ghost_scene.instantiate()
 	get_parent().add_child(ghost)
 	
-	# Copy player's appearance
 	ghost.global_position = sprite.global_position
 	ghost.texture = sprite.sprite_frames.get_frame_texture(sprite.animation, sprite.frame)
 	ghost.flip_h = sprite.flip_h
@@ -488,6 +502,8 @@ func _handle_horizontal_movement(delta: float, current_speed: float) -> void:
 
 		if dash_decel_timer > 0.0:
 			decel = dash_decel
+		elif dash_jump_timer > 0.0: 
+			decel = air_decel * 0.5  
 
 		if direction != 0:
 			horizontal_momentum = move_toward(horizontal_momentum, direction * current_speed, accel * delta)
@@ -526,6 +542,7 @@ func end_dash() -> void:
 	is_dashing = false
 	dash_decel_timer = dash_decel_duration
 	post_dash_contact_timer = post_dash_contact_grace
+	dash_jump_timer = dash_jump_window
 
 
 # COMBAT: MELEE
@@ -567,16 +584,21 @@ func perform_slash() -> void:
 	can_attack = true
 
 
+# COMBAT: POGO BOUNCE
+func pogo_bounce() -> void:
+	velocity.y = jump_velocity * 0.8
+
+
 # COMBAT: RANGED
 func _get_aim_dir() -> Vector2:
 	var dir := Vector2.ZERO
-	if Input.is_action_pressed("aim_left"):
+	if Input.is_action_pressed("move_left"):
 		dir.x -= 1.0
-	if Input.is_action_pressed("aim_right"):
+	if Input.is_action_pressed("move_right"):
 		dir.x += 1.0
-	if Input.is_action_pressed("aim_up"):
+	if Input.is_action_pressed("look_up"):
 		dir.y -= 1.0
-	if Input.is_action_pressed("aim_down"):
+	if Input.is_action_pressed("look_down"):
 		dir.y += 1.0
 
 	if dir == Vector2.ZERO:

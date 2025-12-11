@@ -79,7 +79,7 @@ func _hit(target: Node) -> void:
 	
 	hit_objects.append(target)
 	
-	# Check if it's a Pushbox
+	# check for pushbox
 	if target is Pushbox:
 		_pull_pushbox(target)
 		return
@@ -93,6 +93,11 @@ func _hit(target: Node) -> void:
 		
 		target.apply_damage(damage, final_knockback)
 		print("Melee hit ", target.name, " for ", damage)
+		
+		#pogo bounce like in HK
+		if _attack_dir.y > 0 and owner_body != null:
+			if owner_body.has_method("pogo_bounce"):
+				owner_body.pogo_bounce()
 
 func _pull_pushbox(box: Pushbox) -> void:
 	if box in hit_objects:
