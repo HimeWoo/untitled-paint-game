@@ -148,12 +148,13 @@ Github username: `reehals`
 
 **Checkpoint and Hazard Demo**
 
-<video src="documentation-videos/Respawn.mp4" controls width="640">
+<video src="https://github.com/user-attachments/assets/4f183253-e241-453d-9e1e-353a99f4b7ab" controls width="640">
 Checkpoint and Hazard Demo
 </video>
 
 **Platform and Paintable Platform Demo**
-<video src="documentation-videos/Platforms.mp4" controls width="640">
+<video src="https://github.com/user-attachments/assets/70086129-f7f0-46e3-895b-0532015db0be
+" controls width="640">
 Platform and Paintable Platform Demo
 </video>
 
