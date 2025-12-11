@@ -255,7 +255,7 @@ bus = &"SFX"
 
 [node name="Jump" type="AudioStreamPlayer2D" parent="SFX"]
 stream = ExtResource("10_a8ls1")
-volume_db = -3.0
+volume_db = -4.0
 bus = &"SFX"
 
 [node name="Dash" type="AudioStreamPlayer2D" parent="SFX"]
@@ -267,7 +267,7 @@ bus = &"SFX"
 
 [node name="Melee" type="AudioStreamPlayer2D" parent="SFX"]
 stream = ExtResource("12_qfm1y")
-volume_db = -6.0
+volume_db = -5.0
 bus = &"SFX"
 
 [node name="Land" type="AudioStreamPlayer2D" parent="SFX"]
