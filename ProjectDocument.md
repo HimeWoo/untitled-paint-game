@@ -118,11 +118,7 @@ Github username: `reehals`
 
 ### Overview
 
-My main responsibility was to design and implement the core game logic: how the player and enemies move, attack, take damage, and interact with the world. I also owned the knockback system, collision/physics behavior, paint interactions on tiles and platforms, and the health/respawn flow. The goal was to build systems that are:
-
-- **Predictable for players**: clear feedback when they attack, take damage, or dash through enemies
-- **Scalable for designers**: new enemies and encounters can be created by tweaking data, not rewriting code
-- **Robust for future content**: edge cases around dashes, hazards, and painting are handled at the system level
+My main responsibility was to design and implement the core game logic: how the player and enemies move, attack, take damage, and interact with the world. I also owned the knockback system, collision/physics behavior, paint interactions on tiles and platforms, and the health/respawn flow. My goal was to build a combat system that is predictable for players when they attack/take damage, scalable for new enemies to be encountered, and to handle edge cases on how the player's dashes and melee attacks affect the gameplay. 
 
 ---
 
@@ -396,8 +392,6 @@ I implemented a responsive player health UI and ensured it integrates correctly 
     - Green at high HP.
     - Yellow at mid HP.
     - Red at low HP.
-
-This gives a clear, readable health display that always matches the underlying game state.
 
 **Overall**, this was a really fun project, and I'd love to continue working on this game!
 
