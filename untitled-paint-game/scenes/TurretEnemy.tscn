@@ -19,6 +19,7 @@ size = Vector2(110.00003, 110.00003)
 [node name="TurretEnemy" type="CharacterBody2D"]
 scale = Vector2(0.2, 0.2)
 collision_layer = 4
+collision_mask = 5
 script = ExtResource("1_nfe6d")
 stats = ExtResource("2_nfe6d")
 projectile_scene = ExtResource("3_nfe6d")

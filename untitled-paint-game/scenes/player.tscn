@@ -9,9 +9,9 @@
 [ext_resource type="Texture2D" uid="uid://kcon0l3haefg" path="res://assets/charas/player-slash_side.png" id="5_smehm"]
 [ext_resource type="Texture2D" uid="uid://8paelyih6n1g" path="res://assets/charas/player-slash_up.png" id="6_ur7pv"]
 [ext_resource type="AudioStream" uid="uid://pxrec7r7tsxd" path="res://assets/music/walk4.wav" id="9_3v2ag"]
-[ext_resource type="AudioStream" uid="uid://cbyu14v5go6kw" path="res://assets/music/jump.wav" id="9_d2wvv"]
 [ext_resource type="AudioStream" uid="uid://dlpxdmsiqo0pl" path="res://assets/music/dash.wav" id="10_3v2ag"]
-[ext_resource type="AudioStream" uid="uid://v5d4s6h4c44c" path="res://assets/music/melee2.mp3" id="11_d2wvv"]
+[ext_resource type="AudioStream" uid="uid://pfi05eqw63h1" path="res://assets/music/Single jump.mp3" id="10_a8ls1"]
+[ext_resource type="AudioStream" uid="uid://cvamap5hon70g" path="res://assets/music/Slash.mp3" id="12_qfm1y"]
 [ext_resource type="AudioStream" uid="uid://nwr5e4i866ac" path="res://assets/music/landing.mp3" id="13_jej6c"]
 [ext_resource type="AudioStream" uid="uid://5a5y14bua852" path="res://assets/music/damage.wav" id="14_oprun"]
 [ext_resource type="AudioStream" uid="uid://belql6s81iof5" path="res://assets/music/death.wav" id="15_a8ls1"]
@@ -254,7 +254,7 @@ volume_db = 5.0
 bus = &"SFX"
 
 [node name="Jump" type="AudioStreamPlayer2D" parent="SFX"]
-stream = ExtResource("9_d2wvv")
+stream = ExtResource("10_a8ls1")
 bus = &"SFX"
 
 [node name="Dash" type="AudioStreamPlayer2D" parent="SFX"]
@@ -265,7 +265,7 @@ bus = &"SFX"
 bus = &"SFX"
 
 [node name="Melee" type="AudioStreamPlayer2D" parent="SFX"]
-stream = ExtResource("11_d2wvv")
+stream = ExtResource("12_qfm1y")
 volume_db = -10.0
 bus = &"SFX"
 
