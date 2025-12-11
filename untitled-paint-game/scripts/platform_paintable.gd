@@ -85,6 +85,7 @@ func get_modifiers() -> Dictionary:
 	var jump_mult := 1.0
 	var dash_mult := 1.0
 	var launch := 0.0
+	var flat_speed_bonus := 0.0
 	match color:
 		PaintColor.Colors.RED:
 			speed_mult = 1.3
@@ -103,9 +104,13 @@ func get_modifiers() -> Dictionary:
 			jump_mult = 1.2
 			dash_mult = 1.2
 		PaintColor.Colors.ORANGE:
-			# Example: speed + dash
-			speed_mult = 1.2
-			dash_mult = 1.2
+			flat_speed_bonus = 100.0
 		PaintColor.Colors.NONE:
 			pass
-	return {"speed_modifier": speed_mult, "jump_modifier": jump_mult, "dash_modifier": dash_mult, "launch_force": launch}
+	return {
+		"speed_modifier": speed_mult,
+		"jump_modifier": jump_mult,
+		"dash_modifier": dash_mult,
+		"launch_force": launch,
+		"flat_speed_bonus": flat_speed_bonus
+	}

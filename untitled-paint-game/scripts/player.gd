@@ -312,7 +312,8 @@ func _calculate_terrain_stats(
 		# RED (Speed)
 		var speed_mult: float = tile_data.get_custom_data("speed_modifier")
 		if speed_mult != 0.0 and speed_mult != 1.0:
-			out_speed *= speed_mult
+			var base_speed := in_speed
+			out_speed += (speed_mult - 1.0) * base_speed
 
 		# BLUE (Jump)
 		var jump_mult: float = tile_data.get_custom_data("jump_modifier")
@@ -346,6 +347,8 @@ func _calculate_terrain_stats(
 		# Only check platforms when not on a tile (player can't be on both)
 		var platform_mods := _platform_modifiers_under_foot()
 		out_speed *= platform_mods["speed_modifier"]
+		if platform_mods.has("flat_speed_bonus"):
+			out_speed += float(platform_mods["flat_speed_bonus"])
 		out_jump *= platform_mods["jump_modifier"]
 		out_dash *= platform_mods["dash_modifier"]
 

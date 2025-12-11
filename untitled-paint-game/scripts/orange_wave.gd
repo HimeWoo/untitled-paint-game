@@ -9,16 +9,18 @@ extends Node2D
 var _dir: int = 1
 var _terrain: TileMapLayer
 var _start_pos: Vector2
+var _sprite: Sprite2D
 
 func setup(start_pos: Vector2, dir: int, terrain: TileMapLayer) -> void:
 	_start_pos = start_pos
 	global_position = start_pos
 	_dir = dir if dir != 0 else 1
 	_terrain = terrain
-	var sprite := Sprite2D.new()
-	sprite.texture = preload("res://assets/charas/abilities/paint-orange_wave.png")
-	sprite.centered = true
-	add_child(sprite)
+	_sprite = Sprite2D.new()
+	_sprite.texture = preload("res://assets/charas/abilities/paint-orange_wave.png")
+	_sprite.centered = true
+	_sprite.flip_h = (_dir < 0)
+	add_child(_sprite)
 
 func _physics_process(delta: float) -> void:
 	if _terrain == null:
