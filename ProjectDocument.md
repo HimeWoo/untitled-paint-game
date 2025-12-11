@@ -374,17 +374,7 @@ I implemented a responsive player health UI and ensured it integrates correctly 
 
 This gives a clear, readable health display that always matches the underlying game state.
 
----
-
-Collectively, my Game Logic and Sound Design work transformed the project from a set of disconnected prototypes into a cohesive combat and interaction system:
-
-- **Combat** (melee + ranged) is directional, responsive, and tied to knockback and paint mechanics.
-- **Enemies** are defined by data (`EnemyStats`) and can scale to new types without script duplication.
-- **Player–enemy interactions** obey clear rules about damage, invincibility, and dashing.
-- **Sound feedback** is tightly integrated with every major interaction, greatly improving feel and readability.
-- **Input mapping, collision layers, and UI health display** all work together so the game is playable, clear, and extensible.
-
-Overall, this was a really fun project, and I'd love to continue working on this game!
+**Overall**, this was a really fun project, and I'd love to continue working on this game!
 
 ---
 
