@@ -104,20 +104,38 @@ Github username: `reehals`
 
 **Movement/Physics and Environment Design**
 
-1. [Player movement and dash logic](https://github.com/HimeWoo/untitled-paint-game/blob/c76cd35bcc509fcfab649b6e0837139f5699a44f/untitled-paint-game/scripts/player.gd#L9-L246): Implemented momentum-based movement and physics, replacing simple constant-speed motion with acceleration/deceleration and dash carry-over, distinct ground/air/dash slowdown rates, and face-direction dashing with mid-dash jumps (while disabling midair dashes) so the player feels weighty but responsive for puzzle platforming. Though this has since been modified to use modifiers that were provided by the tilemap.
+1. [Player movement and dash logic](https://github.com/HimeWoo/untitled-paint-game/blob/c76cd35bcc509fcfab649b6e0837139f5699a44f/untitled-paint-game/scripts/player.gd#L9-L246): Implemented momentum-based movement and physics, replacing simple constant-speed motion with acceleration/deceleration and dash carry-over, distinct ground, air, and dash slowdown rates, and directional dashing with mid-dash jumps (while disabling midair dashes) so the player feels more responsive for the puzzle platforming this game was intended to be. This has since been improved by others to use modifiers that were provided by the tilemap.
 
-2. [Checkpoint and restore logic](https://github.com/HimeWoo/untitled-paint-game/blob/096e4f170f93cc928ea5833059ced604f53ff269/untitled-paint-game/scripts/player.gd#L820-L940): Built a checkpoint system integrated into the existing room-transition framework, restoring player health, inventory, paint selector, paint pickups and placements, pushable block positions, and platform paint states/motion on death.
+2. [Checkpoint and restore logic](https://github.com/HimeWoo/untitled-paint-game/blob/096e4f170f93cc928ea5833059ced604f53ff269/untitled-paint-game/scripts/player.gd#L820-L940): Built a checkpoint system integrated into the existing room-transition framework, restoring player health, inventory, paint selector, paint pickups and placements, pushable block positions, and platform paint states/motion on death. This logic was moved to [`player_checkpoint.gd`](https://github.com/HimeWoo/untitled-paint-game/blob/main/untitled-paint-game/scripts/player_checkpoint.gd), but has not been wired in due to issues with testing.
 
-3. [Platform behavior](https://github.com/HimeWoo/untitled-paint-game/blob/096e4f170f93cc928ea5833059ced604f53ff269/untitled-paint-game/scripts/platform.gd) and [Platform paintable logic](https://github.com/HimeWoo/untitled-paint-game/blob/096e4f170f93cc928ea5833059ced604f53ff269/untitled-paint-game/scripts/platform_paintable.gd): Added configurable moving platforms with multiple movement modes (fixed paths, wall-collide, smart return, vertical, go-to-target) and support for enabling platform motion when painted yellow.
+3. [Platforms](https://github.com/HimeWoo/untitled-paint-game/blob/096e4f170f93cc928ea5833059ced604f53ff269/untitled-paint-game/scripts/platform.gd) and [Platform Paintable Logic](https://github.com/HimeWoo/untitled-paint-game/blob/096e4f170f93cc928ea5833059ced604f53ff269/untitled-paint-game/scripts/platform_paintable.gd): Added configurable moving platforms with multiple movement modes (fixed paths, wall-collide, smart return, vertical, go-to-target) and support for enabling platform motion when painted yellow.
 
-4. [Hazard and death handling](https://github.com/HimeWoo/untitled-paint-game/blob/096e4f170f93cc928ea5833059ced604f53ff269/untitled-paint-game/scripts/player.gd#L640-L760) and [Tile hazard data and effects](https://github.com/HimeWoo/untitled-paint-game/blob/096e4f170f93cc928ea5833059ced604f53ff269/untitled-paint-game/scripts/paintable.gd) Introduced spike and water hazards that instantly kill the player on contact, tying into the same death/respawn flow as other hazards, and helped migrate spike logic to be tile-based via custom data.
+4. [Hazard and death handling](https://github.com/HimeWoo/untitled-paint-game/blob/096e4f170f93cc928ea5833059ced604f53ff269/untitled-paint-game/scripts/player.gd#L792-L806) Introduced spike and water hazards that instantly kill the player on contact, tying into the same death/respawn flow as other hazards like enemies.
 
-5. [Red/orange paint usage in player](https://github.com/HimeWoo/untitled-paint-game/blob/096e4f170f93cc928ea5833059ced604f53ff269/untitled-paint-game/scripts/player.gd#L580-L740) and [Orange wave script](https://github.com/HimeWoo/untitled-paint-game/blob/096e4f170f93cc928ea5833059ced604f53ff269/untitled-paint-game/scripts/orange_wave.gd): Reworked red paint to behave as a ranged projectile attack, and redesigned orange paint into a ground-hugging wave that paints orange tiles in its path to grant a consistent speed boost instead of using conveyor-style physics.
+5. [Prototype branch: `test-water-physics`](https://github.com/HimeWoo/untitled-paint-game/tree/test-water-physics): Prototyped a particle based water system, adapted from [Chevifier/Fluid-Simulation-in-Godot](https://github.com/Chevifier/Fluid-Simulation-in-Godot). This code was NOT used in the main branch because the approach was too jittery and did not fit the final design.
 
 ## Sub-Roles ##
+
+1. **Gameplay Testing**: Since our project was finished quite late, and only a handful of rooms being implemented we were not able to do thorough gameplay testing. From the gameplay testing we did, testers said that having the entire floor be paintable was confusing to people just starting out, so we made it such that only certain portions of the floor could be painted. Testers also said that the paint controls were unintuitive, so we also worked on improving that, by adding a dedicated controls menu at the start screen, and also having the UI show which buttons were which at all times for easy access.
+
 ## Other Contributions ##
 
-1. Helped deploy the project onto itch.io with GitHub Actions actions.
+1. [Red Projectile](https://github.com/HimeWoo/untitled-paint-game/blob/096e4f170f93cc928ea5833059ced604f53ff269/untitled-paint-game/scripts/player.gd#L701-L721) and [Orange Wave](https://github.com/HimeWoo/untitled-paint-game/blob/096e4f170f93cc928ea5833059ced604f53ff269/untitled-paint-game/scripts/orange_wave.gd): Reworked red paint to behave as a ranged projectile attack, and redesigned orange paint into a ground-hugging wave that paints orange tiles in its path to grant a consistent speed boost instead of using conveyor-style physics.
+2. Helped deploy the project onto itch.io with GitHub Actions.
+3. I also helped Jason with making some UI/UX decisions and deciding on improvements/changed to our paint system, one of which was the above change to how the Red and Orange colors worked.
+
+## Demos ##
+
+**Checkpoint and Hazard Demo**
+
+<video src="documentation-videos/Respawn.mp4" controls width="640">
+Checkpoint and Hazard Demo
+</video>
+
+**Platform and Paintable Platform Demo**
+<video src="documentation-videos/Platforms.mp4" controls width="640">
+Platform and Paintable Platform Demo
+</video>
 
 # Jason Xie
 ## Sub-Roles ##

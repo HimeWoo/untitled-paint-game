@@ -1027,7 +1027,6 @@ func _room_rect_global(area: Area2D) -> Rect2:
 func _room_rect_or_fallback(area: Area2D, around_pos: Vector2) -> Rect2:
 	if area != null and is_instance_valid(area):
 		return _room_rect_global(area)
-	# Fallback to a local rect around the spawn position
 	return Rect2(around_pos - Vector2(512, 384), Vector2(1024, 768))
 
 func _update_walk_sfx() -> void:

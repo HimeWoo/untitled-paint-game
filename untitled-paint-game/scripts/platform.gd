@@ -1,11 +1,7 @@
 extends AnimatableBody2D
 
-# This is code I wrote back in April while trying to improve and add functionality to
-# the platforms from the brackeys learn godot video. It might also have been some other video tutorial but I'm not too sure.
-# The old code may be partially AI generated since I do not remember what I used then.
-# The Side to side (fixed) and side to side (collision) are old code I had.
-# The side to side with tilemap collision or fixed amount and smart wall distance return is new code.
-# Some of this code is modified and was inlcuded with my Exercise 1 submission.
+# This platform logic primarily comes from some of my old code from self following a Brackeys tutorial, and specifically is from my
+# Exercise 1 implementation. It has since been changed and improved to add more modes as well as paint functionality.
 enum MovementMode { STATIONARY, FIXED_PATH, COLLIDE_TILEMAP, SMART_WALL_DIST_COLLIDE, SMART_WALL_DIST_RETURN_START, FIXED_PATH_VERTICAL, GO_TO_TARGET_RETURN_START }
 
 @export_enum("Stationary", "Fixed Path (Horizontal)", "Side to Side (Collide TileMap)", "Side to Side min(Fixed Dist or Collide TileMap)", "Smart Wall Distance Return to Start", "Fixed Path (Vertical)", "Go To Target (Return Start)")
