@@ -154,6 +154,45 @@ func select_next() -> void:
 func select_prev() -> void:
 	selected_index = wrapi(selected_index - 1, 0, capacity())
 
+
+func snapshot() -> Dictionary:
+	var data: Dictionary = {}
+	data["selected_index"] = selected_index
+	data["capacity"] = _capacity
+	var arr: Array = []
+	for elem: QueueElement in _queue:
+		arr.append({
+			"color": int(elem.color),
+			"is_mixed": elem.is_mixed,
+			"is_locked": elem.is_locked,
+			"colors_used": elem.colors_used.duplicate()
+		})
+	data["queue"] = arr
+	return data
+
+
+func restore(data: Dictionary) -> void:
+	if data.is_empty():
+		return
+	var new_capacity: int = int(data.get("capacity", _capacity))
+	_capacity = new_capacity
+	_queue.clear()
+	var arr: Array = data.get("queue", [])
+	for slot_data in arr:
+		var elem := QueueElement.new(PaintColor.Colors.NONE, false)
+		var color_int: int = int(slot_data.get("color", PaintColor.Colors.NONE))
+		elem.color = color_int
+		elem.is_mixed = bool(slot_data.get("is_mixed", false))
+		elem.is_locked = bool(slot_data.get("is_locked", false))
+		var used: Array = slot_data.get("colors_used", [])
+		elem.colors_used = used.duplicate()
+		_queue.push_back(elem)
+	# Pad with blank slots if needed
+	for i in range(_queue.size(), _capacity):
+		_queue.push_back(QueueElement.new(PaintColor.Colors.NONE, false))
+	selected_index = clamp(int(data.get("selected_index", 0)), 0, capacity() - 1)
+	UISignals.queue_changed.emit(self)
+
 class QueueElement:
 	var color: PaintColor.Colors
 	var is_mixed: bool
