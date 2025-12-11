@@ -1,23 +1,43 @@
 # Untitled Paint Game #
 
 ## Summary ##
-A color based metroidvania style puzzle game, where you have to use colors, their special effects and their combined effects to solve puzzles, platforming puzzles, and defeat enemies. You have to travel inbetween different rooms and sometimes even have to backtrack to make progress.  While being mechanic and puzzle based, it creates an environment for everybody to have their enjoyment.
+- A color based metroidvania style puzzle game, where you have to use colors, their special effects and their combined effects to solve puzzles, platforming puzzles, and defeat enemies. You have to travel inbetween different rooms and sometimes even have to backtrack to make progress.  While being mechanic and puzzle based, it creates an environment for everybody to have their enjoyment.
 
-**A paragraph-length pitch for your game.**
-You find yourself in a desolate land, where all color was eradicated from all your most loved things.  Your job as a painter is to traverse this deserted city to see what caused it, and to use the tools at your disposal to get through anything in your way, whether that be puzzles or enemies.  You learn that these colors that you know of so fondly have developed special effects that might aid you towards your goal of recovering color to the rest of the world.  You progress through this large and eerie metroidvania style game, solving puzzles, platforming and slaying enemies along the way.
+## Paragraph Proposal ##
+
+- You find yourself in a desolate land, where all color was eradicated from all your most loved things.  Your job as a painter is to traverse this deserted city to see what caused it, and to use the tools at your disposal to get through anything in your way, whether that be puzzles or enemies.  You learn that these colors that you know of so fondly have developed special effects that might aid you towards your goal of recovering color to the rest of the world.  You progress through this large and eerie metroidvania style game, solving puzzles, platforming and slaying enemies along the way.
 ## Project Resources ##
 
-[Web-playable version of your game.](https://jx24.itch.io/untitled-paint-game)
-[Trailor](https://youtube.com)
-[Press Kit](https://dopresskit.com/)
-[Proposal](https://docs.google.com/document/d/19xoqTyzlg7cBafAxgOEeZynd305ouQaau-FxPLQ7cZo/edit?usp=sharing)
+- [Web-playable version of your game.](https://jx24.itch.io/untitled-paint-game)
+- [Trailor](https://youtube.com)
+- [Press Kit](https://dopresskit.com/)
+- [Proposal](https://docs.google.com/document/d/19xoqTyzlg7cBafAxgOEeZynd305ouQaau-FxPLQ7cZo/edit?usp=sharing)
 
 ## Gameplay Explanation ##
+| Action | Key(s) |
+|--------|--------|
+| Movement | WASD |
+| Jump | Space |
+| Paint selector | 1,2,3 or I, O, P |
+| Slash | J |
+| Ground Dash | K |
+| Scroll Paint Slot | Q/E |
 
-**In this section, explain how the game should be played. Treat this as a manual within a game. Explaining the button mappings and the most optimal gameplay strategy is encouraged.**
+# Tutorial
+- Go through the tutorial and learn about the different movement types, paints, enemies, and paint mixes that you will need to use in the future
+- Experiment in the tutorial, as it is a sandbox environment for you to discover the different mechanics of the game
 
+# Puzzles
+- To progress through puzzles, think about what movement options you have with the paints at your disposal, and think about what paints you could use right now and what you might need for later
 
-**Add it here if you did work that should be factored into your grade but does not fit easily into the proscribed roles! Please include links to resources and descriptions of game-related material that does not fit into roles here.**
+# Combat
+- Instead of facing all of the enemies head-on at once, you can pick them off one by one by aggroing them strategically
+- You can ignore the ground enemies and opt to target the flying enemies, as they have less health but have projectiles that might damage you more.
+- Instead of facing the ground enemies from the side, you can face them from the top, and when you slash downwards, you will perform a little hop
+
+# Platforming
+- Try to see what paints you can use to get to your goal destination
+- Try using the different movement options in different orders so that you can avoid things like sharp ceilings or very large gaps
 
 # External Code, Ideas, and Structure #
 
