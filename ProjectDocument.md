@@ -187,8 +187,21 @@ Orange Projectile
 
 
 # Jason Xie
+
+Github username: `jx24`
+
+## Main Roles ##
+**Animation and Visuals**
+
+1. *Visual Style and Assets* - Nearly all of the assets (95%), sprites, and illustrations in the game were created by me with the exception of the inventory and UI, much of which was done by Alex. Otherwise, using Photoshop CS6, I created assets with a pixelated art style inspired by some of our favorite games, such as Rain World, Hollow Knight, and Hyper Light Drifter. We wanted color to pop so I made the call to make the rest of the world monochrome. All of the assets and illustrations can be found in this [Assets Folder](https://github.com/HimeWoo/untitled-paint-game/tree/a692f7e20e49cf7854cffb63fdc69ca3e223e444/untitled-paint-game/assets), sorted into such folders as charas, tiles, and bgs.
+<img width="649" height="394" alt="Title screen" src="untitled-paint-game/assets/Atticus-level-design.png" />
+
 ## Sub-Roles ##
+**Technical Artist**
+
 ## Other Contributions ##
+**Quality of Life**
+**Map Design**
 
 # Adrean Cajigas
 
