@@ -51,7 +51,10 @@ var coyote_timer: float = 0.0
 @export var dash_time: float = 0.10
 @export var dash_cooldown: float = 0.5
 @export var dash_decel: float = 2000.0
-@export var dash_decel_duration: float = 0.4
+@export var dash_decel_duration: float = 0.25
+@export var dash_jump_window: float = 0.25
+
+var dash_jump_timer: float = 0.0 
 
 @export_group("Contact / Dash Grace")
 @export var post_dash_contact_grace: float = 0.25
@@ -140,6 +143,10 @@ func _physics_process(delta: float) -> void:
 	
 	_update_invincibility(delta)
 	_update_post_dash_contact_grace(delta)
+	
+	# decrement dash jump timer
+	if dash_jump_timer > 0.0:
+		dash_jump_timer -= delta
 
 	# If in a death/respawn phase, ignore inputs and movement
 	if is_dying:
@@ -417,15 +424,19 @@ func _handle_jump_and_gravity(delta: float, current_jump_velocity: float) -> voi
 		velocity += get_gravity() * delta
 
 	var jumped_this_frame := false
+	var jumped_from_dash := false
 	
 	if Input.is_action_just_pressed("jump"):
-		if is_on_floor() or is_dashing or coyote_timer > 0.0:
+		if is_on_floor() or is_dashing or coyote_timer > 0.0 or dash_jump_timer > 0.0:
 			jumped_this_frame = true
 			if is_dashing:
+				jumped_from_dash = true
 				end_dash()
 			velocity.y = current_jump_velocity
 			last_jump_was_double = false
 			coyote_timer = 0.0
+			if jumped_from_dash:
+				dash_decel_timer = 0.0
 		elif jumps_left > 0:
 			jumped_this_frame = true
 			velocity.y = current_jump_velocity
@@ -491,6 +502,8 @@ func _handle_horizontal_movement(delta: float, current_speed: float) -> void:
 
 		if dash_decel_timer > 0.0:
 			decel = dash_decel
+		elif dash_jump_timer > 0.0: 
+			decel = air_decel * 0.5  
 
 		if direction != 0:
 			horizontal_momentum = move_toward(horizontal_momentum, direction * current_speed, accel * delta)
@@ -529,6 +542,7 @@ func end_dash() -> void:
 	is_dashing = false
 	dash_decel_timer = dash_decel_duration
 	post_dash_contact_timer = post_dash_contact_grace
+	dash_jump_timer = dash_jump_window
 
 
 # COMBAT: MELEE
