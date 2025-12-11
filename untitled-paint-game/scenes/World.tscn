@@ -1125,7 +1125,7 @@ position = Vector2(0.5, 0)
 shape = SubResource("RectangleShape2D_3eqwx")
 
 [node name="TransitionTOROUTE" type="Area2D" parent="." node_paths=PackedStringArray("camera")]
-position = Vector2(7184, -24)
+position = Vector2(7184, 24)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("13_nrtoj")
