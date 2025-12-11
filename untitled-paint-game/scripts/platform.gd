@@ -40,6 +40,7 @@ func _ready():
 	var paintable := get_node("PlatformPaintable")
 	if paintable is PlatformPaintable:
 		paintable.yellow_painted.connect(_on_platform_painted_yellow)
+		paintable.yellow_cleared.connect(_on_platform_yellow_cleared)
 		if (paintable as PlatformPaintable).color == PaintColor.Colors.YELLOW:
 			_yellow_unlocked = true
 
@@ -137,3 +138,14 @@ func _physics_process(delta):
 	
 func _on_platform_painted_yellow() -> void:
 	_yellow_unlocked = true
+
+func reset_yellow_motion() -> void:
+	_on_platform_yellow_cleared()
+
+func _on_platform_yellow_cleared() -> void:
+	if not yellow_paint_enable_motion:
+		return
+	_yellow_unlocked = false
+	global_position = start_position
+	direction = 1 if start_direction == 0 else -1
+	to_target = true

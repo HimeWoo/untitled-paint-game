@@ -2,6 +2,7 @@ class_name PlatformPaintable
 extends Area2D
 
 signal yellow_painted
+signal yellow_cleared
 
 @export var color: PaintColor.Colors = PaintColor.Colors.NONE
 @export var sprite_path: NodePath
@@ -72,11 +73,11 @@ func _enum_to_alt(c: PaintColor.Colors) -> int:
 	return 0
 
 func _check_yellow_paint_trigger(prev_color: PaintColor.Colors) -> void:
-	if prev_color == PaintColor.Colors.YELLOW:
-		return
-	if color == PaintColor.Colors.YELLOW:
+	if prev_color != PaintColor.Colors.YELLOW and color == PaintColor.Colors.YELLOW:
 		print("Yellow color")
 		yellow_painted.emit()
+	elif prev_color == PaintColor.Colors.YELLOW and color != PaintColor.Colors.YELLOW:
+		yellow_cleared.emit()
 
 func get_modifiers() -> Dictionary:
 	# Mirror tile paint effects: RED=speed, BLUE=jump, YELLOW=dash

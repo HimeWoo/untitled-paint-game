@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://6g1iygqhe6d"]
 
 [ext_resource type="Texture2D" uid="uid://cm66b8mn5r63i" path="res://assets/paint_blue.png" id="1_f565f"]
-[ext_resource type="Script" uid="uid://cpk57k7usnnlt" path="res://scripts/player_projectile.gd" id="2_37ljf"]
+[ext_resource type="Script" path="res://scripts/player_projectile.gd" id="2_37ljf"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_f565f"]
 radius = 6.0

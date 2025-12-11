@@ -94,6 +94,7 @@ var _checkpoint_paint: Dictionary = {} # Vector2i -> int (alt id)
 var _checkpoint_room_rect: Rect2 = Rect2()
 var _checkpoint_items: Array = [] # [{pos:Vector2, color:int}]
 var _checkpoint_platforms: Array = [] # [{path:String, alt:int}]
+var _checkpoint_selector: Dictionary = {}
 var _respawn_grace_timer: float = 0.0
 var _last_checkpoint_time: float = -999.0
 
@@ -839,6 +840,8 @@ func set_room_checkpoint(spawn_pos: Vector2, room_area: Area2D) -> void:
 	_checkpoint_paint = _snapshot_room_paint_rect(_checkpoint_room_rect)
 	_checkpoint_items = _snapshot_room_items(_checkpoint_room_rect)
 	_checkpoint_platforms = _snapshot_room_platforms(_checkpoint_room_rect)
+	if selector != null:
+		_checkpoint_selector = selector.snapshot()
 	_last_checkpoint_time = now
 
 func _restore_checkpoint() -> void:
@@ -860,6 +863,8 @@ func _restore_checkpoint() -> void:
 		_restore_room_paint_rect(_checkpoint_room_rect, _checkpoint_paint)
 	_restore_room_items(_checkpoint_room_rect, _checkpoint_items)
 	_restore_room_platforms(_checkpoint_platforms)
+	if selector != null and not _checkpoint_selector.is_empty():
+		selector.restore(_checkpoint_selector)
 	# Teleport to checkpoint
 	global_position = _checkpoint_pos
 	_respawn_grace_timer = 1.0
@@ -995,12 +1000,19 @@ func _restore_room_platforms(items: Array) -> void:
 	var scene_root := get_tree().get_current_scene()
 	if scene_root == null:
 		return
-	for it in items:
-		var path: String = it["path"]
-		var alt: int = it["alt"]
+	for item in items:
+		var path: String = item["path"]
+		var orig_alt: int = item["alt"]
+		var alt: int = orig_alt
 		var node := scene_root.get_node_or_null(path)
+		if orig_alt == 3:
+			alt = 0
 		if node is PlatformPaintable:
-				(node as PlatformPaintable).set_color_alt(alt)
+			if orig_alt == 3:
+				var parent := node.get_parent()
+				if parent != null and parent.has_method("reset_yellow_motion"):
+					parent.reset_yellow_motion()
+			(node as PlatformPaintable).set_color_alt(alt)
 
 func _room_rect_global(area: Area2D) -> Rect2:
 	var shape_node: CollisionShape2D = area.get_node_or_null("CollisionShape2D")
