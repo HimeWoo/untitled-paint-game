@@ -159,15 +159,11 @@ func _physics_process(delta: float) -> void:
 		_die()
 		return
 	
-	# 1. Initialize stats using the BASE export variables
 	var current_speed := move_speed
 	var current_jump_velocity := jump_velocity
 	var current_dash_speed := dash_speed
-	
-	# 2. Get the MODIFIED stats from the function
 	var modified_stats = _calculate_terrain_stats(delta, current_speed, current_jump_velocity, current_dash_speed)
 	
-	# 3. Extract the results
 	current_speed = modified_stats["speed"]
 	current_jump_velocity = modified_stats["jump"]
 	current_dash_speed = modified_stats["dash"]
@@ -180,11 +176,9 @@ func _physics_process(delta: float) -> void:
 	_update_animation()
 
 	# Vertical motion (gravity / jumping)
-	# Now using the correctly modified current_jump_velocity
 	_handle_jump_and_gravity(delta, current_jump_velocity)
 
 	# Dash and horizontal movement
-	# Now using the correctly modified dash/move speeds
 	_handle_dash_input(delta, current_dash_speed)
 	_handle_horizontal_movement(delta, current_speed)
 
@@ -286,7 +280,6 @@ func _update_post_dash_contact_grace(delta: float) -> void:
 		
 
 # TERRAIN EFFECTS
-# Returns a Dictionary with keys: speed, jump, dash
 func _calculate_terrain_stats(
 	delta: float,
 	in_speed: float,
@@ -326,13 +319,13 @@ func _calculate_terrain_stats(
 		if dash_mult != 0.0 and dash_mult != 1.0:
 			out_dash *= dash_mult
 
-		# GREEN (Launch Pad) - Directly modifies velocity, this is fine to keep as side effect
+		# GREEN (Launch Pad) - this is fine to keep as side effect
 		var launch = tile_data.get_custom_data("launch_force")
 		if launch != 0.0 and is_on_floor():
 			velocity.y = launch
 			jumps_left = 1
 
-		# PURPLE (Teleport) - Side effect logic is fine here too
+		# PURPLE (Teleport) - side effect logic is fine here too
 		var is_teleporter: bool = tile_data.get_custom_data("is_teleporter")
 		if is_teleporter and tile_coords != last_frame_tile_coords and teleport_cooldown_timer <= 0.0:
 			var target_pos = terrain_map.get_teleport_target(tile_coords)
@@ -363,7 +356,6 @@ func _calculate_terrain_stats(
 	
 	last_frame_tile_coords = tile_coords
 	
-	# RETURN the calculated values instead of overwriting the class variables
 	return {"speed": out_speed, "jump": out_jump, "dash": out_dash}
 
 func _platform_modifiers_under_foot() -> Dictionary:
@@ -512,7 +504,6 @@ func _handle_horizontal_movement(delta: float, current_speed: float) -> void:
 		if direction != 0:
 			horizontal_momentum = move_toward(horizontal_momentum, direction * current_speed, accel * delta)
 		else:
-			# Only apply deceleration when no direction is held
 			horizontal_momentum = move_toward(horizontal_momentum, 0.0, decel * delta)
 
 	velocity.x = horizontal_momentum
@@ -552,7 +543,7 @@ func end_dash() -> void:
 
 # COMBAT: MELEE
 func perform_slash() -> void:
-	# Do not allow melee while invincible or on cooldown
+	# Don't allow melee while invincible or on cooldown
 	if not can_attack or is_invincible:
 		return
 		
@@ -687,7 +678,6 @@ func _action_queue_color(color: PaintColor.Colors) -> void:
 		return
 	# Ask the selector to apply/mix the color.
 	if selector.add_color(color):
-		# Only consume from inventory when the selector accepted the color
 		inventory.remove_color(color)
 
 
@@ -760,14 +750,13 @@ func _get_attack_direction() -> Vector2:
 		return Vector2.DOWN
 	return Vector2(facing_dir, 0)
 	
-# --- Hazard helpers ---
 func _is_hazard_node(n: Node) -> bool:
 	return n != null and (n.is_in_group("hazard") or n.is_in_group("water"))
 
 func _check_hazard_contact_and_die() -> void:
 	if is_dying or _respawn_grace_timer > 0.0:
 		return
-	# 1) Any slide collisions with hazard bodies?
+	# Any slide collisions with hazard bodies?
 	for i in range(get_slide_collision_count()):
 		var c: KinematicCollision2D = get_slide_collision(i)
 		var col = c.get_collider()
@@ -775,8 +764,6 @@ func _check_hazard_contact_and_die() -> void:
 			print("Hazard contact (body): ", col.name)
 			_die()
 			return
-#
-	# 2) Overlapping hazard Areas using a small shape around the player (more reliable than point)
 	var shape := CircleShape2D.new()
 	shape.radius = 10.0
 	var sp := PhysicsShapeQueryParameters2D.new()
@@ -825,7 +812,7 @@ func _check_tile_collisions() -> void:
 				if is_spike: 
 					_die()
 
-# # Called by room transitions to register a checkpoint
+# Called by room transitions to register a checkpoint
 func set_room_checkpoint(spawn_pos: Vector2, room_area: Area2D) -> void:
 	if not enable_checkpoints:
 		return

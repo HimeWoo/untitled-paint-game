@@ -21,7 +21,6 @@ var facing_dir: int = -1
 @onready var health_bar: ProgressBar = $HealthBar
 @onready var contact_area: Area2D = $ContactDamageArea
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
-
 @onready var sfx_damage: AudioStreamPlayer2D = $SFX/Damage
 @onready var sfx_death: AudioStreamPlayer2D = $SFX/Death
 @onready var body_collision: CollisionShape2D = $CollisionShape2D
@@ -66,7 +65,6 @@ func _update_health_bar() -> void:
 		ratio = float(hp) / float(stats.max_hp)
 
 	var col: Color
-	# overwritten this part for the aesthetic
 	if ratio <= 0.25:
 		col = Color(1.0, 1.0, 1.0, 1.0)
 	elif ratio <= 0.5:
@@ -191,7 +189,6 @@ func _on_detect_enter(body: Node2D) -> void:
 
 func _on_detect_exit(body: Node2D) -> void:
 	if body == player:
-		# keep moving in the direction player exited
 		var side = sign(body.global_position.x - global_position.x)
 		if side != 0:
 			patrol_dir = int(side)
