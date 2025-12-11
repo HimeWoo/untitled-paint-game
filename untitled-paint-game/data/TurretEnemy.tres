@@ -4,6 +4,7 @@
 
 [resource]
 script = ExtResource("1_563jy")
+max_hp = 30
 enable_patrol = false
 enable_chase = false
 enable_bob = false

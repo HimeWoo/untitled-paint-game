@@ -55,6 +55,7 @@ var coyote_timer: float = 0.0
 @export var dash_jump_window: float = 0.25
 
 var dash_jump_timer: float = 0.0 
+var active_dash_speed: float = 0.0
 
 @export_group("Contact / Dash Grace")
 @export var post_dash_contact_grace: float = 0.25
@@ -455,10 +456,11 @@ func _handle_dash_input(delta: float, current_dash_speed: float) -> void:
 		if dash_direction == 0:
 			dash_direction = facing_dir
 		# print("Dash Direction: ", dash_direction)
-		start_dash()
+		active_dash_speed = current_dash_speed
+		start_dash(active_dash_speed)
 
 	if is_dashing:
-		horizontal_momentum = dash_direction * current_dash_speed
+		horizontal_momentum = dash_direction * active_dash_speed
 		
 		dash_ghost_timer -= delta
 		if dash_ghost_timer <= 0.0:
@@ -517,7 +519,7 @@ func _handle_horizontal_movement(delta: float, current_speed: float) -> void:
 	# After movement, check overlaps/collisions with hazards (nodes in groups: hazard/water/spike)
 	_check_hazard_contact_and_die()
 	
-func start_dash():
+func start_dash(dash_speed_to_use: float):
 	is_dashing = true
 	dash_timer = dash_time
 
@@ -526,7 +528,7 @@ func start_dash():
 
 	sprite.play("dash")
 
-	horizontal_momentum = dash_speed * dash_direction
+	horizontal_momentum = dash_speed_to_use * dash_direction
 
 	await sprite.animation_finished
 	if is_dashing:
@@ -794,7 +796,7 @@ func _die() -> void:
 		_restore_checkpoint()
 	else:
 		is_dying = false
-		get_tree().reload_current_scene()
+		get_tree().call_deferred("reload_current_scene")
 
 
 func _check_tile_collisions() -> void:
@@ -855,6 +857,9 @@ func _restore_checkpoint() -> void:
 	_restore_room_items(_checkpoint_room_rect, _checkpoint_items)
 	_restore_room_platforms(_checkpoint_platforms)
 	_reset_all_pushboxes_to_start()
+	await get_tree().process_frame
+	for pad in get_tree().get_nodes_in_group("pressure_pads"):
+		pad.recheck_pressure()
 	if selector != null and not _checkpoint_selector.is_empty():
 		selector.restore(_checkpoint_selector)
 	# Teleport to checkpoint
@@ -1013,7 +1018,7 @@ func _reset_all_pushboxes_to_start() -> void:
 	var nodes: Array = scene_root.find_children("*", "Pushbox", true, false)
 	for n in nodes:
 		if n is Pushbox:
-			(n as Pushbox).reset_to_start()
+			await (n as Pushbox).reset_to_start()
 
 func _room_rect_global(area: Area2D) -> Rect2:
 	var shape_node: CollisionShape2D = area.get_node_or_null("CollisionShape2D")

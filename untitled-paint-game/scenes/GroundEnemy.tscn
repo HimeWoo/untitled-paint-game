@@ -1,11 +1,28 @@
-[gd_scene load_steps=13 format=3 uid="uid://bsxqk7a26x7o2"]
+[gd_scene load_steps=16 format=3 uid="uid://bsxqk7a26x7o2"]
 
 [ext_resource type="Script" uid="uid://e7xagyljh0qf" path="res://scripts/enemy.gd" id="1_qunq5"]
 [ext_resource type="Resource" uid="uid://ddqsy055qs7i0" path="res://data/GroundEnemy.tres" id="2_qunq5"]
-[ext_resource type="PackedScene" uid="uid://dh6488mkbfq22" path="res://scenes/EnemyProjectile.tscn" id="3_5qxhf"]
+[ext_resource type="Script" uid="uid://cwe5srxob51gp" path="res://scripts/enemy_projectile.gd" id="3_lij6f"]
 [ext_resource type="Texture2D" uid="uid://berth500rujsp" path="res://assets/charas/enemies/snail-def.png" id="4_qunq5"]
+[ext_resource type="Texture2D" uid="uid://b28cg3sl6fts5" path="res://assets/charas/player-projectile.png" id="4_wathw"]
 [ext_resource type="AudioStream" uid="uid://c4nx14576yc0v" path="res://assets/music/enemy_damage.mp3" id="5_5qxhf"]
 [ext_resource type="AudioStream" uid="uid://brlgp5tp8khn7" path="res://assets/music/enemy_death.mp3" id="6_lij6f"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8g8jy"]
+radius = 6.0
+
+[sub_resource type="PackedScene" id="PackedScene_4rn47"]
+_bundled = {
+"conn_count": 0,
+"conns": PackedInt32Array(),
+"editable_instances": [],
+"names": PackedStringArray("EnemyProjectile", "collision_layer", "collision_mask", "script", "Area2D", "Sprite2D", "position", "scale", "texture", "CollisionShape2D", "shape"),
+"node_count": 3,
+"node_paths": [],
+"nodes": PackedInt32Array(-1, -1, 4, 0, -1, 3, 1, 0, 2, 1, 3, 2, 0, 0, 0, 5, 5, -1, 3, 6, 3, 7, 4, 8, 5, 0, 0, 0, 9, 9, -1, 1, 10, 6, 0),
+"variants": [17, 3, ExtResource("3_lij6f"), Vector2(5.9604645e-08, 5.9604645e-08), Vector2(1.3749999, 1.3749999), ExtResource("4_wathw"), SubResource("CircleShape2D_8g8jy")],
+"version": 3
+}
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bj4rl"]
 atlas = ExtResource("4_qunq5")
@@ -41,9 +58,10 @@ size = Vector2(110.00005, 110.00003)
 [node name="GroundEnemy" type="CharacterBody2D"]
 scale = Vector2(0.2, 0.2)
 collision_layer = 4
+collision_mask = 5
 script = ExtResource("1_qunq5")
 stats = ExtResource("2_qunq5")
-projectile_scene = ExtResource("3_5qxhf")
+projectile_scene = SubResource("PackedScene_4rn47")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(-6.0499167, 6.8018513)
