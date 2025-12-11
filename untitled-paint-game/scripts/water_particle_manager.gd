@@ -1,6 +1,6 @@
 extends Node2D
-## High-performance water particle system using Physics2DServer
-## Based on Chevifier's fluid simulation approach
+## Experimental water particle system using Physics2DServer
+## Roughly follows a fluid simulation example I found online [https://github.com/Chevifier/Fluid-Simulation-in-Godot]
 
 @export var particle_texture: Texture2D
 @export var max_water_particles: int = 2000
@@ -15,22 +15,20 @@ const PARTICLE_BOUNCE: float = 0.1
 const SLEEP_THRESHOLD: float = 5.0
 
 # Fluid cohesion/surface tension
-const COHESION_DISTANCE: float = 32.0  # Distance particles attract
-const COHESION_FORCE: float = 400.0    # Strength of attraction
-const PRESSURE_FORCE: float = 600.0    # Push apart when too close
-const BUOYANCY_FORCE_PER_PARTICLE: float = 200.0  # Upward force per overlapping particle
+const COHESION_DISTANCE: float = 32.0
+const COHESION_FORCE: float = 400.0
+const PRESSURE_FORCE: float = 600.0
+const BUOYANCY_FORCE_PER_PARTICLE: float = 200.0 
 
-var water_particles: Array = []  # Array of [RID, RID] pairs (physics body, canvas item)
-var particle_velocities: Array = []  # Track velocities for effects
-var spawn_queue: Array = []  # Queue of particles to spawn
-var player_body: RID = RID()  # Track player for buoyancy
+var water_particles: Array = []
+var particle_velocities: Array = [] 
+var spawn_queue: Array = []
+var player_body: RID = RID() 
 
 func _ready() -> void:
-	# Ensure we have a default texture if none provided
 	if not particle_texture:
 		_create_default_texture()
 	
-	# Find player for buoyancy calculations
 	var player := get_tree().current_scene.get_node_or_null("Player")
 	if player and player is CharacterBody2D:
 		player_body = player.get_rid()
@@ -42,28 +40,19 @@ func spawn_particle(pos: Vector2, velocity: Vector2) -> void:
 	spawn_queue.append([pos, velocity])
 
 func _physics_process(delta: float) -> void:
-	# Spawn queued particles
 	for spawn_data in spawn_queue:
 		_create_particle(spawn_data[0], spawn_data[1])
 	spawn_queue.clear()
 	
-	# Apply cohesion forces between particles
 	_apply_cohesion_forces(delta)
-	
-	# Apply buoyancy to player if in water
 	_apply_player_buoyancy(delta)
-	
-	# Update all particle visuals
 	_update_particle_visuals()
-	
-	# Clean up particles that fall too far
 	_cleanup_particles()
 
 func _create_particle(pos: Vector2, velocity: Vector2) -> void:
 	var ps := PhysicsServer2D
 	var vs := RenderingServer
 	
-	# Create transform
 	var trans := Transform2D()
 	trans.origin = pos
 	
@@ -105,13 +94,13 @@ func _create_particle(pos: Vector2, velocity: Vector2) -> void:
 		rect.size = Vector2(particle_radius * 2, particle_radius * 2)
 		vs.canvas_item_add_texture_rect(canvas_item, rect, particle_texture.get_rid())
 	else:
-		# Draw a simple circle
 		vs.canvas_item_add_circle(canvas_item, Vector2.ZERO, particle_radius, particle_color)
 	
 	# Add to tracking arrays
 	water_particles.append([body, canvas_item])
 	particle_velocities.append(velocity)
 
+# Apply cohesion forces between particles
 func _apply_cohesion_forces(delta: float) -> void:
 	var ps := PhysicsServer2D
 	var particle_count := water_particles.size()
@@ -154,6 +143,7 @@ func _apply_cohesion_forces(delta: float) -> void:
 			cohesion_force *= delta
 			ps.body_apply_central_force(body_i, cohesion_force)
 
+# Apply buoyancy to player if in water
 func _apply_player_buoyancy(delta: float) -> void:
 	if not player_body.is_valid():
 		return
@@ -196,6 +186,8 @@ func _apply_player_buoyancy(delta: float) -> void:
 		var buoyancy := BUOYANCY_FORCE_PER_PARTICLE * overlapping_count
 		player.apply_buoyancy(buoyancy)
 
+
+# Update all particle visuals
 func _update_particle_visuals() -> void:
 	var ps := PhysicsServer2D
 	var vs := RenderingServer
@@ -215,6 +207,8 @@ func _update_particle_visuals() -> void:
 		# Store velocity for potential use
 		particle_velocities[i] = ps.body_get_state(body, PhysicsServer2D.BODY_STATE_LINEAR_VELOCITY)
 
+
+# Clean up particles that fall too far
 func _cleanup_particles() -> void:
 	var ps := PhysicsServer2D
 	var vs := RenderingServer
@@ -251,20 +245,3 @@ func _create_default_texture() -> void:
 				img.set_pixel(x, y, Color(0, 0, 0, 0))
 	
 	particle_texture = ImageTexture.create_from_image(img)
-
-func get_particle_count() -> int:
-	return water_particles.size()
-
-func clear_all_particles() -> void:
-	var ps := PhysicsServer2D
-	var vs := RenderingServer
-	
-	for pair in water_particles:
-		ps.free_rid(pair[0])
-		vs.free_rid(pair[1])
-	
-	water_particles.clear()
-	particle_velocities.clear()
-
-func _exit_tree() -> void:
-	clear_all_particles()

@@ -4,7 +4,7 @@ extends RigidBody2D
 @export var water_friction: float = 0.98
 @export var max_speed: float = 500.0
 @export var settle_threshold: float = 5.0
-@export var buoyancy_force: float = 400.0  # Upward force when player is in water
+@export var buoyancy_force: float = 400.0 # upwards force applied to player
 
 var has_settled: bool = false
 var settled_timer: float = 0.0
@@ -14,12 +14,11 @@ var player_in_water: bool = false
 var overlapping_bodies: Array = []
 
 func _ready() -> void:
-	# Configure as a dynamic physics body - inspired by Chevifier's fluid sim
+	# Configure as a dynamic physics body, based on a fluid sim example
 	gravity_scale = 2.0  # Higher gravity for faster settling like real water
 	linear_damp = 0.1    # Very low damping for fluid movement
-	angular_damp = 5.0   # High angular to reduce spinning
+	angular_damp = 5.0
 	
-	# Set initial velocity
 	linear_velocity = initial_velocity
 	
 	# Enable continuous collision detection for better fluid behavior
@@ -28,12 +27,9 @@ func _ready() -> void:
 	# Make it bounce less and slide more (like water)
 	physics_material_override = PhysicsMaterial.new()
 	physics_material_override.bounce = 0.1  # Very low bounce
-	physics_material_override.friction = 0.0  # Zero friction like in the fluid sim
+	physics_material_override.friction = 0.0  # Zero friction like in fluid sims
 	
-	# Very light mass for fluid-like behavior
-	mass = 0.05
-	
-	# Enable sleeping for performance when stationary
+	mass = 0.05 # super light mass
 	can_sleep = true
 	
 	# Connect signals for detecting player
@@ -41,7 +37,6 @@ func _ready() -> void:
 	body_exited.connect(_on_body_exited)
 
 func _physics_process(delta: float) -> void:
-	# Check for player overlap and apply buoyancy
 	_check_player_interaction()
 	
 	if has_settled:
@@ -107,7 +102,6 @@ func _check_player_interaction() -> void:
 func _settle_in_place() -> void:
 	has_settled = true
 	
-	# Use sleeping mode for performance (from Chevifier's fluid sim)
 	sleeping = true
 	
 	# Convert to static body so other water can rest on it
