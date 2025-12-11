@@ -198,7 +198,7 @@ Github username: `jx24`
 - I created tilesets (many of which are unused) that highlighted which blocks were or weren't paintable.
 - All background elements were painted by me.
 <img height="394" alt="Title screen" src="untitled-paint-game/assets/jason-pics/title-screen.png" />
-<img height="394" alt="Backgrounds" src="untitled-paint-game/assets/jason-pics/backgrounds-example" />
+<img height="394" alt="Backgrounds" src="untitled-paint-game/assets/jason-pics//backgrounds-example.png" />
 <img height="394" alt="Character spritesheet" src="untitled-paint-game/assets/jason-pics/chara-idle.png" />
 
 
