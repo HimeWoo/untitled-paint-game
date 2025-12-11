@@ -15,8 +15,8 @@ func _on_player_hp_changed(current_hp: int, max_hp: int) -> void:
 	bar.max_value = max_hp
 	bar.value = clamp(current_hp, 0, max_hp)
 
-	#if label:
-		#label.text = "HP %d/%d" % [current_hp, max_hp]
+	if label:
+		label.text = "HP %d" % [current_hp]
 
 	# Health bar
 	var ratio := 0.0
