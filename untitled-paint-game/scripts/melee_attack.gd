@@ -104,13 +104,13 @@ func _pull_pushbox(box: Pushbox) -> void:
 		return
 	hit_objects.append(box)
 	
-	# Get direction from box to player (pull towards player)
+	# get direction from box to player
 	var pull_dir = (owner_body.global_position - box.global_position).normalized()
 	
-	# Create pull force with upward component for "jump" effect
+	# pull force w upward component
 	var pull_force = Vector2(
 		pull_dir.x * pushbox_pull_horizontal,
-		pushbox_pull_vertical  # Negative = upward
+		pushbox_pull_vertical 
 	)
 	
 	# Unfreeze and apply the pull

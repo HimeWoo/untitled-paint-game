@@ -193,25 +193,45 @@ Github username: `jx24`
 ## Main Roles ##
 **Animation and Visuals**
 
-1. *Visual Style and Assets* - Nearly all of the assets (95%), sprites, and illustrations in the game were created by me with the exception of the inventory and UI, much of which was done by Alex. Otherwise, using Photoshop CS6, I created assets with a pixelated art style inspired by some of our favorite games, such as Rain World, Hollow Knight, and Hyper Light Drifter. We wanted color to pop so I made the call to make the rest of the world monochrome. All of the assets and illustrations can be found in this [Assets Folder](https://github.com/HimeWoo/untitled-paint-game/tree/a692f7e20e49cf7854cffb63fdc69ca3e223e444/untitled-paint-game/assets), sorted into such folders as charas, tiles, and bgs. 
-- I created all characters, AKA the player and enemies, as well as animation sheets for each.
+*Visual Style and Assets* - Nearly all of the assets (95%), sprites, and illustrations in the game were created by me with the exception of the inventory and UI, much of which was done by Alex (by the end, the only visual assets I didn't make were the paint orbs and the upper left UI). Otherwise, using Photoshop CS6, I created assets with a pixelated art style inspired by some of our favorite games, such as Rain World, Hollow Knight, and Hyper Light Drifter. It was a lengthy process but I wanted to make the game as polished and atmospheric as possible. We wanted color to pop so I made the call to make the rest of the world monochrome. All of the assets and illustrations can be found in this [Assets Folder](https://github.com/HimeWoo/untitled-paint-game/tree/a692f7e20e49cf7854cffb63fdc69ca3e223e444/untitled-paint-game/assets), sorted into such folders as charas, tiles, and bgs. 
+- I created all characters, AKA the player and enemies, as well as animation sheets for each. Animations were done using Photoshop's primitive built-in timeline tool. Atticus helped a lot with figuring out hitboxes and framerates.
 - I created tilesets (many of which are unused) that highlighted which blocks were or weren't paintable.
 - I created all backgrounds, background elements, and misc elements such as the keys in the UI, the boxes and pressure plates, etc.
-<img height="394" alt="Title screen" src="untitled-paint-game/assets/jason-pics/title-screen.png" />
-<img height="394" alt="Backgrounds" src="untitled-paint-game/assets/jason-pics//backgrounds-example.png" />
-<img height="394" alt="Character spritesheet" src="untitled-paint-game/assets/jason-pics/chara-idle.png" />
-<img height="394" alt="Tilesets" src="untitled-paint-game/assets/jason-pics/tiles-example.png" />
+- I avoided open source artwork because I wanted the art to be wholly our own.
+<img height="250" alt="Title screen" src="untitled-paint-game/assets/jason-pics/title-screen.png" />
+<img height="250" alt="Backgrounds" src="untitled-paint-game/assets/jason-pics//backgrounds-example.png" />
+<img height="250" alt="Character spritesheet" src="untitled-paint-game/assets/jason-pics/chara-idle.png" />
+<img height="250" alt="Tilesets" src="untitled-paint-game/assets/jason-pics/tiles-example.png" />
 (Some tilesets I made; the one on the left constituted the majority of our game, while the bricks on the right were unused)
-<img height="394" alt="Early concept art" src="untitled-paint-game/assets/jason-pics/sketch-of-paintguy.jpg" />
+
+<img height="250" alt="Early concept art" src="untitled-paint-game/assets/jason-pics/sketch-of-paintguy.jpg" />
 (Concept sketches I did as we solidified the setting and concept)
 
+*Title and Menu Pages* - Atticus created the original menu and taught me the logic, so I used that to create the title screen (with the "press any key to play") as well as the main menu, which also leads to a Controls and a Credits page that I designed. I wanted to give the game a polished yet simple and somewhat sci-fi feel, so I took inspiration from games like Nier: Automata and MGSV for the menus (small palettes, blocky shapes, high contrast, readable font).
 
 ## Sub-Roles ##
 **Technical Artist**
+*Parallaxing* - In the middle of the game, there is a section where we wanted to immerse the player in the environment and atmosphere, so I decided to create a long scrolling parallax section. In general, the background utilizes Parallax2D's to create a dynamic and alive-feeling world. An image of the section can be seen below.
+
+<img height="250" alt="Parallax sequence" src="untitled-paint-game/assets/jason-pics/parallax-scene" />
+This section involves several Parallax2D with textures I created scrolling at different speeds to give a sense of depth, while the sky in the far distance is static. There are also two layers of autoscrolling dust I implemented to make the world feel windy, which ignore the camera and simply parallax forever.
+
+*Dash Ghost Effect* - [DashEffect.gd can be found here.](https://github.com/HimeWoo/untitled-paint-game/blob/2eb0759714877fb430534177c3a1516142e84302/untitled-paint-game/scripts/dash_effect.gd). I implemented a very simple visual effect that made dashing look a lot cooler and feel more responsive. In the player controller, I also wrote this [bit of code](https://github.com/HimeWoo/untitled-paint-game/blob/2eb0759714877fb430534177c3a1516142e84302/untitled-paint-game/scripts/player.gd#L470) that calls the effect. Resultantly, as the player dashes, they leave behind fading afterimages.
 
 ## Other Contributions ##
 **Quality of Life**
+I made several small changes to the codebase, aimed at improving quality-of-life and general gameplay experience:
+- [Direction Restriction during Slash](https://github.com/HimeWoo/untitled-paint-game/blob/2eb0759714877fb430534177c3a1516142e84302/untitled-paint-game/scripts/player.gd#L382) - Minor fix that prevented the player from flipping direction mid-attack. Previously, you could start a slash and spin to face behind you mid-slash. This small conditional removed that.
+- [Coyote Time](https://github.com/HimeWoo/untitled-paint-game/blob/2eb0759714877fb430534177c3a1516142e84302/untitled-paint-game/scripts/player.gd#L413) - Inspired by games like Celeste, I added a coyote time feature to give players a bit of leeway during platforming. In the `_handle_jump_and_gravity()` function, I wrote a few lines involving `coyote_timer` that gave the user a 0.15 sec threshold after leaving a tile to still jump.
+- [Box Slashing](https://github.com/HimeWoo/untitled-paint-game/blob/2eb0759714877fb430534177c3a1516142e84302/untitled-paint-game/scripts/melee_attack.gd#L102) - This was a feature added for us as devs to prevent having to restart the game when we pushed a box against a wall, but we found it useful (and humorous) enough to keep. I created a `_pull_pushbox()` function alongside a couple export variables to make it so that, when hit by the player, a pushbox jumps up and moves towards the player. It's definitely useful for un-stucking boxes, though it's a bit janky.
+- [Hollow Knight Pogo Bounce](https://github.com/HimeWoo/untitled-paint-game/blob/2eb0759714877fb430534177c3a1516142e84302/untitled-paint-game/scripts/player.gd#L585) - In MeleeAttack.gd, I added a [tiny bit of code during hit registration](https://github.com/HimeWoo/untitled-paint-game/blob/2eb0759714877fb430534177c3a1516142e84302/untitled-paint-game/scripts/melee_attack.gd#L97) that directly calls the `pogo_bounce()` function in the player. The code is very simple but allowed for the player to deal with Snail enemies a lot easier, and it felt fun to play around with.
+- *Modifications to Enemies* - These were minimal but pretty impactful changes. With playtesting, I realized it was a good idea to (A) have enemies collide with one another and (B) have the normal Mosquito enemies' projectiles vanish upon hitting a surface (the turrets' projectiles could still pass through). These made gameplay feel more fair.
+
 **Map Design**
+I also was very involved in map design, not only in creating backgrounds fitted to the layouts others made, but also in completing the Demo world. I was tasked with completing the world for this submission. I tried to make the regions non-linear to some degree and showcase our different features in a variety of combat, parkour, and puzzle situations, then ending in a gate that requires players to experience both paths of a fork before opening. The screenshot below shows the main "metroidvania" region that Atticus started, and that I finished building the rest of the rooms for.
+<img height="250" alt="Early concept art" src="untitled-paint-game/assets/jason-pics/metroidvania.png" />
+
+
 
 # Adrean Cajigas
 
