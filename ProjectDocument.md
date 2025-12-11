@@ -216,17 +216,22 @@ Github username: `jx24`
 <img height="250" alt="Parallax sequence" src="untitled-paint-game/assets/jason-pics/parallax-scene" />
 This section involves several Parallax2D with textures I created scrolling at different speeds to give a sense of depth, while the sky in the far distance is static. There are also two layers of autoscrolling dust I implemented to make the world feel windy, which ignore the camera and simply parallax forever.
 
+*Dash Ghost Effect* - [DashEffect.gd can be found here.](https://github.com/HimeWoo/untitled-paint-game/blob/2eb0759714877fb430534177c3a1516142e84302/untitled-paint-game/scripts/dash_effect.gd). I implemented a very simple visual effect that made dashing look a lot cooler and feel more responsive. In the player controller, I also wrote this [bit of code](https://github.com/HimeWoo/untitled-paint-game/blob/2eb0759714877fb430534177c3a1516142e84302/untitled-paint-game/scripts/player.gd#L470) that calls the effect. Resultantly, as the player dashes, they leave behind fading afterimages.
+
 ## Other Contributions ##
 **Quality of Life**
-I made several changes to the codebase aimed to improve quality-of-life and general gameplay experience.
-[Direction Restriction during Slash]()
-[Box Slashing]
-[Dash Jump Window]
-[Dash Ghost Effect]
-[Hollow Knight Pogo Bounce]
-*Modifications to Enemies* - These were minimal but pretty impactful changes. With playtesting, I realized it was a good idea to (A) have enemies collide with one another and (B) have the normal Mosquito enemies' projectiles vanish upon hitting a surface (the turrets' projectiles could still pass through). These made gameplay feel more fair.
+I made several small changes to the codebase, aimed at improving quality-of-life and general gameplay experience:
+- [Direction Restriction during Slash](https://github.com/HimeWoo/untitled-paint-game/blob/2eb0759714877fb430534177c3a1516142e84302/untitled-paint-game/scripts/player.gd#L382) - Minor fix that prevented the player from flipping direction mid-attack. Previously, you could start a slash and spin to face behind you mid-slash. This small conditional removed that.
+- [Coyote Time](https://github.com/HimeWoo/untitled-paint-game/blob/2eb0759714877fb430534177c3a1516142e84302/untitled-paint-game/scripts/player.gd#L413) - Inspired by games like Celeste, I added a coyote time feature to give players a bit of leeway during platforming. In the `_handle_jump_and_gravity()` function, I wrote a few lines involving `coyote_timer` that gave the user a 0.15 sec threshold after leaving a tile to still jump.
+- [Box Slashing](https://github.com/HimeWoo/untitled-paint-game/blob/2eb0759714877fb430534177c3a1516142e84302/untitled-paint-game/scripts/melee_attack.gd#L102) - This was a feature added for us as devs to prevent having to restart the game when we pushed a box against a wall, but we found it useful (and humorous) enough to keep. I created a `_pull_pushbox()` function alongside a couple export variables to make it so that, when hit by the player, a pushbox jumps up and moves towards the player. It's definitely useful for un-stucking boxes, though it's a bit janky.
+- [Hollow Knight Pogo Bounce](https://github.com/HimeWoo/untitled-paint-game/blob/2eb0759714877fb430534177c3a1516142e84302/untitled-paint-game/scripts/player.gd#L585) - In MeleeAttack.gd, I added a [tiny bit of code during hit registration](https://github.com/HimeWoo/untitled-paint-game/blob/2eb0759714877fb430534177c3a1516142e84302/untitled-paint-game/scripts/melee_attack.gd#L97) that directly calls the `pogo_bounce()` function in the player. The code is very simple but allowed for the player to deal with Snail enemies a lot easier, and it felt fun to play around with.
+- *Modifications to Enemies* - These were minimal but pretty impactful changes. With playtesting, I realized it was a good idea to (A) have enemies collide with one another and (B) have the normal Mosquito enemies' projectiles vanish upon hitting a surface (the turrets' projectiles could still pass through). These made gameplay feel more fair.
 
 **Map Design**
+I also was very involved in map design, not only in creating backgrounds fitted to the layouts others made, but also in completing the Demo world. I was tasked with completing the world for this submission. I tried to make the regions non-linear to some degree and showcase our different features in a variety of combat, parkour, and puzzle situations, then ending in a gate that requires players to experience both paths of a fork before opening. The screenshot below shows the main "metroidvania" region that Atticus started, and that I finished building the rest of the rooms for.
+<img height="250" alt="Early concept art" src="untitled-paint-game/assets/jason-pics/metroidvania.png" />
+
+
 
 # Adrean Cajigas
 
