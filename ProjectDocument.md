@@ -4,7 +4,7 @@
 
 **A paragraph-length pitch for your game.**
 
-## Project Resources
+## Project Resources ##
 
 [Web-playable version of your game.](https://jx24.itch.io/untitled-paint-game)
 [Trailor](https://youtube.com)
@@ -60,9 +60,11 @@ Here is an example:
 You should replay any **bold text** with your relevant information. Liberally use the template when necessary and appropriate.
 
 Add addition contributions int he Other Contributions section.
+
 # Long Phanguyen
 ## Sub-Roles ##
 ## Other Contributions ##
+
 # Atticus Wong
 ## Main Roles ##
 Game Logic/Player Logic
@@ -75,13 +77,36 @@ Game Logic/Player Logic
 1. Animations - I implemented a bunch of the assets created by jason for QOL improvements, specifically animations for the [player](https://github.com/HimeWoo/untitled-paint-game/blob/3b529450887376ad92005a401f9b101cc918af89/untitled-paint-game/scenes/player.tscn#L237-L240) and enemies ([ground](https://github.com/HimeWoo/untitled-paint-game/blob/3b529450887376ad92005a401f9b101cc918af89/untitled-paint-game/scenes/GroundEnemy.tscn#L48-L51) and [floating](https://github.com/HimeWoo/untitled-paint-game/blob/3b529450887376ad92005a401f9b101cc918af89/untitled-paint-game/scenes/FloatingEnemy.tscn#L48-L51) enemies)
 2. World and level designing - I worked alongside Long to build some of the rooms for the metroidvania feel that we were going for. I built and design 6 of the rooms using the components built by this goated team (like camera transitions and tiles).
 ![Atticus level design](untitled-paint-game/assets/Atticus-level-design.png)
+
 ## Other Contributions ##
-# Sandeep
+
+# Sandeep Reehal 
+
+Github username: `reehals`
+
+## Main Roles ##
+
+**Movement/Physics and Environment Design**
+
+1. [Player movement and dash logic](https://github.com/HimeWoo/untitled-paint-game/blob/c76cd35bcc509fcfab649b6e0837139f5699a44f/untitled-paint-game/scripts/player.gd#L9-L246): Implemented momentum-based movement and physics, replacing simple constant-speed motion with acceleration/deceleration and dash carry-over, distinct ground/air/dash slowdown rates, and face-direction dashing with mid-dash jumps (while disabling midair dashes) so the player feels weighty but responsive for puzzle platforming. Though this has since been modified to use modifiers that were provided by the tilemap.
+
+2. [Checkpoint and restore logic](https://github.com/HimeWoo/untitled-paint-game/blob/096e4f170f93cc928ea5833059ced604f53ff269/untitled-paint-game/scripts/player.gd#L820-L940): Built a checkpoint system integrated into the existing room-transition framework, restoring player health, inventory, paint selector, paint pickups and placements, pushable block positions, and platform paint states/motion on death.
+
+3. [Platform behavior](https://github.com/HimeWoo/untitled-paint-game/blob/096e4f170f93cc928ea5833059ced604f53ff269/untitled-paint-game/scripts/platform.gd) and [Platform paintable logic](https://github.com/HimeWoo/untitled-paint-game/blob/096e4f170f93cc928ea5833059ced604f53ff269/untitled-paint-game/scripts/platform_paintable.gd): Added configurable moving platforms with multiple movement modes (fixed paths, wall-collide, smart return, vertical, go-to-target) and support for enabling platform motion when painted yellow.
+
+4. [Hazard and death handling](https://github.com/HimeWoo/untitled-paint-game/blob/096e4f170f93cc928ea5833059ced604f53ff269/untitled-paint-game/scripts/player.gd#L640-L760) and [Tile hazard data and effects](https://github.com/HimeWoo/untitled-paint-game/blob/096e4f170f93cc928ea5833059ced604f53ff269/untitled-paint-game/scripts/paintable.gd) Introduced spike and water hazards that instantly kill the player on contact, tying into the same death/respawn flow as other hazards, and helped migrate spike logic to be tile-based via custom data.
+
+5. [Red/orange paint usage in player](https://github.com/HimeWoo/untitled-paint-game/blob/096e4f170f93cc928ea5833059ced604f53ff269/untitled-paint-game/scripts/player.gd#L580-L740) and [Orange wave script](https://github.com/HimeWoo/untitled-paint-game/blob/096e4f170f93cc928ea5833059ced604f53ff269/untitled-paint-game/scripts/orange_wave.gd): Reworked red paint to behave as a ranged projectile attack, and redesigned orange paint into a ground-hugging wave that paints orange tiles in its path to grant a consistent speed boost instead of using conveyor-style physics.
+
 ## Sub-Roles ##
 ## Other Contributions ##
+
+1. Helped deploy the project onto itch.io with GitHub Actions actions.
+
 # Jason Xie
 ## Sub-Roles ##
 ## Other Contributions ##
+
 # Adrean Cajigas
 
 ## Main Roles: Game Logic | Combat, Enemies, Systems, and Player Experience ##
