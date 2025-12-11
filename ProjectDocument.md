@@ -1,16 +1,17 @@
 # Untitled Paint Game #
 
 ## Summary ##
-A color based metroidvania style puzzle game, where you have to use colors, their special effects and their combined effects to solve puzzles, platforming puzzles, and defeat enemies. You have to travel inbetween different rooms and sometimes even have to backtrack to make progress.  While being mechanic and puzzle based, it creates an environment for everybody to have their enjoyment.
+- A color based metroidvania style puzzle game, where you have to use colors, their special effects and their combined effects to solve puzzles, platforming puzzles, and defeat enemies. You have to travel inbetween different rooms and sometimes even have to backtrack to make progress.  While being mechanic and puzzle based, it creates an environment for everybody to have their enjoyment.
 
-**A paragraph-length pitch for your game.**
-You find yourself in a desolate land, where all color was eradicated from all your most loved things.  Your job as a painter is to traverse this deserted city to see what caused it, and to use the tools at your disposal to get through anything in your way, whether that be puzzles or enemies.  You learn that these colors that you know of so fondly have developed special effects that might aid you towards your goal of recovering color to the rest of the world.  You progress through this large and eerie metroidvania style game, solving puzzles, platforming and slaying enemies along the way.
+## Paragraph Proposal ##
+
+- You find yourself in a desolate land, where all color was eradicated from all your most loved things.  Your job as a painter is to traverse this deserted city to see what caused it, and to use the tools at your disposal to get through anything in your way, whether that be puzzles or enemies.  You learn that these colors that you know of so fondly have developed special effects that might aid you towards your goal of recovering color to the rest of the world.  You progress through this large and eerie metroidvania style game, solving puzzles, platforming and slaying enemies along the way.
 ## Project Resources ##
 
-[Web-playable version of your game.](https://jx24.itch.io/untitled-paint-game)
-[Trailor](https://youtube.com)
-[Press Kit](https://dopresskit.com/)
-[Proposal](https://docs.google.com/document/d/19xoqTyzlg7cBafAxgOEeZynd305ouQaau-FxPLQ7cZo/edit?usp=sharing)
+- [Web-playable version of your game.](https://jx24.itch.io/untitled-paint-game)
+- [Trailor](https://youtube.com)
+- [Press Kit](https://dopresskit.com/)
+- [Proposal](https://docs.google.com/document/d/19xoqTyzlg7cBafAxgOEeZynd305ouQaau-FxPLQ7cZo/edit?usp=sharing)
 
 ## Gameplay Explanation ##
 | Action | Key(s) |
