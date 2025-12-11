@@ -118,7 +118,7 @@ Github username: `reehals`
 
 ### Overview
 
-My main responsibility was to design and implement the core game logic: how the player and enemies move, attack, take damage, and interact with the world. I also owned the knockback system, collision/physics behavior, paint interactions on tiles and platforms, and the health/respawn flow. My goal was to build a combat system that is predictable for players when they attack/take damage, scalable for new enemies to be encountered, and to handle edge cases on how the player's dashes and melee attacks affect the gameplay. 
+My main responsibility was to design and implement the combat game logic: how the player and enemies move, attack, take damage, and interact with the world. I also worked on the knockback system, collision/physics behavior, paint interactions on tiles and platforms, and the health/respawn flow. My goal was to build enemies that are predictable for players when they attack/take damage, scalable for new enemies to be encountered, and to handle edge cases on how the player's dashes and melee attacks affect the gameplay. 
 
 ---
 
@@ -128,7 +128,7 @@ My main responsibility was to design and implement the core game logic: how the 
 
 **Files:** `player.gd`, `MeleeAttack.gd`, `enemy_stats.gd`, `enemy.gd`, enemy scenes
 
-To avoid hard-coding enemy behavior, I moved all configurable parameters into `EnemyStats` resources:
+To avoid hard-coding the same enemy behavior, I moved all of their similar attributes into the `EnemyStats` resources:
 
 <img width="397" height="189" alt="Screenshot 2025-12-10 at 5 14 21 PM" src="https://github.com/user-attachments/assets/5d2b922b-4534-40ce-a786-00093a0e4fe4" />
 
@@ -146,7 +146,7 @@ In `enemy.gd`, I then wrote a single auto-target script that reads those stats a
   - Spawns `projectile_scene` and initializes direction/homing using `EnemyProjectile.gd`.
 - **Grounded vs floating:** grounded enemies zero out vertical movement (`is_grounded`) so they don't drift, while floating enemies are allowed to bob and slide.
 
-This gives us a "factory" model: new enemy types (turrets, floating shooters, walkers, hybrids) are created by making new `.tres` resources and scenes, not by duplicating logic.
+This essentially gives us a blueprint where new enemy types (turrets, floating shooters, walkers, hybrids) are created by making new `.tres` resources instead of duplicating the same logic.
 
 
 <img width="866" height="248" alt="Screenshot 2025-12-10 at 5 05 43 PM" src="https://github.com/user-attachments/assets/a0865176-01ab-42c6-aa56-ec7e169d7f83" />
@@ -179,7 +179,7 @@ This gives us a "factory" model: new enemy types (turrets, floating shooters, wa
 
 **Files:** `enemy.gd`, `enemy_stats.gd`
 
-I rewrote the enemy damage handling to be consistent and extensible:
+I rewrote the enemy damage handling to be more consistent and intuitive:
 
 - **`apply_damage(amount, knockback)`:**
   - Early-outs if `is_dying` to avoid double-death bugs.
@@ -197,7 +197,7 @@ I rewrote the enemy damage handling to be consistent and extensible:
 <img width="413" height="216" alt="Screenshot 2025-12-10 at 5 26 30 PM" src="https://github.com/user-attachments/assets/7d22508a-facb-4cd7-99db-d62443f39f25" />
 
 
-This gives clean, predictable enemy destruction and makes it easy to bolt on more behavior (loot, animations, effects) later.
+I wanted to streamline how the enemy behaves, and it would make my life easier when I wanted to implement more elements to it, such as loot or other animation effects.
 
 ---
 
@@ -205,7 +205,7 @@ This gives clean, predictable enemy destruction and makes it easy to bolt on mor
 
 **Files:** `player.gd`, `enemy.gd`, `EnemyProjectile.gd`, `PlayerProjectile.gd`
 
-I focused heavily on avoiding "cheap" hits and making damage rules consistent:
+I wanted to avoid those frustrating "cheap hits" and make damage rules more fun:
 
 - **Contact damage:**
   - In `enemy.gd`, `_on_contact_body_entered` only damages bodies in the player group and uses a direction-based knockback.
@@ -232,7 +232,7 @@ I focused heavily on avoiding "cheap" hits and making damage rules consistent:
 <img width="246" height="161" alt="Screenshot 2025-12-10 at 5 31 50 PM" src="https://github.com/user-attachments/assets/c1bef06f-c6c9-4649-86ad-792377615fc7" />
 <img width="297" height="133" alt="Screenshot 2025-12-10 at 5 34 51 PM" src="https://github.com/user-attachments/assets/40e6993b-33fc-48e1-ad84-0367b8cdb937" />
 
-These rules make combat feel fair: the player understands why they were hit and has clear tools (dash, invincibility, spacing) to avoid damage.
+These rules make combat feel much fairer by helping the player understand why they were hit and what they can do (dash, invincibility, spacing) to avoid taking more damage.
 
 ---
 
@@ -240,9 +240,9 @@ These rules make combat feel fair: the player understands why they were hit and 
 
 **Files:** `player.gd`, `enemy.gd`, `MeleeAttack.gd`, projectile scripts
 
-To get satisfying combat feedback, I rewrote knockback logic:
+To get a nicer combat feedback, I also rewrote the knockback logic:
 
-- Introduced exported knockback strengths (`melee_knockback_force`, `stats.contact_knockback_force`, projectile knockback) so each interaction can be tuned independently.
+- Introduced exported knockback strengths (`melee_knockback_force`, `stats.contact_knockback_force`, projectile knockback) so each interaction can be tuned without depending on each other.
 
 - **Melee:**
   - Computes knockback relative to `_attack_dir` (left/right/up/down).
@@ -259,8 +259,7 @@ To get satisfying combat feedback, I rewrote knockback logic:
 <img width="165" height="143" alt="Screenshot 2025-12-10 at 5 34 03 PM" src="https://github.com/user-attachments/assets/54b0619e-aa9a-45d9-8964-b42d522090a8" />
 <img width="161" height="83" alt="Screenshot 2025-12-10 at 5 33 01 PM" src="https://github.com/user-attachments/assets/b0ddae72-659f-45b6-ad87-717ebdda1382" />
 
-
-The result is a reusable knockback pipeline shared across all damage sources, with parameters that can be tuned without refactoring code.
+As you can see, this makes the gameplay a lot more reusable, and each parameter can be tuned without having to dig inside the codebase itself. 
 
 ---
 
@@ -268,7 +267,7 @@ The result is a reusable knockback pipeline shared across all damage sources, wi
 
 **Files:** physics layer/mask settings, `player.gd`, `enemy.gd`, projectile scenes, `MeleeAttack.gd`, world scenes
 
-To prevent unintended interactions, I helped define and enforce a clear collision-layer strategy:
+To prevent unintended interactions in the world, I helped define a simple collision-layer strategy:
 
 - Defined named physics layers for:
   - **Layer 1:** World
@@ -288,7 +287,7 @@ To prevent unintended interactions, I helped define and enforce a clear collisio
   - Detection areas (`DetectionArea`, contact damage areas, melee areas) only monitor the relevant bodies.
   - Paintable platforms are detected by the player's terrain queries but don't interfere with regular movement collisions.
 
-This reduced a large class of bugs (projectiles hitting the wrong things, melee hitting player, detection areas blocking movement) and made future additions safer.
+This reduced a large class of bugs (projectiles hitting the wrong things, melee hitting player, detection areas blocking movement) and made future additions easier to expand on.
 
 <img width="614" height="232" alt="Screenshot 2025-12-10 at 4 55 35 PM" src="https://github.com/user-attachments/assets/3b88e5a6-6b80-49e7-9a45-c77428eacf26" />
 
@@ -300,7 +299,7 @@ This reduced a large class of bugs (projectiles hitting the wrong things, melee 
 **Role:** Game Sound Design (secondary)  
 **Key files:** `player.gd`, `enemy.gd`, SFX nodes in `Player.tscn` and enemy scenes
 
-Although my main focus was game logic, I also implemented the core sound design architecture and all gameplay-triggered SFX.
+Although my main focus was game logic, I also implemented the sound design architecture and all gameplay-triggered SFX.
 
 ---
 
@@ -327,7 +326,7 @@ Then I wired sound playback to precise gameplay events in `player.gd`:
 - **Melee** – `perform_slash()` plays `sfx_melee` when the slash is triggered.
 - **Shoot** – `_shoot_projectile()` plays `sfx_shoot` when a projectile is spawned.
 - **Damage** – `apply_damage()` plays `sfx_damage` exactly when HP is reduced.
-- **Death** – `_die()` plays `sfx_death` and ensures respawn/scene reload respects the audio.
+- **Death** – `_die()` plays `sfx_death` and respawn/scene reload activates the audio.
 - **Paint Pickup** – centralized in `play_paint_pickup_sfx()` and hooked into paint pickup events so every inventory paint pickup feels responsive.
 
 <img width="229" height="494" alt="Screenshot 2025-12-10 at 4 54 22 PM" src="https://github.com/user-attachments/assets/6685f84e-7abf-4b3e-a38d-c7022662e164" />
@@ -366,7 +365,7 @@ Key improvements I made for smoother feel and fewer frustrating edge cases:
   - Added a `dash_decel` override during dash wind-down.
 
 - **Projectile despawn logic:**
-  - Ensured both player and enemy projectiles despawn cleanly on world collision or after hitting a target.
+  - Made sure both player and enemy projectiles despawn cleanly on world collision or after hitting a target.
 
 Together, these changes make movement feel responsive while keeping the physics system stable.
 
@@ -376,7 +375,7 @@ Together, these changes make movement feel responsive while keeping the physics 
 
 **Files:** `player.gd`, `HealthBar.gd`, UI scene (Interface → TopLeft → HealthBar)
 
-I implemented a responsive player health UI and ensured it integrates correctly with the respawn system:
+I implemented a responsive player health UI and integrated it with the respawn system:
 
 - **Health model:**
   - `max_hp` and `current_hp` defined in `player.gd`.
