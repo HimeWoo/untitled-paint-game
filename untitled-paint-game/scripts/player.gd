@@ -1018,7 +1018,8 @@ func _reset_all_pushboxes_to_start() -> void:
 	var nodes: Array = scene_root.find_children("*", "Pushbox", true, false)
 	for n in nodes:
 		if n is Pushbox:
-			await (n as Pushbox).reset_to_start()
+			if n.reset_num == 0:
+				await (n as Pushbox).reset_to_start()
 
 func _room_rect_global(area: Area2D) -> Rect2:
 	var shape_node: CollisionShape2D = area.get_node_or_null("CollisionShape2D")

@@ -2,6 +2,7 @@ extends RigidBody2D
 class_name Pushbox
 
 @export var required_velocity: float = 130.0
+@export var reset_num: int = 0
 var start_position: Vector2
 
 func _ready():
@@ -11,7 +12,8 @@ func _ready():
 	freeze = false  
 	sleeping = false
 	can_sleep = false 
-	add_to_group("pushboxes")
+	if(reset_num == 0):
+		add_to_group("pushboxes")
 
 func attempt_push(pusher_velocity: Vector2):
 	var current_speed = pusher_velocity.length()
