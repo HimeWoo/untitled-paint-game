@@ -1,10 +1,10 @@
-[gd_scene load_steps=104 format=4 uid="uid://cqqs3koshw1te"]
+[gd_scene load_steps=105 format=4 uid="uid://cqqs3koshw1te"]
 
 [ext_resource type="PackedScene" uid="uid://b3rae3dafdwir" path="res://scenes/player.tscn" id="1_32lhk"]
 [ext_resource type="Script" uid="uid://bq1gec2kakrsi" path="res://scripts/world-bg.gd" id="1_aqlsr"]
 [ext_resource type="TileSet" uid="uid://cvaryx1sf0cl5" path="res://assets/tiles/tiles.tres" id="2_nthub"]
-[ext_resource type="Script" uid="uid://gv6nyjmp4ovt" path="res://scripts/paintable.gd" id="3_30fn3"]
-[ext_resource type="Script" uid="uid://kudiuvlc2ftp" path="res://scripts/camera.gd" id="4_7c4bj"]
+[ext_resource type="Script" path="res://scripts/paintable.gd" id="3_30fn3"]
+[ext_resource type="Script" path="res://scripts/camera.gd" id="4_7c4bj"]
 [ext_resource type="PackedScene" uid="uid://bco8vv41h18bo" path="res://scenes/items/blue_paint.tscn" id="4_d1c63"]
 [ext_resource type="PackedScene" uid="uid://byodqxwxmkf75" path="res://scenes/platform.tscn" id="5_0uv0p"]
 [ext_resource type="PackedScene" uid="uid://iydhjgar5iis" path="res://scenes/items/yellow_paint.tscn" id="6_b3faq"]
@@ -36,6 +36,7 @@
 [ext_resource type="Texture2D" uid="uid://5bqbq3uajod4" path="res://assets/bgs/bg-side-spice.png" id="22_1w2qq"]
 [ext_resource type="Texture2D" uid="uid://bmwijlasowlnf" path="res://assets/bgs/hints/hint-yellow_dash.png" id="22_agajo"]
 [ext_resource type="Texture2D" uid="uid://cb0wl6t3qw1hk" path="res://assets/bgs/bg-para-city3.png" id="22_uni40"]
+[ext_resource type="Texture2D" uid="uid://bn3u787l1gqa1" path="res://assets/bgs/bg-end.png" id="22_yd118"]
 [ext_resource type="Texture2D" uid="uid://kfkw5cr0l0uj" path="res://assets/bgs/hints/hint-red.png" id="23_agajo"]
 [ext_resource type="Texture2D" uid="uid://d0r2h01swsdrk" path="res://assets/bgs/hints/hint-purp.png" id="24_2pad8"]
 [ext_resource type="Texture2D" uid="uid://bqx1xy4d2dnvu" path="res://assets/bgs/hints/hint-green.png" id="25_e4yt5"]
@@ -1217,7 +1218,7 @@ offset = Vector2(354, 315)
 
 [node name="Sprite2D12" type="Sprite2D" parent="Map BGs"]
 position = Vector2(7518, -503)
-texture = ExtResource("21_1bdwf")
+texture = ExtResource("22_yd118")
 offset = Vector2(354, 315)
 
 [node name="Sprite2D8" type="Sprite2D" parent="Map BGs"]
