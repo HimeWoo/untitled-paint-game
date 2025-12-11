@@ -352,16 +352,6 @@ And connected them in `enemy.gd`:
 
 ---
 
-### 3. Sound Design Goals
-
-The sound system is:
-
-- **Event-driven** – sounds are triggered from logical game events (jump success, damage application, death, painting) rather than from arbitrary animation frames.
-- **Modular** – adding new SFX is as simple as dropping an `AudioStreamPlayer2D` in the SFX container and calling `.play()` at the right event.
-- **Consistent across entities** – both the player and enemies use similar patterns (damage/death hooks), making future expansion straightforward.
-
----
-
 ## Other Contributions ##
 
 ### Physics & Collision Improvements
@@ -385,7 +375,7 @@ Together, these changes make movement feel responsive while keeping the physics 
 
 ---
 
-### 5. Health Bar UI, HP Logic, and Respawn
+### Health Bar UI, HP Logic, and Respawn
 
 **Files:** `player.gd`, `HealthBar.gd`, UI scene (Interface → TopLeft → HealthBar)
 
