@@ -147,7 +147,6 @@ Github username: `reehals`
 ## Demos ##
 
 **Checkpoint and Hazard Demo**
-
 <video src="https://github.com/user-attachments/assets/4f183253-e241-453d-9e1e-353a99f4b7ab" controls width="640">
 Checkpoint and Hazard Demo
 </video>
@@ -155,6 +154,11 @@ Checkpoint and Hazard Demo
 **Platform and Paintable Platform Demo**
 <video src="https://github.com/user-attachments/assets/70086129-f7f0-46e3-895b-0532015db0be" controls width="640">
 Platform and Paintable Platform Demo
+</video>
+
+**Water Physics Demo (Unused)**
+<video src="https://github.com/user-attachments/assets/a7e482ab-c4ca-41b4-a0cb-cbc1374e3285" controls width="640">
+Water Physics Demo
 </video>
 
 # Jason Xie
