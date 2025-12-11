@@ -863,6 +863,7 @@ func _restore_checkpoint() -> void:
 		_restore_room_paint_rect(_checkpoint_room_rect, _checkpoint_paint)
 	_restore_room_items(_checkpoint_room_rect, _checkpoint_items)
 	_restore_room_platforms(_checkpoint_platforms)
+	_reset_all_pushboxes_to_start()
 	if selector != null and not _checkpoint_selector.is_empty():
 		selector.restore(_checkpoint_selector)
 	# Teleport to checkpoint
@@ -1013,6 +1014,15 @@ func _restore_room_platforms(items: Array) -> void:
 				if parent != null and parent.has_method("reset_yellow_motion"):
 					parent.reset_yellow_motion()
 			(node as PlatformPaintable).set_color_alt(alt)
+
+func _reset_all_pushboxes_to_start() -> void:
+	var scene_root := get_tree().get_current_scene()
+	if scene_root == null:
+		return
+	var nodes: Array = scene_root.find_children("*", "Pushbox", true, false)
+	for n in nodes:
+		if n is Pushbox:
+			(n as Pushbox).reset_to_start()
 
 func _room_rect_global(area: Area2D) -> Rect2:
 	var shape_node: CollisionShape2D = area.get_node_or_null("CollisionShape2D")
