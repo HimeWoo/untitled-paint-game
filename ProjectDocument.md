@@ -136,7 +136,7 @@ Github username: `reehals`
 
 ## Sub-Roles ##
 
-1. **Gameplay Testing**: Since our project was finished quite late, and only a handful of rooms being implemented we were not able to do thorough gameplay testing. From the gameplay testing we did, testers said that having the entire floor be paintable was confusing to people just starting out, so we made it such that only certain portions of the floor could be painted. Testers also said that the paint controls were unintuitive, so we also worked on improving that, by adding a dedicated controls menu at the start screen, and also having the UI show which buttons were which at all times for easy access.
+1. **Gameplay Testing**: Since our project was finished quite late, and only a handful of rooms being implemented we were not able to do thorough gameplay testing. From the gameplay testing we did, testers said that having the entire floor be paintable was confusing to people just starting out, so we made it such that only certain portions of the floor could be painted. Testers also said that the paint controls were unintuitive, so we also worked on improving that, by adding a dedicated controls menu at the start screen, and also having the UI show which buttons were which at all times for easy access. We did get some people to put their feedback in writing, since previous testing was done mostly informally, the link to that can be found here [Untitled Paint Game - Gameplay Testing](https://docs.google.com/document/d/1hyMwqHYMyuBWPiaQ_c_cQRyz7EB6bljghkKyEQz172U/edit?usp=sharing). Each person's review is on a different 'tab'
 
 ## Other Contributions ##
 
