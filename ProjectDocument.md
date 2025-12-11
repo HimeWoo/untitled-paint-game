@@ -132,7 +132,7 @@ Github username: `reehals`
 
 4. [Hazard and death handling](https://github.com/HimeWoo/untitled-paint-game/blob/096e4f170f93cc928ea5833059ced604f53ff269/untitled-paint-game/scripts/player.gd#L792-L806) Introduced spike and water hazards that instantly kill the player on contact, tying into the same death/respawn flow as other hazards like enemies.
 
-5. [Prototype branch: `test-water-physics`](https://github.com/HimeWoo/untitled-paint-game/tree/test-water-physics): Prototyped a particle based water system, influenced by the Physics2DServer approach taken by [Chevifier/Fluid-Simulation-in-Godot](https://github.com/Chevifier/Fluid-Simulation-in-Godot) in their FluidSim2D code. This code was NOT used in the main branch because the approach was too jittery and did not fit the final design.
+5. [Prototype branch: `test-water-physics`](https://github.com/HimeWoo/untitled-paint-game/tree/test-water-physics): Prototyped a particle based water system, influenced by the Physics2DServer approach taken by [Chevifier/Fluid-Simulation-in-Godot](https://github.com/Chevifier/Fluid-Simulation-in-Godot) in their FluidSim2D code. In the demo video, you can see severe FPS drops at 0:26 onwards, and once the player jumps into the water, you start seeing that the water starts clipping the terrain map and just falling away. This slowly improves the FPS, while still keeping the buoyancy. This was just initial testing using what resources I could find. Due to this instability, and the project ultimately moving in a different direction with respect to water, this code was NOT used in the main branch, and remains its own branch.
 
 ## Sub-Roles ##
 
