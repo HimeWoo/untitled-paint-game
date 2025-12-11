@@ -122,15 +122,43 @@ Github username: `reehals`
 
 **Movement/Physics and Environment Design**
 
-1. [Player movement and dash logic](https://github.com/HimeWoo/untitled-paint-game/blob/c76cd35bcc509fcfab649b6e0837139f5699a44f/untitled-paint-game/scripts/player.gd#L9-L246): Implemented momentum-based movement and physics, replacing simple constant-speed motion with acceleration/deceleration and dash carry-over, distinct ground, air, and dash slowdown rates, and directional dashing with mid-dash jumps (while disabling midair dashes) so the player feels more responsive for the puzzle platforming this game was intended to be. This has since been improved by others to use modifiers that were provided by the tilemap.
+1. **[Player movement and dash logic](https://github.com/HimeWoo/untitled-paint-game/blob/c76cd35bcc509fcfab649b6e0837139f5699a44f/untitled-paint-game/scripts/player.gd#L9-L246)**: Implemented momentum-based movement and physics, replacing simple constant-speed motion with acceleration/deceleration and dash carry-over, with separate ground, air, and dash slowdown rates, and directional dashing with mid-dash jumps (while disabling midair dashes) so the player feels more responsive for the puzzle platforming this game was intended to be. This has since been improved by others to use modifiers that were provided by the tilemap.
 
-2. [Checkpoint and restore logic](https://github.com/HimeWoo/untitled-paint-game/blob/096e4f170f93cc928ea5833059ced604f53ff269/untitled-paint-game/scripts/player.gd#L820-L940): Built a checkpoint system integrated into the existing room-transition framework, restoring player health, inventory, paint selector, paint pickups and placements, pushable block positions, and platform paint states/motion on death. This logic was moved to [`player_checkpoint.gd`](https://github.com/HimeWoo/untitled-paint-game/blob/main/untitled-paint-game/scripts/player_checkpoint.gd), but has not been wired in due to issues during testing. If we continue working on the game after this class, I will make sure this is my top priority to fix, since it separates the player from the checkpointing logic.
+2. **[Checkpoint and restore logic](https://github.com/HimeWoo/untitled-paint-game/blob/096e4f170f93cc928ea5833059ced604f53ff269/untitled-paint-game/scripts/player.gd#L820-L940)**: Built a checkpoint system integrated into the existing room-transition framework, restoring player health, inventory, paint selector, paint pickups and placements, pushable block positions, and platform paint states/motion on death. This core logic was copied to [`player_checkpoint.gd`](https://github.com/HimeWoo/untitled-paint-game/blob/main/untitled-paint-game/scripts/player_checkpoint.gd), but was not wired in due to issues during testing. If we continue working on the game after this class, I will make sure this is my top priority to fix, since it separates the player from the checkpointing logic.
 
-3. [Platforms](https://github.com/HimeWoo/untitled-paint-game/blob/096e4f170f93cc928ea5833059ced604f53ff269/untitled-paint-game/scripts/platform.gd) and [Platform Paintable Logic](https://github.com/HimeWoo/untitled-paint-game/blob/096e4f170f93cc928ea5833059ced604f53ff269/untitled-paint-game/scripts/platform_paintable.gd): Added configurable moving platforms with multiple movement modes (fixed paths, wall-collide, smart return, vertical, go-to-target) and support for enabling platform motion when painted yellow.
+**Checkpoint and Hazard Demo**
 
-4. [Hazard and death handling](https://github.com/HimeWoo/untitled-paint-game/blob/096e4f170f93cc928ea5833059ced604f53ff269/untitled-paint-game/scripts/player.gd#L792-L806) Introduced spike and water hazards that instantly kill the player on contact, tying into the same death/respawn flow as other hazards like enemies.
+<video src="https://github.com/user-attachments/assets/4f183253-e241-453d-9e1e-353a99f4b7ab" controls width="640">
+Checkpoint and Hazard Demo
+</video>
 
-5. [Prototype branch: `test-water-physics`](https://github.com/HimeWoo/untitled-paint-game/tree/test-water-physics): Prototyped a particle based water system, influenced by the Physics2DServer approach taken by [Chevifier/Fluid-Simulation-in-Godot](https://github.com/Chevifier/Fluid-Simulation-in-Godot) in their FluidSim2D code. In the demo video, you can see severe FPS drops at 0:26 onwards, and once the player jumps into the water, you start seeing that the water starts clipping the terrain map and just falling away. This slowly improves the FPS, while still keeping the buoyancy. This was just initial testing using what resources I could find. Due to this instability, and the project ultimately moving in a different direction with respect to water, this code was NOT used in the main branch, and remains its own branch.
+3. **[Platforms](https://github.com/HimeWoo/untitled-paint-game/blob/096e4f170f93cc928ea5833059ced604f53ff269/untitled-paint-game/scripts/platform.gd) and [Platform Paintable Logic](https://github.com/HimeWoo/untitled-paint-game/blob/096e4f170f93cc928ea5833059ced604f53ff269/untitled-paint-game/scripts/platform_paintable.gd)**: Added configurable moving platforms with multiple movement modes (fixed paths, wall-collide, smart return, vertical, go-to-target) and support for enabling platform motion when painted yellow.
+
+**Settings for Platforms**
+
+<img width="516" height="269" alt="Screenshot 2025-12-11 at 3 08 02 AM" src="https://github.com/user-attachments/assets/a271fed1-829d-4a4a-bf8e-047188c3d396" />
+
+**Movement options for Platforms**
+
+<img width="516" height="269" alt="Screenshot 2025-12-11 at 3 08 38 AM" src="https://github.com/user-attachments/assets/f5d1d362-b65d-415e-8bf0-d8e5eee94ae5" />
+
+**Platform and Paintable Platform Demo**
+<video src="https://github.com/user-attachments/assets/70086129-f7f0-46e3-895b-0532015db0be" controls width="640">
+Platform and Paintable Platform Demo
+</video>
+
+4. **[Hazard and death handling](https://github.com/HimeWoo/untitled-paint-game/blob/096e4f170f93cc928ea5833059ced604f53ff269/untitled-paint-game/scripts/player.gd#L792-L806)**: Introduced spike and water hazards that instantly kill the player on contact, tying into the same death/respawn flow as other hazards like enemies.
+
+**Spikes on the Tutorial Section**
+
+<img width="649" height="394" alt="Screenshot 2025-12-11 at 3 02 35 AM" src="https://github.com/user-attachments/assets/473575e4-f6ff-42f6-bfd7-d9390456d4e7" />
+
+5. [Prototype water physics: branch `test-water-physics`](https://github.com/HimeWoo/untitled-paint-game/tree/test-water-physics): Prototyped a particle based water system, influenced by the Physics2DServer approach taken by [Chevifier/Fluid-Simulation-in-Godot](https://github.com/Chevifier/Fluid-Simulation-in-Godot) in their FluidSim2D code. This was an attempt to model how real water works with inter-particle attraction, buoyancy, low friction, low mass, and more, but this proved too demanding for Godot and my laptop (with an Apple M4 Pro chip) to handle. In the demo video below, you can see severe FPS drops at 0:26 onwards, and once the player jumps into the water, you start seeing that the water starts clipping the terrain map and just falling away. This slowly improves the FPS, while still keeping the buoyancy intact. In this example, it was limited to 2000 water particles, but probably never reached that number. This was just initial testing using what resources I could find. Due to this instability, and the project ultimately moving in a different direction with respect to water, this code was NOT used in the main branch, and remains its own branch (`test-water-physics`).
+
+**Water Physics Demo**
+<video src="https://github.com/user-attachments/assets/a7e482ab-c4ca-41b4-a0cb-cbc1374e3285" controls width="640">
+Water Physics Demo
+</video>
 
 ## Sub-Roles ##
 
@@ -138,26 +166,22 @@ Github username: `reehals`
 
 ## Other Contributions ##
 
-1. [Red Projectile](https://github.com/HimeWoo/untitled-paint-game/blob/096e4f170f93cc928ea5833059ced604f53ff269/untitled-paint-game/scripts/player.gd#L701-L721) and [Orange Wave](https://github.com/HimeWoo/untitled-paint-game/blob/096e4f170f93cc928ea5833059ced604f53ff269/untitled-paint-game/scripts/orange_wave.gd): Reworked red paint to behave as a ranged projectile attack, and redesigned orange paint into a ground-hugging wave that paints orange tiles in its path to grant a consistent speed boost instead of using conveyor-style physics.
-2. Helped deploy the project onto itch.io with GitHub Actions.
-3. I also helped Jason with making some UI/UX decisions and deciding on improvements/changed to our paint system, one of which was the above change to how the Red and Orange colors worked.
+1. [Red Projectile](https://github.com/HimeWoo/untitled-paint-game/blob/096e4f170f93cc928ea5833059ced604f53ff269/untitled-paint-game/scripts/player.gd#L701-L721) and [Orange Wave](https://github.com/HimeWoo/untitled-paint-game/blob/096e4f170f93cc928ea5833059ced604f53ff269/untitled-paint-game/scripts/orange_wave.gd): Reworked red paint to behave as a ranged projectile attack to attack enemies with. Redesigned the orange paint into a ground following wave that paints orange tiles in its path to give a constant speed boost instead of using the single direction conveyor belt logic that was being used before.
 
-## Demos ##
-
-**Checkpoint and Hazard Demo**
-<video src="https://github.com/user-attachments/assets/4f183253-e241-453d-9e1e-353a99f4b7ab" controls width="640">
-Checkpoint and Hazard Demo
+**Red Projectile**
+<video src="https://github.com/user-attachments/assets/04ba79ce-f591-40a8-a54a-12731e9162f6" controls width="640">
+Red Projectile
 </video>
 
-**Platform and Paintable Platform Demo**
-<video src="https://github.com/user-attachments/assets/70086129-f7f0-46e3-895b-0532015db0be" controls width="640">
-Platform and Paintable Platform Demo
+**Orange Projectile**
+
+<video src="https://github.com/user-attachments/assets/5786d250-d6ab-4256-9726-18c5aefc1aee" controls width="640">
+Orange Projectile
 </video>
 
-**Water Physics Demo (Unused)**
-<video src="https://github.com/user-attachments/assets/a7e482ab-c4ca-41b4-a0cb-cbc1374e3285" controls width="640">
-Water Physics Demo
-</video>
+2. Helped deploy the project onto [Itch.io](https://jx24.itch.io/untitled-paint-game) with GitHub Actions. Used [This link](https://www.vojtechstruhar.com/blog/022-godot-itch-github-action/) for reference.
+3. I also helped Jason with making some UI/UX decisions and deciding on improvements/changes to our paint system, one of which was the above change to how the Red and Orange colors worked.
+
 
 # Jason Xie
 ## Sub-Roles ##
