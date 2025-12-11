@@ -45,6 +45,7 @@ If you used tutorials or other intellectual guidance to create aspects of your p
 
 1. Github Actions to Auto-Deploy to Itch.io: [Publish your Godot game to Itch.io with GitHub Actions](https://www.vojtechstruhar.com/blog/022-godot-itch-github-action/)
 2. (Unused in main game) Water physics: [Chevifier/Fluid-Simulation-in-Godot](https://github.com/Chevifier/Fluid-Simulation-in-Godot) used it as a reference to make our own Water Simulation. Ultimately did not work very well so we did not continue with the idea.
+3. Music used in the game (main menu and in-game itself) were created by Jason's friend Rahul Vyas.
 
 # Team Member Contributions
 
