@@ -217,7 +217,7 @@ Github username: `jx24`
 
 *Parallaxing* - In the middle of the game, there is a section where we wanted to immerse the player in the environment and atmosphere, so I decided to create a long scrolling parallax section. In general, the background utilizes Parallax2D's to create a dynamic and alive-feeling world. An image of the section can be seen below.
 
-<img height="250" alt="Parallax sequence" src="untitled-paint-game/assets/jason-pics/parallax-scene" />
+<img height="250" alt="Parallax sequence" src="untitled-paint-game/assets/jason-pics/parallax-scene.png" />
 This section involves several Parallax2D with textures I created scrolling at different speeds to give a sense of depth, while the sky in the far distance is static. There are also two layers of autoscrolling dust I implemented to make the world feel windy, which ignore the camera and simply parallax forever.
 
 
