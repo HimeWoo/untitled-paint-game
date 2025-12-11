@@ -126,17 +126,17 @@ Github username: `reehals`
 
 1. [Player movement and dash logic](https://github.com/HimeWoo/untitled-paint-game/blob/c76cd35bcc509fcfab649b6e0837139f5699a44f/untitled-paint-game/scripts/player.gd#L9-L246): Implemented momentum-based movement and physics, replacing simple constant-speed motion with acceleration/deceleration and dash carry-over, distinct ground, air, and dash slowdown rates, and directional dashing with mid-dash jumps (while disabling midair dashes) so the player feels more responsive for the puzzle platforming this game was intended to be. This has since been improved by others to use modifiers that were provided by the tilemap.
 
-2. [Checkpoint and restore logic](https://github.com/HimeWoo/untitled-paint-game/blob/096e4f170f93cc928ea5833059ced604f53ff269/untitled-paint-game/scripts/player.gd#L820-L940): Built a checkpoint system integrated into the existing room-transition framework, restoring player health, inventory, paint selector, paint pickups and placements, pushable block positions, and platform paint states/motion on death. This logic was moved to [`player_checkpoint.gd`](https://github.com/HimeWoo/untitled-paint-game/blob/main/untitled-paint-game/scripts/player_checkpoint.gd), but has not been wired in due to issues with testing.
+2. [Checkpoint and restore logic](https://github.com/HimeWoo/untitled-paint-game/blob/096e4f170f93cc928ea5833059ced604f53ff269/untitled-paint-game/scripts/player.gd#L820-L940): Built a checkpoint system integrated into the existing room-transition framework, restoring player health, inventory, paint selector, paint pickups and placements, pushable block positions, and platform paint states/motion on death. This logic was moved to [`player_checkpoint.gd`](https://github.com/HimeWoo/untitled-paint-game/blob/main/untitled-paint-game/scripts/player_checkpoint.gd), but has not been wired in due to issues during testing. If we continue working on the game after this class, I will make sure this is my top priority to fix, since it separates the player from the checkpointing logic.
 
 3. [Platforms](https://github.com/HimeWoo/untitled-paint-game/blob/096e4f170f93cc928ea5833059ced604f53ff269/untitled-paint-game/scripts/platform.gd) and [Platform Paintable Logic](https://github.com/HimeWoo/untitled-paint-game/blob/096e4f170f93cc928ea5833059ced604f53ff269/untitled-paint-game/scripts/platform_paintable.gd): Added configurable moving platforms with multiple movement modes (fixed paths, wall-collide, smart return, vertical, go-to-target) and support for enabling platform motion when painted yellow.
 
 4. [Hazard and death handling](https://github.com/HimeWoo/untitled-paint-game/blob/096e4f170f93cc928ea5833059ced604f53ff269/untitled-paint-game/scripts/player.gd#L792-L806) Introduced spike and water hazards that instantly kill the player on contact, tying into the same death/respawn flow as other hazards like enemies.
 
-5. [Prototype branch: `test-water-physics`](https://github.com/HimeWoo/untitled-paint-game/tree/test-water-physics): Prototyped a particle based water system, adapted from [Chevifier/Fluid-Simulation-in-Godot](https://github.com/Chevifier/Fluid-Simulation-in-Godot). This code was NOT used in the main branch because the approach was too jittery and did not fit the final design.
+5. [Prototype branch: `test-water-physics`](https://github.com/HimeWoo/untitled-paint-game/tree/test-water-physics): Prototyped a particle based water system, influenced by the Physics2DServer approach taken by [Chevifier/Fluid-Simulation-in-Godot](https://github.com/Chevifier/Fluid-Simulation-in-Godot) in their FluidSim2D code. This code was NOT used in the main branch because the approach was too jittery and did not fit the final design.
 
 ## Sub-Roles ##
 
-1. **Gameplay Testing**: Since our project was finished quite late, and only a handful of rooms being implemented we were not able to do thorough gameplay testing. From the gameplay testing we did, testers said that having the entire floor be paintable was confusing to people just starting out, so we made it such that only certain portions of the floor could be painted. Testers also said that the paint controls were unintuitive, so we also worked on improving that, by adding a dedicated controls menu at the start screen, and also having the UI show which buttons were which at all times for easy access. We did get some people to put their feedback in writing, since previous testing was done mostly informally, the link to that can be found here [Untitled Paint Game - Gameplay Testing](https://docs.google.com/document/d/1hyMwqHYMyuBWPiaQ_c_cQRyz7EB6bljghkKyEQz172U/edit?usp=sharing). Each person's review is on a different 'tab'
+1. **Gameplay Testing**: Since our project was finished quite late, and only a handful of rooms being implemented we were not able to do thorough gameplay testing. From the gameplay testing we did, testers said that having the entire floor be paintable was confusing to people just starting out, so we made it such that only certain portions of the floor could be painted. Testers also said that the paint controls were unintuitive, so we also worked on improving that, by adding a dedicated controls menu at the start screen, and also having the UI show which buttons were which at all times for easy access. We did get some people to put their feedback in writing, since previous testing was done mostly informally, the link to that can be found here [Untitled Paint Game - Gameplay Testing](https://docs.google.com/document/d/1hyMwqHYMyuBWPiaQ_c_cQRyz7EB6bljghkKyEQz172U/edit?usp=sharing). Each person's review is on a different 'tab'.
 
 ## Other Contributions ##
 
@@ -153,8 +153,7 @@ Checkpoint and Hazard Demo
 </video>
 
 **Platform and Paintable Platform Demo**
-<video src="https://github.com/user-attachments/assets/70086129-f7f0-46e3-895b-0532015db0be
-" controls width="640">
+<video src="https://github.com/user-attachments/assets/70086129-f7f0-46e3-895b-0532015db0be" controls width="640">
 Platform and Paintable Platform Demo
 </video>
 

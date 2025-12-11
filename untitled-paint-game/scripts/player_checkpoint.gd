@@ -1,7 +1,22 @@
 class_name PlayerCheckpoint
 extends Node
 
-# Helper node that owns all checkpoint/respawn state and logic for the Player.
+# For future users who come upon this script:
+# This script should be attached as a child node of the Player node in the scene tree.
+# This code is a helper that owns all checkpoint/respawn state and logic for the Player.
+# There were issues around paint pickups disappearing on respawn, so this code was ultimately
+# not used. This code is identical to what is currently in Player.gd itself, but needs some 
+# changes to work as a separate component.
+# There are also issues with the PushBoxes, while they do reset their position, their
+# sprites do not move away from the start position UNTIL you reach the point where they
+# were when you died.
+# The issue with paint is NOT there when this code is in Player.gd directly, but the PushBox
+# issue is still there.
+# For the future, make sure to set player checkpoint positions for rooms, since not using it
+# might be the reason the paint pickup and pushbox issues are there.
+# This was also written with only 1-2 features in mind, and then expanded upon, so is 
+# definitely messy and could be optimized or cleaned up but I do not have the time for it right now.
+
 @onready var player = get_parent()
 
 # CHECKPOINTS
@@ -101,6 +116,7 @@ func restore_inventory(snap: Dictionary) -> void:
 			player.inventory.add_color(color)
 
 # Capture all WorldItem nodes inside a rectangular region.
+# Does not seem to properly work when not in player.gd
 func snapshot_room_items(rect: Rect2) -> Array:
 	var items: Array = []
 	var scene_root := get_tree().get_current_scene()
@@ -191,7 +207,7 @@ func snapshot_room_platforms(rect: Rect2) -> Array:
 			arr.append({"path": str(n.get_path()), "alt": int((n as PlatformPaintable).get_color_alt())})
 	return arr
 
-# Restore paint on tiles inside a region from a snapshot dictionary.
+# Restore paint on tiles inside a region from the snapshot dict
 func restore_room_paint_rect(rect: Rect2, snap: Dictionary) -> void:
 	if player.terrain_map == null:
 		return
@@ -208,7 +224,7 @@ func restore_room_paint_rect(rect: Rect2, snap: Dictionary) -> void:
 					alt = int(snap[cell])
 				player.terrain_map.set_cell(cell, src, atlas, alt)
 
-# Restore platform paint state and reset yellow-activated motion if needed.
+# Restore original platform paint state and reset yellow-activated motion platforms if needed
 func restore_room_platforms(items: Array) -> void:
 	var scene_root := get_tree().get_current_scene()
 	if scene_root == null:
@@ -227,7 +243,7 @@ func restore_room_platforms(items: Array) -> void:
 					parent.reset_yellow_motion()
 			(node as PlatformPaintable).set_color_alt(alt)
 
-# Reset all Pushbox nodes in the scene back to their start positions.
+# Reset all Pushbox nodes back to their start positions
 func reset_all_pushboxes_to_start() -> void:
 	var scene_root := get_tree().get_current_scene()
 	if scene_root == null:
