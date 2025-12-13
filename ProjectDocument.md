@@ -102,6 +102,8 @@ Narrative Design
 ## Other Contributions ##
 
 1. I worked with Jason to get the main art style of the game, and worked with Adrean to have the SFX match the game feel.
+2. Added dash jump mechanic [deprecated](https://github.com/HimeWoo/untitled-paint-game/commit/1a9b8deb0a6db8822f7fe45dc6f1954a8edee2d0#diff-2c58bab2b9107fb0dda53dce0cdbfbd30207d06a67ec4e0b4a21637c080163f8R261)
+3. Added push box mechanic [deprecated](https://github.com/HimeWoo/untitled-paint-game/commit/b40117a51a391556f5b62b04fcae99f733e105c6#diff-3bb6d51ff64495358c3b23494a1568800e1bb8c0de1dd431fedcb2f3455c42bbR1)
 
 # Atticus Wong
 ## Main Roles ##
